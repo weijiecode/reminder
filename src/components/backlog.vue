@@ -205,34 +205,58 @@ export default {
 </script>
 
 <style scoped>
+/* @media screen and (max-width: 880px) {
 .centerleft {
   height: 100%;
+  width: calc(100% - 220px);
+  margin-left: 250px;
+  
 }
-.centerItem {
-  margin-top: 150px;
+}
+
+@media screen and (max-width: 880px) {
+  .centerItem {
+  margin-top: 75px;
   margin-left: 30px;
-  width: 800px;
+  width: calc(100% - 400px);
+  height: 75%;
+  border-radius: 10px;
+  float: left;
+}
+} */
+
+.centerleft {
+  height: 100%;
+  width: calc(100% - 220px);
+  margin-left: 250px;
+  
+}
+  .centerItem {
+  margin-top: 75px;
+  margin-left: 30px;
+  width: calc(100% - 400px);
   height: 75%;
   border-radius: 10px;
   float: left;
 }
 .centerItem ::v-deep .el-button {
   float: right;
-  margin-top: -60px;
+  margin-top: -70px;
   font-size: 25px;
   margin-right: 60px;
 }
 .myp {
-  margin-top: -60px;
   font-size: 25px;
   font-weight: 600;
 }
 .rightItem {
+  margin-top: 75px;
   margin-right: 30px;
-  width: 300px;
+  margin-left: 30px;
+  width: 270px;
   border-radius: 10px;
   /* background-color: white; */
-  float: right;
+  float: left;
 }
 .block ::v-deep .el-input__inner {
   border-radius: 10px;
@@ -261,7 +285,7 @@ export default {
 }
 .boxone {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
-  width: 300px;
+  width: 100%;
   height: 300px;
   background-color: white;
   margin-top: 24px;

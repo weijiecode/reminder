@@ -26,7 +26,8 @@ export default {
   width: 300px;
   border-radius: 10px;
   /* background-color: white; */
-  float: right;
+  position: fixed;
+  right: 0;
 }
 .menutop ::v-deep .el-input__inner {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
