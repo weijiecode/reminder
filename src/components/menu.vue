@@ -91,6 +91,7 @@ export default {};
 </script>
 
 <style scoped>
+/* 1440*700   1370*615*/
 .leftItem {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
   color: rgba(15, 23, 42, 0.8);
