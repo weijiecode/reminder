@@ -29,6 +29,11 @@ export default {
   position: fixed;
   right: 0;
 }
+@media (max-width:750px) {
+  .menutop {
+    display: none;
+  }
+}
 .menutop ::v-deep .el-input__inner {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
   margin-left: -140px;
