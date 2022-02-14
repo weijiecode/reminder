@@ -17,32 +17,65 @@
             <span slot="label"
               ><i class="el-icon-document-checked"></i> 今日</span
             >
-            <el-empty description="暂无待办" v-if="datacode != 200 && datacodedone != 200"></el-empty>
-            <el-collapse v-if="datacode == 200 || datacodedone == 200" v-model="istodolist">
+            <el-empty
+              description="暂无待办"
+              v-if="datacode != 200 && datacodedone != 200"
+            ></el-empty>
+            <el-collapse
+              v-if="datacode == 200 || datacodedone == 200"
+              v-model="istodolist"
+            >
               <el-collapse-item title="今日" name="1">
                 <div
-                  v-for="(todoitem,index) in todolist"
+                  v-for="(todoitem, index) in todolist"
                   :key="index"
                   class="oneitem"
                 >
-                  <div class="leftclass" :style="{backgroundColor:colorsvalue[index]}"></div>
+                  <div
+                    class="leftclass"
+                    :style="{ backgroundColor: todoitem.colorbg }"
+                  ></div>
                   <el-button circle @click="todo(todoitem.id)"></el-button>
                   <div class="pall">
                     <p class="pcontent">{{ todoitem.contents }}</p>
                     <p class="pdatetime">{{ todoitem.datetime }}</p>
                   </div>
+                  <div class="allbtn">
+                    <svg
+                      @click="todochange(todoitem)"
+                      class="icon"
+                      aria-hidden="true"
+                    >
+                      <use xlink:href="#icon-xiugai"></use>
+                    </svg>
+                    <svg
+                      @click="tododelete(todoitem.id)"
+                      class="icon"
+                      aria-hidden="true"
+                    >
+                      <use xlink:href="#icon-shanchutianchong"></use>
+                    </svg>
+                  </div>
                 </div>
               </el-collapse-item>
               <el-collapse-item title="今日已完成" name="2">
                 <div
-                  v-for="(todoitem,index) in todolistdone"
+                  v-for="(todoitem, index) in todolistdone"
                   :key="index"
                   class="oneitem"
                 >
-                  <div class="leftclass" :style="{backgroundColor:colorsvaluedone[index]}"></div>
+                  <div
+                    class="leftclass"
+                    :style="{ backgroundColor: todoitem.colorbg }"
+                  ></div>
                   <el-button circle @click="tododone(todoitem.id)"></el-button>
                   <div class="pall">
-                    <p class="pcontent" style="text-decoration: line-through;color:#757f87">{{ todoitem.contents }}</p>
+                    <p
+                      class="pcontent"
+                      style="text-decoration: line-through; color: #757f87"
+                    >
+                      {{ todoitem.contents }}
+                    </p>
                     <p class="pdatetime">{{ todoitem.datetime }}</p>
                   </div>
                 </div>
@@ -62,7 +95,36 @@
       <div class="rightItem">
         <!-- 统计分析 -->
         <p class="myp1">概览</p>
-        <div class="boxone"></div>
+        <div class="boxone">
+          <el-progress
+            style="margin-left: 80px; margin-bottom: 30px"
+            type="circle"
+            :percentage="25"
+          ></el-progress>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="26"
+            :percentage="70"
+          ></el-progress>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="24"
+            :percentage="100"
+            status="success"
+          ></el-progress>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="22"
+            :percentage="80"
+            status="warning"
+          ></el-progress>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="20"
+            :percentage="50"
+            status="exception"
+          ></el-progress>
+        </div>
       </div>
     </div>
     <!-- 新建待办弹窗 -->
@@ -84,6 +146,8 @@
               v-model="backlogForm.datetime"
               type="datetime"
               placeholder="选择日期时间"
+              value-format="yyyy-MM-dd HH:mm"
+              format="yyyy-MM-dd HH:mm"
             >
             </el-date-picker>
           </div>
@@ -113,6 +177,56 @@
         </div>
       </div>
     </div>
+    <!-- 修改待办弹窗 -->
+    <div class="mask" v-show="ischange">
+      <div class="newthing">
+        <p class="newthingp">修改待办</p>
+        <el-input
+          type="textarea"
+          placeholder="你想做点什么呢？"
+          v-model="backlogchangeForm.contents"
+          maxlength="30"
+          show-word-limit
+        >
+        </el-input>
+        <div class="menuthing">
+          <!-- 日期时间选择框 -->
+          <div class="block">
+            <el-date-picker
+              v-model="backlogchangeForm.datetime"
+              type="datetime"
+              placeholder="选择日期时间"
+              value-format="yyyy-MM-dd HH:mm"
+              format="yyyy-MM-dd HH:mm"
+            >
+            </el-date-picker>
+          </div>
+          <!-- 颜色类别选择 -->
+          <div class="colorselect" @click="colorbox">
+            <svg class="icon" aria-hidden="true">
+              <use :xlink:href="backlogchangeForm.classvalue"></use>
+            </svg>
+            <span class="selectp">选择分类</span>
+            <div class="colorbox" v-show="iscolor">
+              <div
+                class="allcolor"
+                @click="selectchangecolor(item)"
+                v-for="item in colors"
+                :key="item.cid"
+              >
+                <svg class="icon" aria-hidden="true">
+                  <use :xlink:href="item.cvalue"></use>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="confirmcancel">
+            <span class="btncancel" @click="changeItemCancel">取消</span>
+            <span class="btnconfirm" @click="changeItemConfirm">保存</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -122,49 +236,63 @@ import Overview from "../components/overview.vue";
 export default {
   data() {
     return {
-      inputsearch: '',
+      inputsearch: "",
+      // 新建待办事项表单
       backlogForm: {
-        contents: '',
-        datetime: '',
+        contents: "",
+        datetime: "",
         // 颜色分类 提交颜色类别的id
-        class: 0,
+        classvalue: "#icon-yuandian",
+        colorbg: "#5da7f1",
+      },
+      // 修改待办事项表单
+      backlogchangeForm: {
+        contents: "",
+        datetime: "",
+        classvalue: "",
+        colorbg: "",
+        id: "",
       },
       // 颜色分类的value(默认蓝色)
-      classvalue: '#icon-yuandian',
+      classvalue: "#icon-yuandian",
+      // 颜色分类的背景颜色value(默认蓝色)
+      classbg: "#5da7f1",
       // 新建待办弹框
       isnew: false,
+      // 修改待办弹框
+      ischange: false,
       // 颜色分类弹框
       iscolor: false,
       colors: [
         {
           cid: 0,
           cvalue: "#icon-yuandian",
-          cbg: '#5da7f1'
+          cbg: "#5da7f1",
         },
         {
           cid: 1,
           cvalue: "#icon-yuandian-copy-copy",
-          cbg: '#d81e06'
+          cbg: "#d81e06",
         },
         {
           cid: 2,
           cvalue: "#icon-yuandian-copy-copy-copy",
-          cbg: '#82529d'
+          cbg: "#82529d",
         },
         {
           cid: 3,
           cvalue: "#icon-yuandian-copy",
-          cbg: '#f36372'
+          cbg: "#f36372",
         },
         {
           cid: 4,
           cvalue: "#icon-yuandian-copy-copy1",
-          cbg: '#2aa515'
+          cbg: "#2aa515",
         },
         {
           cid: 5,
           cvalue: "#icon-yuandian-copy1",
-          cbg: '#e0620d'
+          cbg: "#e0620d",
         },
       ],
       // 列表分组默认打开
@@ -172,34 +300,34 @@ export default {
       // 未完成的待办事项列表
       todolist: [
         {
-          id: '',
-          contents: '',
-          todoclass: '',
-          datetime: '',
-          done: '',
-          class: '',
+          id: "",
+          contents: "",
+          todoclass: "",
+          datetime: "",
+          done: "",
+          class: "",
         },
       ],
       // 已完成的待办事项列表
       todolistdone: [
         {
-          id: '',
-          contents: '',
-          todoclass: '',
-          datetime: '',
-          done: '',
-          class: '',
+          id: "",
+          contents: "",
+          todoclass: "",
+          datetime: "",
+          done: "",
+          class: "",
         },
       ],
       // 加载动画
       isloading: false,
       // 数据状态码
-      datacode: '',
+      datacode: "",
       // 已完成数据状态码
-      datacodedone: '',
+      datacodedone: "",
       // 分类颜色的value
       colorsvalue: [],
-      colorsvaluedone: []
+      colorsvaluedone: [],
     };
   },
   components: {
@@ -219,7 +347,15 @@ export default {
     selectcolor(colors) {
       // console.log(colors.cvalue)
       this.classvalue = colors.cvalue;
-      this.backlogForm.class = colors.cid;
+      this.backlogForm.classvalue = colors.cvalue;
+      this.backlogForm.colorbg = colors.cbg;
+    },
+    // 修改颜色分类
+    selectchangecolor(colors) {
+      // console.log(colors.cvalue)
+      this.classvalue = colors.cvalue;
+      this.backlogchangeForm.classvalue = colors.cvalue;
+      this.backlogchangeForm.colorbg = colors.cbg;
     },
     // 新建待办弹框
     newItem() {
@@ -252,7 +388,9 @@ export default {
             // 清空
             this.backlogForm.contents = "";
             this.backlogForm.datetime = "";
+            this.backlogForm.classvalue = "#icon-yuandian";
             this.classvalue = "#icon-yuandian";
+            this.classbg = "#5da7f1";
             this.isnew = false;
           });
       } else {
@@ -262,12 +400,12 @@ export default {
     // 确定
     async newItemConfirm() {
       this.isloading = true;
-      console.log(this.backlogForm);
+      // console.log(this.backlogForm);
       const { data: res } = await this.$http.post(
         "/backlog/insertbacklog",
         Qs.stringify(this.backlogForm)
       );
-      console.log(res);
+      // console.log(res);
       if (res.code == 200) {
         this.$message({
           message: "添加待办事件成功",
@@ -275,87 +413,159 @@ export default {
         });
         this.backlogForm.contents = "";
         this.backlogForm.datetime = "";
+        this.backlogForm.classvalue = "#icon-yuandian";
+        this.backlogForm.colorbg = "#5da7f1";
         this.classvalue = "#icon-yuandian";
+        this.classbg = "#5da7f1";
         this.isnew = false;
         this.getbacklogdata();
-        if(this.datacode == 200){
-          setTimeout(() => {
-            this.isloading = false;
-          }, 500);
-        }else{this.isloading = true;}
-        
+        setTimeout(() => {
+          this.isloading = false;
+        }, 500);
       } else {
+        this.isloading = true;
         this.$message.error("添加待办失败，请重试");
         this.isnew = false;
+      }
+    },
+    // 修改的取消
+    changeItemCancel() {
+      this.ischange = false;
+    },
+    // 修改的保存
+    async changeItemConfirm() {
+      this.isloading = true;
+      const { data: res } = await this.$http.post(
+        "/backlog/updatecontents",
+        Qs.stringify(this.backlogchangeForm)
+      );
+      // console.log(res);
+      if (res.code == 200) {
+        this.$message({
+          message: "修改待办事件成功",
+          type: "success",
+        });
+        this.backlogchangeForm.contents = "";
+        this.backlogchangeForm.datetime = "";
+        this.backlogchangeForm.classvalue = "#icon-yuandian";
+        this.backlogchangeForm.colorbg = "#5da7f1";
+        this.classvalue = "#icon-yuandian";
+        this.classbg = "#5da7f1";
+        this.ischange = false;
+        this.getbacklogdata();
+        this.getbacklogdatadone();
+        setTimeout(() => {
+          this.isloading = false;
+        }, 500);
+      } else {
+        this.isloading = true;
+        this.$message.error("修改待办失败，请重试");
+        this.ischange = false;
       }
     },
     // 点击未完成
     async todo(todoid) {
       this.isloading = true;
-      const { data:res } = await this.$http.post('/backlog/updatebacklog',{
-        done:1,
-        id:todoid
-      })
-      if(res.code == 200){
-        setTimeout(()=>{
+      const { data: res } = await this.$http.post("/backlog/updatebacklog", {
+        done: 1,
+        id: todoid,
+      });
+      if (res.code == 200) {
+        setTimeout(() => {
           this.isloading = false;
-        },300)
-      }else{ this.isloading = true; }
+        }, 300);
+      } else {
+        this.isloading = true;
+      }
       this.getbacklogdata();
       this.getbacklogdatadone();
     },
     // 点击已完成
     async tododone(tododoneid) {
       this.isloading = true;
-      const { data:res } = await this.$http.post('/backlog/updatebacklog',{
-        done:0,
-        id:tododoneid
-      })
-      if(res.code == 200){
-        setTimeout(()=>{
+      const { data: res } = await this.$http.post("/backlog/updatebacklog", {
+        done: 0,
+        id: tododoneid,
+      });
+      if (res.code == 200) {
+        setTimeout(() => {
           this.isloading = false;
-        },300)
-      }else{ this.isloading = true; }
+        }, 300);
+      } else {
+        this.isloading = true;
+      }
       this.getbacklogdata();
       this.getbacklogdatadone();
     },
     // 获取待办列表数据
     async getbacklogdata() {
-      const { data: res } = await this.$http.post("/backlog/selectbacklog",{
-        done:0
+      const { data: res } = await this.$http.post("/backlog/selectbacklog", {
+        done: 0,
       });
-      console.log(res);
+      // console.log(res);
       this.todolist = res.data;
       // 获取状态码
       this.datacode = res.code;
-      for (let i = 0, ilen = this.todolist.length; i < ilen; i++) {
-        for (let j = 0, jlen = this.colors.length; j < jlen; j++) {
-          if (this.colors[j].cid == this.todolist[i].class) {
-            this.colorsvalue[i] = this.colors[j].cbg;
-          }
-        }
-      }
+      // for (let i = 0, ilen = this.todolist.length; i < ilen; i++) {
+      //   for (let j = 0, jlen = this.colors.length; j < jlen; j++) {
+      //     if (this.colors[j].cid == this.todolist[i].class) {
+      //       this.colorsvalue[i] = this.colors[j].cbg;
+      //     }
+      //   }
+      // }
+
       // console.log(this.colorsvalue)
-      console.log(this.todolist)
+      // console.log(6666);
     },
     // 获取已完成待办事项列表todolistdone
     async getbacklogdatadone() {
-      const { data: res } = await this.$http.post("/backlog/selectbacklog",{
-        done:1
+      const { data: res } = await this.$http.post("/backlog/selectbacklog", {
+        done: 1,
       });
-      console.log(res);
+      // console.log(res);
       this.todolistdone = res.data;
       // 获取状态码
       this.datacodedone = res.code;
-      for (let i = 0, ilen = this.todolistdone.length; i < ilen; i++) {
-        for (let j = 0, jlen = this.colors.length; j < jlen; j++) {
-          if (this.colors[j].cid == this.todolistdone[i].class) {
-            this.colorsvaluedone[i] = this.colors[j].cbg;
-          }
-        }
+      // for (let i = 0, ilen = this.todolistdone.length; i < ilen; i++) {
+      //   for (let j = 0, jlen = this.colors.length; j < jlen; j++) {
+      //     if (this.colors[j].cid == this.todolistdone[i].class) {
+      //       this.colorsvaluedone[i] = this.colors[j].cbg;
+      //     }
+      //   }
+      // }
+      // console.log(this.todolistdone);
+    },
+    // 修改待办事项内容
+    async todochange(todoitem) {
+      this.ischange = true;
+      // console.log(todoitem);
+      this.backlogchangeForm.contents = todoitem.contents;
+      this.backlogchangeForm.datetime = todoitem.datetime;
+      this.backlogchangeForm.classvalue = todoitem.classvalue;
+      this.backlogchangeForm.colorbg = todoitem.colorbg;
+      this.backlogchangeForm.id = todoitem.id;
+    },
+    // 删除待办事项
+    async tododelete(todoitemid) {
+      this.isloading = true;
+      const { data: res } = await this.$http.post("/backlog/deletebacklog", {
+        id: todoitemid,
+      });
+      if (res.code == 200) {
+        this.$message({
+          showClose: true,
+          message: "该待办事项已删除",
+          type: "success",
+        });
+        this.getbacklogdata();
+        setTimeout(() => {
+          this.isloading = false;
+        }, 500);
+      } else {
+        this.isloading = true;
+        this.$message.error("删除待办失败，请重试");
       }
-      console.log(this.todolistdone)
-    }
+    },
   },
 };
 </script>
@@ -398,9 +608,10 @@ export default {
 /* 点击完成按钮 */
 .oneitem > ::v-deep .el-button {
   float: left;
-  border: 6px solid #dee1e9;
+  border: 3px solid #5da7f1;
   transform: scale(0.6);
-  margin-top: 6px;
+  margin-top: 8px;
+  margin-left: 15px;
 }
 .oneitem > ::v-deep .el-button:hover {
   background-color: #5da7f1;
@@ -416,12 +627,15 @@ export default {
 .leftclass {
   height: 70%;
   float: left;
-  width: 3px;
+  width: 5px;
   border-radius: 5px;
   margin-top: 10px;
 }
 .oneitem:hover {
   background-color: #ebf4ff;
+}
+.oneitem:hover .allbtn > .icon {
+  display: inline-block;
 }
 .pall {
   cursor: default;
@@ -442,7 +656,7 @@ export default {
 }
 .rightItem {
   margin-top: 75px;
-  margin-left: 35px;
+  margin-left: 30px;
   width: 270px;
   border-radius: 10px;
   /* background-color: white; */
@@ -468,7 +682,7 @@ export default {
   overflow: auto;
   height: 170px;
 }
-::v-deep .el-tabs--border-card>.el-tabs__content {
+::v-deep .el-tabs--border-card > .el-tabs__content {
   margin-top: -10px;
 }
 .myp1 {
@@ -488,6 +702,8 @@ export default {
   background-color: white;
   margin-top: 20px;
   border-radius: 10px;
+  padding: 12px;
+  padding-top: 20px;
 }
 ::v-deep .el-textarea {
   width: 700px;
@@ -576,5 +792,14 @@ export default {
 }
 .btnconfirm:hover {
   color: #2888e7;
+}
+.allbtn {
+  float: right;
+  margin-top: -35px;
+}
+.allbtn > .icon {
+  margin-right: 20px;
+  cursor: pointer;
+  display: none;
 }
 </style>
