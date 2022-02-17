@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../pages/home'
 import Login from '../pages/login'
+import Backlog from '../pages/backlog'
+import Mycenter from '../pages/mycenter'
+
 
 Vue.use(VueRouter)
 
@@ -9,7 +12,16 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: '/backlog',
+        component: Backlog
+      }, {
+        path: '/mycenter',
+        component: Mycenter
+      }
+    ]
   },
   {
     path: '/login',
@@ -30,7 +42,7 @@ router.beforeEach((to, from, next) => {
   // next（）放行 next（'/logn'）强制跳转
   if (to.path === '/login') return next();
   const tokenStr = localStorage.getItem('token')
-  if(!tokenStr) return next('/login')
+  if (!tokenStr) return next('/login')
   next()
 })
 

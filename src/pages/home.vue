@@ -3,22 +3,23 @@
     <!-- <button @click="btn">测试 123</button> -->
     <Menu></Menu>
     <Menutop></Menutop>
-    <Backlog></Backlog>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Menu from '../components/menu.vue'
 import Menutop from '../components/menutop.vue'
-import Backlog from '../components/backlog.vue'
 export default {
   data() {
     return {};
   },
+  created(){
+    this.$router.push({path:'/backlog'})
+  },
   components: {
       Menu,
       Menutop,
-      Backlog
   },
   methods: {
     async btn() {

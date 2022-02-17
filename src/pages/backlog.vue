@@ -106,23 +106,19 @@
             :stroke-width="26"
             :percentage="70"
           ></el-progress>
+          <br>
           <el-progress
             :text-inside="true"
             :stroke-width="24"
             :percentage="100"
             status="success"
           ></el-progress>
+          <br>
           <el-progress
             :text-inside="true"
             :stroke-width="22"
             :percentage="80"
             status="warning"
-          ></el-progress>
-          <el-progress
-            :text-inside="true"
-            :stroke-width="20"
-            :percentage="50"
-            status="exception"
           ></el-progress>
         </div>
       </div>
@@ -296,7 +292,7 @@ export default {
         },
       ],
       // 列表分组默认打开
-      istodolist: ["1"],
+      istodolist: ["1","2"],
       // 未完成的待办事项列表
       todolist: [
         {
@@ -471,6 +467,10 @@ export default {
         id: todoid,
       });
       if (res.code == 200) {
+        this.$message({
+          message: "该待办事件已完成",
+          type: "success",
+        });
         setTimeout(() => {
           this.isloading = false;
         }, 300);
@@ -488,6 +488,7 @@ export default {
         id: tododoneid,
       });
       if (res.code == 200) {
+        this.$message("该待办事件已修改为未完成");
         setTimeout(() => {
           this.isloading = false;
         }, 300);

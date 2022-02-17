@@ -19,42 +19,54 @@
     <p class="menutop">选项</p>
     <div class="menubox">
       <ul class="menuul">
-        <li>
-          <div class="menuline"></div>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-woderenwu"></use></svg
-          >我的任务
-        </li>
-        <li>
-          <div class="menuline"></div>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-iconfuzhi"></use></svg
-          >个人中心
-        </li>
-        <li>
-          <div class="menuline"></div>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-rili"></use></svg
-          >日历视图
-        </li>
-        <li>
-          <div class="menuline"></div>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-daqia"></use></svg
-          >打卡
-        </li>
-        <li>
-          <div class="menuline"></div>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-fenlei"></use></svg
-          >分类
-        </li>
-        <li>
-          <div class="menuline"></div>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-tongji"></use></svg
-          >统计
-        </li>
+        <router-link to="/backlog">
+          <li :class="{ isclick: isactive == 0 }" @click="isactive = 0">
+            <div :class="{ menuline: isactive == 0 }"></div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-woderenwu"></use></svg
+            >我的任务
+          </li></router-link
+        >
+        <router-link to="/mycenter">
+          <li :class="{ isclick: isactive == 1 }" @click="isactive = 1">
+            <div :class="{ menuline: isactive == 1 }"></div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-iconfuzhi"></use></svg
+            >个人中心
+          </li></router-link
+        >
+        <router-link to="">
+          <li :class="{ isclick: isactive == 2 }" @click="isactive = 2">
+            <div :class="{ menuline: isactive == 2 }"></div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-rili"></use></svg
+            >日历视图
+          </li></router-link
+        >
+        <router-link to="">
+          <li :class="{ isclick: isactive == 3 }" @click="isactive = 3">
+            <div :class="{ menuline: isactive == 3 }"></div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-daqia"></use></svg
+            >打卡
+          </li></router-link
+        >
+        <router-link to="">
+          <li :class="{ isclick: isactive == 4 }" @click="isactive = 4">
+            <div :class="{ menuline: isactive == 4 }"></div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-fenlei"></use></svg
+            >分类
+          </li></router-link
+        >
+        <router-link to="">
+          <li :class="{ isclick: isactive == 5 }" @click="isactive = 5">
+            <div :class="{ menuline: isactive == 5 }"></div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-tongji"></use></svg
+            >统计
+          </li></router-link
+        >
       </ul>
     </div>
     <div class="line"></div>
@@ -87,12 +99,36 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      // 是否被触发，默认首页菜单被触发
+      isactive: 0,
+    };
+  },
+};
 </script>
 
 <style scoped>
 /* 1440*700   1370*615*/
-
+a {
+  color: rgba(15, 23, 42, 0.8);
+  text-decoration: none;
+}
+.router-link-active {
+  text-decoration: none;
+}
+.router-link {
+  text-decoration: none;
+  color: #fff;
+}
+.isclick {
+  margin-left: -25px;
+  padding-left: 25px;
+  width: 170px;
+  border-radius: 8px;
+  background-color: #ebf4ff;
+}
 .leftItem {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
   color: rgba(15, 23, 42, 0.8);
@@ -103,7 +139,7 @@ export default {};
   background-color: white;
   border-radius: 10px;
   float: left;
-    min-height: 560px;
+  min-height: 560px;
 }
 .headimage {
   cursor: pointer;
@@ -152,7 +188,7 @@ export default {};
   border-radius: 20px;
 }
 .morebox {
-font-size: 13px;
+  font-size: 13px;
   margin: 0 auto;
   width: 170px;
   padding: 2px 0;
@@ -169,12 +205,15 @@ font-size: 13px;
   height: 35px;
   margin-left: -40px;
   background: #5da7f1;
-  transition: 0.7s;
   border-left: 4px solid #5da7f1;
-  opacity: 0;
 }
-.menuul li:hover .menuline {
-  opacity: 1;
+ul li:hover > div {
+  float: left;
+  border-radius: 5px;
+  height: 35px;
+  margin-left: -40px;
+  background: #5da7f1;
+  border-left: 4px solid #5da7f1;
 }
 ul li {
   width: 170px;
@@ -182,13 +221,13 @@ ul li {
   line-height: 38px;
   list-style: none;
 }
-@media (max-height:680px) {
-  ul li{
-     line-height: 30px;
+@media (max-height: 680px) {
+  ul li {
+    line-height: 30px;
   }
 }
 ul li:hover .icon {
-    color:#5da7f1
+  color: #5da7f1;
 }
 .menuul li:hover {
   margin-left: -25px;
