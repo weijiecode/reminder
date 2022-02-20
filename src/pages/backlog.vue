@@ -58,7 +58,7 @@
                   </div>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="今日已完成" name="2">
+              <el-collapse-item title="今日已完成" name="2" v-if="todolistdone != 0">
                 <div
                   v-for="(todoitem, index) in todolistdone"
                   :key="index"
@@ -84,11 +84,73 @@
           </el-tab-pane>
           <el-tab-pane>
             <span slot="label"><i class="el-icon-date"></i> 最近7天</span>
-            <el-empty description="暂无待办"></el-empty>
+            <el-empty description="暂无待办" v-if="sevendayslist == 0"></el-empty>
+                <div
+                  v-for="(todoitem, index) in sevendayslist"
+                  :key="index"
+                  class="oneitem"
+                >
+                  <div
+                    class="leftclass"
+                    :style="{ backgroundColor: todoitem.colorbg }"
+                  ></div>
+                  <!-- <el-button circle @click="todo(todoitem.id)"></el-button> -->
+                  <div class="pall" style="margin-left: 30px;">
+                    <p class="pcontent">{{ todoitem.contents }}</p>
+                    <p class="pdatetime">{{ todoitem.datetime }}</p>
+                  </div>
+                  <div class="allbtn">
+                    <svg
+                      @click="todochange(todoitem)"
+                      class="icon"
+                      aria-hidden="true"
+                    >
+                      <use xlink:href="#icon-xiugai"></use>
+                    </svg>
+                    <svg
+                      @click="tododelete(todoitem.id)"
+                      class="icon"
+                      aria-hidden="true"
+                    >
+                      <use xlink:href="#icon-shanchutianchong"></use>
+                    </svg>
+                  </div>
+                </div>
           </el-tab-pane>
           <el-tab-pane>
             <span slot="label"><i class="el-icon-time"></i> 已过期</span>
-            <el-empty description="暂无待办"></el-empty>
+            <el-empty description="暂无待办" v-if="overdayslist.length == 0"></el-empty>
+                <div
+                  v-for="(todoitem, index) in overdayslist"
+                  :key="index"
+                  class="oneitem"
+                >
+                  <div
+                    class="leftclass"
+                    :style="{ backgroundColor: todoitem.colorbg }"
+                  ></div>
+                  <!-- <el-button circle @click="todo(todoitem.id)"></el-button> -->
+                  <div class="pall" style="margin-left: 30px;">
+                    <p class="pcontent">{{ todoitem.contents }}</p>
+                    <p class="pdatetime">{{ todoitem.datetime }}</p>
+                  </div>
+                  <div class="allbtn">
+                    <svg
+                      @click="todochange(todoitem)"
+                      class="icon"
+                      aria-hidden="true"
+                    >
+                      <use xlink:href="#icon-xiugai"></use>
+                    </svg>
+                    <svg
+                      @click="tododelete(todoitem.id)"
+                      class="icon"
+                      aria-hidden="true"
+                    >
+                      <use xlink:href="#icon-shanchutianchong"></use>
+                    </svg>
+                  </div>
+                </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -106,14 +168,14 @@
             :stroke-width="26"
             :percentage="70"
           ></el-progress>
-          <br>
+          <br />
           <el-progress
             :text-inside="true"
             :stroke-width="24"
             :percentage="100"
             status="success"
           ></el-progress>
-          <br>
+          <br />
           <el-progress
             :text-inside="true"
             :stroke-width="22"
@@ -249,6 +311,10 @@ export default {
         colorbg: "",
         id: "",
       },
+      // 当天日期
+      todaydate: "",
+      // 7天后日期
+      sevendate: "",
       // 颜色分类的value(默认蓝色)
       classvalue: "#icon-yuandian",
       // 颜色分类的背景颜色value(默认蓝色)
@@ -292,7 +358,7 @@ export default {
         },
       ],
       // 列表分组默认打开
-      istodolist: ["1","2"],
+      istodolist: ["1", "2"],
       // 未完成的待办事项列表
       todolist: [
         {
@@ -306,6 +372,28 @@ export default {
       ],
       // 已完成的待办事项列表
       todolistdone: [
+        {
+          id: "",
+          contents: "",
+          todoclass: "",
+          datetime: "",
+          done: "",
+          class: "",
+        },
+      ],
+      // 最近七天的待办事项列表
+      sevendayslist: [
+        {
+          id: "",
+          contents: "",
+          todoclass: "",
+          datetime: "",
+          done: "",
+          class: "",
+        },
+      ],
+      // 已过期的待办事项列表
+      overdayslist: [
         {
           id: "",
           contents: "",
@@ -331,6 +419,13 @@ export default {
     Overview,
   },
   created() {
+    var data = new Date();
+    var month =
+      data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
+    var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
+    var sdate = data.getDate() <= 1 ? "0" + (data.getDate() + 8) : data.getDate() +8 ;
+    this.todaydate = data.getFullYear() + "-" + month + "-" + date;
+    this.sevendate = data.getFullYear() + "-" + month + "-" + sdate;
     this.getbacklogdata();
     this.getbacklogdatadone();
   },
@@ -504,27 +599,45 @@ export default {
         done: 0,
       });
       // console.log(res);
-      this.todolist = res.data;
+      
+      
+      console.log(this.sevendayslist)
+      if(res.code==200){
+        // 过滤当天日期的待办事项
+      this.todolist = res.data.filter((item) => {
+        return this.todaydate == item.datetime.split(" ").shift();
+      });
+        // 过滤最近七天的待办事项
+      this.sevendayslist = res.data.filter((item) => {
+        return this.todaydate < item.datetime.split(" ").shift() && this.sevendate > item.datetime.split(" ").shift()
+      })
+        // 过滤过期的待办事项
+      this.overdayslist = res.data.filter((item) => {
+        return this.todaydate > item.datetime.split(" ").shift();
+      })
+      }else{
+        this.sevendayslist=0
+        this.overdayslist=0
+      }
       // 获取状态码
       this.datacode = res.code;
-      // for (let i = 0, ilen = this.todolist.length; i < ilen; i++) {
-      //   for (let j = 0, jlen = this.colors.length; j < jlen; j++) {
-      //     if (this.colors[j].cid == this.todolist[i].class) {
-      //       this.colorsvalue[i] = this.colors[j].cbg;
-      //     }
-      //   }
-      // }
-
-      // console.log(this.colorsvalue)
-      // console.log(6666);
     },
     // 获取已完成待办事项列表todolistdone
     async getbacklogdatadone() {
       const { data: res } = await this.$http.post("/backlog/selectbacklog", {
         done: 1,
       });
-      // console.log(res);
-      this.todolistdone = res.data;
+      console.log(res);
+      if(res.code==200){
+      // 过滤当天日期的待办事项
+      this.todolistdone = res.data.filter((item) => {
+        return this.todaydate == item.datetime.split(" ").shift();
+      });
+      }else{
+        this.todolistdone = 0
+      }
+      
+      // this.todolistdone = res.data;
       // 获取状态码
       this.datacodedone = res.code;
       // for (let i = 0, ilen = this.todolistdone.length; i < ilen; i++) {
