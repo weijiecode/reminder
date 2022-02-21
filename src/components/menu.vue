@@ -130,6 +130,7 @@ a {
   background-color: #ebf4ff;
 }
 .leftItem {
+  position: fixed;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
   color: rgba(15, 23, 42, 0.8);
   margin-top: 30px;

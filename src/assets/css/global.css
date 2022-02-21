@@ -3,6 +3,5 @@ body,
 #app {
   margin: 0;
   padding: 0;
-  height: 100%;
-  min-width: 1366px;
+  background-color: #f1f2f6;
 }

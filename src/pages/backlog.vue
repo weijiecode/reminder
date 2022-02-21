@@ -600,8 +600,6 @@ export default {
       });
       // console.log(res);
       
-      
-      console.log(this.sevendayslist)
       if(res.code==200){
         // 过滤当天日期的待办事项
       this.todolist = res.data.filter((item) => {

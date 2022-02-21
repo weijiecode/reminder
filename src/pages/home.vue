@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <!-- <button @click="btn">测试 123</button> -->
     <Menu></Menu>
     <Menutop></Menutop>
     <router-view></router-view>
@@ -8,25 +7,20 @@
 </template>
 
 <script>
-import Menu from '../components/menu.vue'
-import Menutop from '../components/menutop.vue'
+import Menu from "../components/menu.vue";
+import Menutop from "../components/menutop.vue";
 export default {
   data() {
     return {};
   },
-  created(){
-    this.$router.push({path:'/backlog'})
+  created() {
+    this.$router.push({ path: "/backlog" });
   },
   components: {
-      Menu,
-      Menutop,
+    Menu,
+    Menutop,
   },
-  methods: {
-    async btn() {
-      const { data: res } = await this.$http.post("backlog/insertbacklog");
-      console.log(res);
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -35,7 +29,6 @@ export default {
   background-color: #f1f2f6;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 </style>

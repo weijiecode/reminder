@@ -207,9 +207,6 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return;
-        console.log("login_log");
-        console.log(this.loginForm.username);
-        console.log(this.loginForm.password);
         // let formData = new FormData;
         // formData.append("username", this.loginForm.username);
         // formData.append("password", this.loginForm.password);
@@ -221,12 +218,14 @@ export default {
 
         if (res.code !== 200) return this.$message.error("账号或密码错误!");
         this.$message.success("登录成功！");
+        console.log('账户数据：')
         console.log(res)
-        
+        this.$store.commit('set_username',res.data.username)
         this.$store.commit('set_token',res.token);
         this.$router.push("home");
-        console.log('token');
-        console.log(this.$store.state.token);
+        // console.log('token');
+        // console.log(this.$store.state.token);
+        // console.log(this.$store.state.username)
       });
     },
     register() {
