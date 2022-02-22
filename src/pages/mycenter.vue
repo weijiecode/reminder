@@ -135,8 +135,8 @@
             :before-upload="beforeAvatarUpload"
           >
             <img
-              v-if="formMyCenter.photo"
-              :src="formMyCenter.photo"
+              v-if="userphoto"
+              :src="userphoto"
               class="avatar"
             />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -166,6 +166,7 @@ export default {
         email: "",
         selectemail: "",
       },
+      userphoto: '',
       mycenteroptions: [
         {
           value: "qq.com",
@@ -266,8 +267,8 @@ export default {
       },
       // 上传头像操作
       handleAvatarSuccess(res, file) {
+        this.userphoto = res.data.url
         console.log(res)
-        // this.imageUrl = URL.createObjectURL(file.raw);
       },
   },
 };
