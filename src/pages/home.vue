@@ -2,6 +2,7 @@
   <div class="home">
     <Menu></Menu>
     <Menutop></Menutop>
+    <Backlog v-if="$route.path == '/home'"></Backlog>
     <router-view></router-view>
   </div>
 </template>
@@ -9,16 +10,16 @@
 <script>
 import Menu from "../components/menu.vue";
 import Menutop from "../components/menutop.vue";
+import Backlog from "../components/backlog.vue"
 export default {
   data() {
     return {};
   },
-  created() {
-    this.$router.push({ path: "/backlog" });
-  },
+  created() {},
   components: {
     Menu,
     Menutop,
+    Backlog
   },
   methods: {},
 };

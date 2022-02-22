@@ -290,7 +290,7 @@
 
 <script>
 import Qs from "qs";
-import Overview from "../components/overview.vue";
+import Overview from "./overview.vue";
 export default {
   data() {
     return {

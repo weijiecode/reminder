@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../pages/home'
 import Login from '../pages/login'
-import Backlog from '../pages/backlog'
 import Mycenter from '../pages/mycenter'
 
 
@@ -13,14 +12,10 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
-    children: [
-      {
-        path: '/backlog',
-        component: Backlog
-      }, {
-        path: '/mycenter',
-        component: Mycenter
-      }
+    children: [{
+      path: '/mycenter',
+      component: Mycenter
+    }
     ]
   },
   {
@@ -40,7 +35,7 @@ const router = new VueRouter({
 
 // 防止重复点击相同路由导致报错
 const VueRouterPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push (to) {
+VueRouter.prototype.push = function push(to) {
   return VueRouterPush.call(this, to).catch(err => err)
 }
 

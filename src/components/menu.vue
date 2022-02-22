@@ -12,56 +12,57 @@
             <use xlink:href="#icon-a-zaoshangzaochen"></use>
           </svg>
         </p>
-        <p class="nickname">你吃晚饭了吗</p>
+        <p class="nickname">{{nickname}}</p>
       </div>
     </div>
     <div class="line"></div>
     <p class="menutop">选项</p>
     <div class="menubox">
       <ul class="menuul">
-        <router-link to="/backlog">
-          <li :class="{ isclick: isactive == 0 }" @click="isactive = 0">
-            <div :class="{ menuline: isactive == 0 }"></div>
+        <router-link to="/home">
+          <li :class="{ isclick:$route.path=='/home' }">
+            <div :class="{ menuline:$route.path=='/home' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-woderenwu"></use></svg
             >我的任务
           </li></router-link
         >
         <router-link to="/mycenter">
-          <li :class="{ isclick: isactive == 1 }" @click="isactive = 1">
-            <div :class="{ menuline: isactive == 1 }"></div>
+          <li :class="{ isclick:$route.path=='/mycenter' }">
+            <div :class="{ menuline:$route.path=='/mycenter' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-iconfuzhi"></use></svg
             >个人中心
           </li></router-link
         >
+         <!-- || $route.path=='/home'  -->
         <router-link to="">
-          <li :class="{ isclick: isactive == 2 }" @click="isactive = 2">
-            <div :class="{ menuline: isactive == 2 }"></div>
+          <li :class="{ isclick:$route.path=='/test' }">
+            <div :class="{ menuline:$route.path=='/test' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-rili"></use></svg
             >日历视图
           </li></router-link
         >
         <router-link to="">
-          <li :class="{ isclick: isactive == 3 }" @click="isactive = 3">
-            <div :class="{ menuline: isactive == 3 }"></div>
+          <li :class="{ isclick:$route.path=='/test' }">
+            <div :class="{ menuline:$route.path=='/test' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-daqia"></use></svg
             >打卡
           </li></router-link
         >
         <router-link to="">
-          <li :class="{ isclick: isactive == 4 }" @click="isactive = 4">
-            <div :class="{ menuline: isactive == 4 }"></div>
+          <li :class="{ isclick:$route.path=='/test' }">
+            <div :class="{ menuline:$route.path=='/test' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-fenlei"></use></svg
             >分类
           </li></router-link
         >
         <router-link to="">
-          <li :class="{ isclick: isactive == 5 }" @click="isactive = 5">
-            <div :class="{ menuline: isactive == 5 }"></div>
+          <li :class="{ isclick:$route.path=='/test'  }">
+            <div :class="{ menuline:$route.path=='/test' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-tongji"></use></svg
             >统计
@@ -100,10 +101,12 @@
 
 <script>
 export default {
+  created(){
+    this.nickname = localStorage.getItem('nickname')
+  },
   data() {
     return {
-      // 是否被触发，默认首页菜单被触发
-      isactive: 0,
+      nickname: ''
     };
   },
 };

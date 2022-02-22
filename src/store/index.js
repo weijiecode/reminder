@@ -8,7 +8,8 @@ export default new Vuex.Store({
     // 存放的键值对就是所要管理的状态
     token: '',
     // 用户的数据
-    username: ''
+    username: '',
+    nickname: ''
   },
   mutations: {
     set_token(state,token) {
@@ -22,6 +23,10 @@ export default new Vuex.Store({
     set_username(state,username) {
       state.username = username
       localStorage.username = username
+    },
+    set_nickname(state,nickname) {
+      state.nickname = nickname
+      localStorage.nickname = nickname
     }
   },
   actions: {

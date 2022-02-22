@@ -199,7 +199,9 @@ export default {
       },
     };
   },
-  components: { Qs },
+  components: {
+    Qs,
+  },
   methods: {
     resetLoginForm() {
       this.$refs.loginFormRef.resetFields();
@@ -218,10 +220,11 @@ export default {
 
         if (res.code !== 200) return this.$message.error("账号或密码错误!");
         this.$message.success("登录成功！");
-        console.log('账户数据：')
-        console.log(res)
-        this.$store.commit('set_username',res.data.username)
-        this.$store.commit('set_token',res.token);
+        console.log("账户数据：");
+        console.log(res);
+        this.$store.commit("set_username", res.data.username);
+        this.$store.commit("set_nickname", res.data.nickname);
+        this.$store.commit("set_token", res.token);
         this.$router.push("home");
         // console.log('token');
         // console.log(this.$store.state.token);
@@ -280,7 +283,7 @@ export default {
   height: 100%;
 }
 .login_p {
-  text-shadow:5px 1px 6px #5da7f1;
+  text-shadow: 5px 1px 6px #5da7f1;
   margin-top: 120px;
   margin-left: 100px;
   font-size: 20px;

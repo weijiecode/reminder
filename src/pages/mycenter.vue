@@ -8,14 +8,25 @@
             <img src="../assets/test.jpg" alt="" />
             <div class="twoline">
               <p class="nickname">
-                你吃晚饭了吗
-                <svg v-if="formMyCenter.sex == 1" style="font-size: 20px" class="icon" aria-hidden="true">
+                {{ formMyCenter.nickname }}
+                <svg
+                  v-if="formMyCenter.sex == 1"
+                  style="font-size: 20px"
+                  class="icon"
+                  aria-hidden="true"
+                >
                   <use xlink:href="#icon-xingbie1"></use>
                 </svg>
-                <svg v-if="formMyCenter.sex == 0" style="font-size: 20px" class="icon" aria-hidden="true">
+                <svg
+                  v-if="formMyCenter.sex == 0"
+                  style="font-size: 20px"
+                  class="icon"
+                  aria-hidden="true"
+                >
                   <use xlink:href="#icon-xingbie"></use>
                 </svg>
               </p>
+              <p class="introduction">{{ formMyCenter.introduction }}</p>
             </div>
           </div>
           <div class="menus">
@@ -33,6 +44,7 @@
             ></span>
           </div>
         </div>
+        <!-- 基本资料 -->
         <div v-show="menuShow == 1" class="boxbottom">
           <el-form
             ref="formmycenterRef"
@@ -95,15 +107,12 @@
                   @change="$forceUpdate()"
                   placeholder="邮箱类型"
                 >
-                  <el-option v-for="(item,index) in mycenteroptions" :key="index" :label="item.label" :value="item.value"></el-option>
-                  <!-- <el-option label="@163.com" value="163.com"></el-option>
                   <el-option
-                    label="@icloud.com"
-                    value="icloud.com"
+                    v-for="(item, index) in mycenteroptions"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value"
                   ></el-option>
-                  <el-option label="@sina.com" value="sina.com"></el-option>
-                  <el-option label="@gmail.com" value="gmail.com"></el-option>
-                  <el-option label="......" value="......"></el-option> -->
                 </el-select>
               </el-input>
             </el-form-item>
@@ -116,7 +125,24 @@
             </el-form-item>
           </el-form>
         </div>
-        <div v-show="menuShow == 2" class="boxbottom">2</div>
+        <!-- 用户头像 -->
+        <div v-show="menuShow == 2" class="boxbottom">
+          <el-upload
+            class="avatar-uploader"
+            :action="$http.defaults.baseURL + 'mycenter/photoupload'"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img
+              v-if="formMyCenter.photo"
+              :src="formMyCenter.photo"
+              class="avatar"
+            />
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </div>
+        <!-- 密码修改 -->
         <div v-show="menuShow == 3" class="boxbottom">3</div>
       </div>
     </div>
@@ -140,22 +166,28 @@ export default {
         email: "",
         selectemail: "",
       },
-      mycenteroptions: [{
-          value: 'qq.com',
-          label: '@qq.com'
-        }, {
-          value: '163.com',
-          label: '@163.com'
-        }, {
-          value: 'icloud.com',
-          label: '@icloud.com'
-        }, {
-          value: 'sina.com',
-          label: '@sina.com'
-        }, {
-          value: 'gmail.com',
-          label: '@gmail.com'
-        }],
+      mycenteroptions: [
+        {
+          value: "qq.com",
+          label: "@qq.com",
+        },
+        {
+          value: "163.com",
+          label: "@163.com",
+        },
+        {
+          value: "icloud.com",
+          label: "@icloud.com",
+        },
+        {
+          value: "sina.com",
+          label: "@sina.com",
+        },
+        {
+          value: "gmail.com",
+          label: "@gmail.com",
+        },
+      ],
       mycenterrules: {
         nickname: [
           { required: true, message: "请输入昵称", trigger: "blur" },
@@ -167,6 +199,7 @@ export default {
     };
   },
   methods: {
+    // 获取用户数据
     async getuserdata() {
       const { data: res } = await this.$http.post("/mycenter/userdata", {
         username: localStorage.getItem("username"),
@@ -174,25 +207,68 @@ export default {
       console.log(res);
       if (res.code == 200) {
         this.formMyCenter = res.data[0];
-        this.formMyCenter.selectemail = this.formMyCenter.email.split("@")[1];
-        this.formMyCenter.email = this.formMyCenter.email.split("@")[0];
-        
-        //   console.log(this.formMyCenter.email.split('@')[0])
-        //   console.log(this.formMyCenter.email.split('@')[1])
+        if (res.data[0].email != null) {
+          this.formMyCenter.selectemail = this.formMyCenter.email.split("@")[1];
+          this.formMyCenter.email = this.formMyCenter.email.split("@")[0];
+        } else {
+          this.formMyCenter.email = "";
+        }
       }
       console.log("用户数据：");
       console.log(this.formMyCenter);
     },
+    // 提交个人资料
     submitformMyCenter() {
       this.$refs.formmycenterRef.validate(async (valid) => {
         if (valid) {
           console.log(this.formMyCenter);
+          const { data: res } = await this.$http.post(
+            "/mycenter/updateuserdata",
+            {
+              nickname: this.formMyCenter.nickname,
+              introduction: this.formMyCenter.introduction,
+              sex: this.formMyCenter.sex,
+              phone: this.formMyCenter.phone,
+              email:
+                this.formMyCenter.email + "@" + this.formMyCenter.selectemail,
+              username: localStorage.getItem("username"),
+            }
+          );
+          console.log(res);
+          if (res.code == 200) {
+            this.$store.commit("set_nickname", this.formMyCenter.nickname);
+            this.$message({
+              type: "success",
+              message: "个人资料修改成功",
+            });
+          } else {
+            this.$message.error("个人资料修改失败，请重试");
+          }
         } else {
-          console.log("error submit!!");
+          this.$message.error("个人资料修改失败，请重试");
           return false;
         }
       });
     },
+    // 上传头像前的验证
+     beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isPNG = file.type === 'image/png';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG && !isPNG) {
+          this.$message.error('上传头像图片只能是 JPG或PNG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return (isJPG ||isPNG) && isLt2M;
+      },
+      // 上传头像操作
+      handleAvatarSuccess(res, file) {
+        console.log(res)
+        // this.imageUrl = URL.createObjectURL(file.raw);
+      },
   },
 };
 </script>
@@ -249,8 +325,13 @@ export default {
   float: left;
   margin-left: 25px;
 }
+.introduction {
+  font-size: 12px;
+  color: rgb(147 144 144);
+  line-height: 0;
+}
 .menus {
-  margin-top: 28px;
+  margin-top: 20px;
   margin-left: 40px;
 }
 .menus span {
@@ -261,22 +342,49 @@ export default {
 
 span:hover div {
   margin-left: 2px;
-  margin-top: 6px;
+  margin-top: 2px;
   border-radius: 10px;
-  height: 3px;
+  height: 4px;
   width: 60px;
   background-color: #5da7f1;
 }
 .menuline {
   margin-left: 2px;
-  margin-top: 6px;
+  margin-top: 2px;
   border-radius: 10px;
-  height: 3px;
+  height: 4px;
   width: 60px;
   background-color: #5da7f1;
 }
 .formbox {
   padding-top: 40px;
   padding-left: 30px;
+}
+
+/* 头像样式 */
+::v-deep .avatar-uploader .el-upload {
+  margin-top: 50px;
+  margin-left: 50px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+::v-deep .avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+::v-deep .avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+::v-deep .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>
