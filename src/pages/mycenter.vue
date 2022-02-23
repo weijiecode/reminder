@@ -129,7 +129,7 @@
         <div v-show="menuShow == 2" class="boxbottom">
           <el-upload
             class="avatar-uploader"
-            :action="$http.defaults.baseURL + 'mycenter/photoupload'"
+            :action="$http.defaults.baseURL + 'mycenter/photouploadurl'"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -141,6 +141,7 @@
             />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+          <el-button type="primary" @click="submituserphoto">保存</el-button>
         </div>
         <!-- 密码修改 -->
         <div v-show="menuShow == 3" class="boxbottom">3</div>
@@ -265,11 +266,30 @@ export default {
         }
         return (isJPG ||isPNG) && isLt2M;
       },
-      // 上传头像操作
+      // 上传头像后操作
       handleAvatarSuccess(res, file) {
         this.userphoto = res.data.url
         console.log(res)
       },
+      // 上传头像到后端
+      async submituserphoto(){
+          if(this.userphoto != ""){
+              const { data: res } = await this.$http.post('/mycenter/updatephoto',{
+                  photo: this.userphoto,
+                  username: localStorage.getItem('username')
+              })
+              if(res.code == 200){
+                  this.$message({
+                      type: 'success',
+                      message: '修改头像成功'
+                  })
+              }else{
+                  this.$message.error("修改头像失败，请重试")
+              }
+          }else {
+              this.$message.error("请上传头像后保存！")
+          }
+      }
   },
 };
 </script>

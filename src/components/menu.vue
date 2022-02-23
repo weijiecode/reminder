@@ -1,7 +1,7 @@
 <template>
   <div class="leftItem">
     <div class="headimage">
-      <img src="../assets/test.jpg" alt="" />
+      <img src="http://localhost:5001/public/upload/6c0db65e0382bc33b808e50b175f4f4a" alt="" />
       <div class="twoline">
         <p class="status">
           早上好&nbsp;<svg
