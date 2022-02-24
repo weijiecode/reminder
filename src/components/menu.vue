@@ -1,7 +1,7 @@
 <template>
   <div class="leftItem">
     <div class="headimage">
-      <img src="http://localhost:5001/public/upload/6c0db65e0382bc33b808e50b175f4f4a" alt="" />
+      <img :src="photo" alt="" />
       <div class="twoline">
         <p class="status">
           早上好&nbsp;<svg
@@ -102,11 +102,21 @@
 <script>
 export default {
   created(){
-    this.nickname = localStorage.getItem('nickname')
+    this.nickname = this.$store.state.nickname
+    this.photo = this.$store.state.photo
+  },
+  watch: {
+    "$store.state.nickname"(newvalue){
+      this.nickname = newvalue
+    },
+    "$store.state.photo"(newvalue){
+      this.photo = newvalue
+    }
   },
   data() {
     return {
-      nickname: ''
+      nickname: '',
+      photo: ''
     };
   },
 };

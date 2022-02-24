@@ -5,7 +5,7 @@
       <div class="centerbox">
         <div class="boxtop">
           <div class="headimage">
-            <img src="../assets/test.jpg" alt="" />
+            <img :src="formMyCenter.photo" alt="" />
             <div class="twoline">
               <p class="nickname">
                 {{ formMyCenter.nickname }}
@@ -120,31 +120,75 @@
               <el-button
                 type="primary"
                 @click="submitformMyCenter('formMyCenter')"
-                >提交</el-button
+                >保存</el-button
               >
             </el-form-item>
           </el-form>
         </div>
         <!-- 用户头像 -->
         <div v-show="menuShow == 2" class="boxbottom">
-          <el-upload
-            class="avatar-uploader"
-            :action="$http.defaults.baseURL + 'mycenter/photouploadurl'"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-          >
-            <img
-              v-if="userphoto"
-              :src="userphoto"
-              class="avatar"
-            />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-          <el-button type="primary" @click="submituserphoto">保存</el-button>
+          <div class="photoleft">
+            <el-upload
+              class="avatar-uploader"
+              :headers="getAuthHeaders()"
+              :action="$http.defaults.baseURL + 'mycenter/photouploadurl'"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="userphoto" :src="userphoto" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <el-button type="primary" @click="submituserphoto">保存</el-button>
+          </div>
+          <div class="phototip">
+            <p>
+              <i class="el-icon-warning-outline"></i> 上传头像图片只能是 JPG或PNG
+              格式!
+            </p>
+            <p><i class="el-icon-warning-outline"></i> 图片大小不能超过 2MB！</p>
+          </div>
         </div>
         <!-- 密码修改 -->
-        <div v-show="menuShow == 3" class="boxbottom">3</div>
+        <div v-show="menuShow == 3" class="boxbottom">
+          <el-form
+            ref="formpasswordRef"
+            :rules="passwordrules"
+            class="formbox"
+            label-position="right"
+            label-width="80px"
+            :model="formpassword"
+          >
+            <el-form-item label="旧密码" prop="oldpassword">
+              <el-input
+                type="password"
+                style="width: 260px"
+                v-model="formpassword.oldpassword"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="新密码" prop="newpassword">
+              <el-input
+                type="password"
+                style="width: 260px"
+                v-model="formpassword.newpassword"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="twonewpassword">
+              <el-input
+                type="password"
+                style="width: 260px"
+                v-model="formpassword.twonewpassword"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                type="primary"
+                @click="submitformPassword('formpassword')"
+                >提交</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -156,6 +200,26 @@ export default {
     this.getuserdata();
   },
   data() {
+    // 填写两次密码验证
+    var validatePassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入新密码"));
+      } else {
+        if (this.formpassword.twonewpassword !== "") {
+          this.$refs.formpasswordRef.validateField("twonewpassword");
+        }
+        callback();
+      }
+    };
+    var validatePassword2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.formpassword.newpassword) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       menuShow: 1,
       formMyCenter: {
@@ -163,11 +227,17 @@ export default {
         nickname: "",
         introduction: "",
         sex: "",
+        photo: "",
         phone: "",
         email: "",
         selectemail: "",
       },
-      userphoto: '',
+      formpassword: {
+        oldpassword: "",
+        newpassword: "",
+        twonewpassword: "",
+      },
+      userphoto: "",
       mycenteroptions: [
         {
           value: "qq.com",
@@ -190,6 +260,7 @@ export default {
           label: "@gmail.com",
         },
       ],
+      //  个人信息验证规则
       mycenterrules: {
         nickname: [
           { required: true, message: "请输入昵称", trigger: "blur" },
@@ -197,6 +268,36 @@ export default {
         ],
         phone: [{ max: 11, message: "长度不能超过11字符", trigger: "blur" }],
         email: [{ max: 15, message: "长度不能超过15字符", trigger: "blur" }],
+      },
+      // 密码验证规则
+      passwordrules: {
+        oldpassword: [
+          { required: true, message: "请输入旧密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在 6 到 15 个字符",
+            trigger: "blur",
+          },
+        ],
+        newpassword: [
+          { validator: validatePassword, required: true, trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在 6 到 15 个字符",
+            trigger: "blur",
+          },
+        ],
+        twonewpassword: [
+          { validator: validatePassword2, required: true, trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在 6 到 15 个字符",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
@@ -206,7 +307,7 @@ export default {
       const { data: res } = await this.$http.post("/mycenter/userdata", {
         username: localStorage.getItem("username"),
       });
-      console.log(res);
+      // console.log(res);
       if (res.code == 200) {
         this.formMyCenter = res.data[0];
         if (res.data[0].email != null) {
@@ -216,14 +317,14 @@ export default {
           this.formMyCenter.email = "";
         }
       }
-      console.log("用户数据：");
-      console.log(this.formMyCenter);
+      // console.log("用户数据：");
+      // console.log(this.formMyCenter);
     },
     // 提交个人资料
     submitformMyCenter() {
       this.$refs.formmycenterRef.validate(async (valid) => {
         if (valid) {
-          console.log(this.formMyCenter);
+          // console.log(this.formMyCenter);
           const { data: res } = await this.$http.post(
             "/mycenter/updateuserdata",
             {
@@ -236,9 +337,10 @@ export default {
               username: localStorage.getItem("username"),
             }
           );
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
             this.$store.commit("set_nickname", this.formMyCenter.nickname);
+            this.$store.commit("set_photo", this.formMyCenter.photo);
             this.$message({
               type: "success",
               message: "个人资料修改成功",
@@ -253,43 +355,70 @@ export default {
       });
     },
     // 上传头像前的验证
-     beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isPNG = file.type === 'image/png';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isPNG = file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if (!isJPG && !isPNG) {
-          this.$message.error('上传头像图片只能是 JPG或PNG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return (isJPG ||isPNG) && isLt2M;
-      },
-      // 上传头像后操作
-      handleAvatarSuccess(res, file) {
-        this.userphoto = res.data.url
-        console.log(res)
-      },
-      // 上传头像到后端
-      async submituserphoto(){
-          if(this.userphoto != ""){
-              const { data: res } = await this.$http.post('/mycenter/updatephoto',{
-                  photo: this.userphoto,
-                  username: localStorage.getItem('username')
-              })
-              if(res.code == 200){
-                  this.$message({
-                      type: 'success',
-                      message: '修改头像成功'
-                  })
-              }else{
-                  this.$message.error("修改头像失败，请重试")
-              }
-          }else {
-              this.$message.error("请上传头像后保存！")
-          }
+      if (!isJPG && !isPNG) {
+        this.$message.error("上传头像图片只能是 JPG或PNG 格式!");
       }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return (isJPG || isPNG) && isLt2M;
+    },
+    // 上传头像后操作
+    handleAvatarSuccess(res, file) {
+      this.userphoto = res.data.url;
+      console.log(res);
+    },
+    // 上传头像到后端
+    async submituserphoto() {
+      if (this.userphoto != "") {
+        const { data: res } = await this.$http.post("/mycenter/updatephoto", {
+          photo: this.userphoto,
+          oldphoto: this.formMyCenter.photo,
+          username: localStorage.getItem("username"),
+        });
+        if (res.code == 200) {
+          this.formMyCenter.photo = this.userphoto;
+          this.$store.commit("set_photo", this.userphoto);
+          this.$message({
+            type: "success",
+            message: "修改头像成功",
+          });
+        } else {
+          this.$message.error("修改头像失败，请重试");
+        }
+      } else {
+        this.$message.error("请上传头像后保存！");
+      }
+    },
+    // 修改密码
+    submitformPassword() {
+      this.$refs.formpasswordRef.validate(async (valid) => {
+        if (valid) {
+          const { data: res } = await this.$http.post('/mycenter/updatepassword',{
+            newpassword: this.formpassword.newpassword,
+            username: localStorage.getItem('username'),
+            oldpassword: this.formpassword.oldpassword
+          })
+          console.log(res)
+          if(res.code == 200) {
+            this.$message({
+              type: 'success',
+              message: '修改密码成功！'
+            })
+          }else {
+            this.$message.error("旧密码错误，修改密码失败，请重试");
+          }
+        } else {
+          this.$message.error("密码修改失败，请重试");
+          return false;
+        }
+      });
+    },
   },
 };
 </script>
@@ -310,7 +439,7 @@ export default {
   overflow: auto;
   min-height: 400px;
   /* height: calc(100% - 160px); */
-  height: 1000px;
+  height: 790px;
   min-width: 600px;
   color: rgba(15, 23, 42, 0.8);
   border-radius: 10px;
@@ -327,6 +456,26 @@ export default {
   border-radius: 10px;
   height: 600px;
   background-color: white;
+}
+.phototip {
+  font-size: 15px;
+  color: #69696c;
+  margin-top: 90px;
+  margin-left: 50px;
+  float: left;
+  width: 280px;
+  height: 100px;
+}
+.photoleft {
+  float: left;
+}
+.boxbottom ::v-deep .el-button--primary {
+  margin-top: 50px;
+  margin-left: 60px;
+}
+::v-deep .el-button--primary {
+  width: 160px;
+  border-radius: 20px;
 }
 .headimage {
   display: flex;

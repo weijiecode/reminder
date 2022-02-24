@@ -224,6 +224,7 @@ export default {
         console.log(res);
         this.$store.commit("set_username", res.data.username);
         this.$store.commit("set_nickname", res.data.nickname);
+        this.$store.commit("set_photo", res.data.photo);
         this.$store.commit("set_token", res.token);
         this.$router.push("home");
         // console.log('token');

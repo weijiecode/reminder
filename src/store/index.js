@@ -9,12 +9,13 @@ export default new Vuex.Store({
     token: '',
     // 用户的数据
     username: '',
-    nickname: ''
+    nickname: '',
+    photo: ''
   },
   mutations: {
     set_token(state,token) {
       state.token = token
-      localStorage.token = token
+      localStorage.setItem('token',token)
     },
     del_token(state) {
       state.token = ''
@@ -22,11 +23,13 @@ export default new Vuex.Store({
     },
     set_username(state,username) {
       state.username = username
-      localStorage.username = username
+      localStorage.setItem('username',username)
     },
     set_nickname(state,nickname) {
       state.nickname = nickname
-      localStorage.nickname = nickname
+    },
+    set_photo(state,photo) {
+      state.photo = photo
     }
   },
   actions: {

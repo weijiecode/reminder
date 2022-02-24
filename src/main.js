@@ -12,6 +12,16 @@ Vue.use(ElementUI)
 Vue.prototype.$http = axios
 axios.defaults.baseURL = 'http://localhost:5001/'
 
+Vue.mixin({
+  methods: {
+    getAuthHeaders(){
+      return {
+        Authorization: `Bearer ${localStorage.token || ''}`
+      }
+    }
+  }
+})
+
 //token添加到请求头
 axios.interceptors.request.use(function (config) {
   config.headers.Authorization = 'Bearer ' + localStorage.token
