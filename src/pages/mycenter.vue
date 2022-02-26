@@ -143,10 +143,17 @@
           </div>
           <div class="phototip">
             <p>
-              <i class="el-icon-warning-outline"></i> 上传头像图片只能是 JPG或PNG
-              格式!
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-zhuyi"></use>
+              </svg>
+              上传头像图片只能是 JPG 或 PNG 格式!
             </p>
-            <p><i class="el-icon-warning-outline"></i> 图片大小不能超过 2MB！</p>
+            <p>
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-zhuyi"></use>
+              </svg>
+              图片大小不能超过 2MB！
+            </p>
           </div>
         </div>
         <!-- 密码修改 -->
@@ -399,18 +406,21 @@ export default {
     submitformPassword() {
       this.$refs.formpasswordRef.validate(async (valid) => {
         if (valid) {
-          const { data: res } = await this.$http.post('/mycenter/updatepassword',{
-            newpassword: this.formpassword.newpassword,
-            username: localStorage.getItem('username'),
-            oldpassword: this.formpassword.oldpassword
-          })
-          console.log(res)
-          if(res.code == 200) {
+          const { data: res } = await this.$http.post(
+            "/mycenter/updatepassword",
+            {
+              newpassword: this.formpassword.newpassword,
+              username: localStorage.getItem("username"),
+              oldpassword: this.formpassword.oldpassword,
+            }
+          );
+          console.log(res);
+          if (res.code == 200) {
             this.$message({
-              type: 'success',
-              message: '修改密码成功！'
-            })
-          }else {
+              type: "success",
+              message: "修改密码成功！",
+            });
+          } else {
             this.$message.error("旧密码错误，修改密码失败，请重试");
           }
         } else {
@@ -463,7 +473,7 @@ export default {
   margin-top: 90px;
   margin-left: 50px;
   float: left;
-  width: 280px;
+  width: 300px;
   height: 100px;
 }
 .photoleft {

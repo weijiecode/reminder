@@ -36,9 +36,9 @@
           </li></router-link
         >
          <!-- || $route.path=='/home'  -->
-        <router-link to="">
-          <li :class="{ isclick:$route.path=='/test' }">
-            <div :class="{ menuline:$route.path=='/test' }"></div>
+        <router-link to="/view">
+          <li :class="{ isclick:$route.path=='/view' }">
+            <div :class="{ menuline:$route.path=='/view' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-rili"></use></svg
             >日历视图
@@ -222,12 +222,12 @@ a {
   border-left: 4px solid #5da7f1;
 }
 ul li:hover > div {
-  float: left;
+  /* float: left;
   border-radius: 5px;
   height: 35px;
   margin-left: -40px;
   background: #5da7f1;
-  border-left: 4px solid #5da7f1;
+  border-left: 4px solid #5da7f1; */
 }
 ul li {
   width: 170px;

@@ -731,6 +731,9 @@ export default {
 ::v-deep .el-collapse-item__header {
   height: 30px;
 }
+::v-deep .el-tabs--border-card {
+  overflow: auto;
+}
 .oneitem {
   height: 40px;
   padding-bottom: 8px;

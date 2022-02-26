@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../pages/home'
 import Login from '../pages/login'
 import Mycenter from '../pages/mycenter'
+import View from '../pages/view'
 
 
 Vue.use(VueRouter)
@@ -15,6 +16,9 @@ const routes = [
     children: [{
       path: '/mycenter',
       component: Mycenter
+    },{
+      path: '/view',
+      component: View
     }
     ]
   },
