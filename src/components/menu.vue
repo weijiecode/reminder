@@ -44,9 +44,9 @@
             >日历视图
           </li></router-link
         >
-        <router-link to="">
-          <li :class="{ isclick:$route.path=='/test' }">
-            <div :class="{ menuline:$route.path=='/test' }"></div>
+        <router-link to="/dailyclock">
+          <li :class="{ isclick:$route.path=='/dailyclock' }">
+            <div :class="{ menuline:$route.path=='/dailyclock' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-daqia"></use></svg
             >打卡

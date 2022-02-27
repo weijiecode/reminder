@@ -4,6 +4,7 @@ import Home from '../pages/home'
 import Login from '../pages/login'
 import Mycenter from '../pages/mycenter'
 import View from '../pages/view'
+import Dailyclock from '../pages/dailyclock'
 
 
 Vue.use(VueRouter)
@@ -19,6 +20,9 @@ const routes = [
     },{
       path: '/view',
       component: View
+    },{
+      path: '/dailyclock',
+      component: Dailyclock
     }
     ]
   },

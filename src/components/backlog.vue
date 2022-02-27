@@ -824,9 +824,10 @@ export default {
   width: 700px;
   margin-left: 50px;
   height: 25px;
-  margin-top: 15px;
+  margin-top: 30px;
 }
 ::v-deep .el-textarea__inner {
+  margin-top: -35px;
   font-size: 18px;
   border-radius: 10px;
 }
@@ -856,7 +857,7 @@ export default {
 }
 .menuthing {
   cursor: pointer;
-  margin-top: 70px;
+  margin-top: 45px;
   margin-left: 50px;
 }
 .block {
