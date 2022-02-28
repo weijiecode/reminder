@@ -81,20 +81,14 @@
             <h4 v-if="showall" class="clickh">今日打卡已完成</h4>
           </div>
           <el-button type="primary" round @click="btndaily">点击打卡</el-button>
-          <el-tooltip content="修改状态" placement="bottom" effect="light">
-            <el-button
-              type="info"
-              size="mini"
-              icon="el-icon-edit"
-              circle
-              @click="btnnodaily"
-            ></el-button>
-          </el-tooltip>
+          <el-link style="font-size: 12px" type="info" @click="btnnodaily"
+            >修改状态</el-link
+          >
         </div>
       </div>
       <p class="myp">打卡详情</p>
       <div class="clockmore">
-        <div class="nocreat">
+        <div class="nocreat" v-if="iscreate == 0">
           <p class="clockmorep">未创建打卡任务，点击按钮创建</p>
           <el-tooltip
             style="margin-left: 115px"
@@ -104,11 +98,51 @@
           >
             <el-button
               type="primary"
-              @click="newItem"
+              @click="isnew = true"
               icon="el-icon-plus"
               circle
             ></el-button>
           </el-tooltip>
+        </div>
+        <div class="yescreat" v-if="iscreate == 1">
+          <svg
+            style="float: left; margin: 15px 10px 0 15px; font-size: 25px"
+            class="icon"
+            aria-hidden="true"
+          >
+            <use xlink:href="#icon-a-xiaolianbiaoqing"></use>
+          </svg>
+          <p class="onep">
+            {{ dailyclockdata.content
+            }}<span class="onepspan"
+              >（坚持天数：{{ dailyclockdata.daytype }}天）</span
+            >
+          </p>
+          <p class="twop">已完成：</p>
+          <el-progress
+            :text-inside="true"
+            :stroke-width="24"
+            :percentage="90"
+          ></el-progress>
+          <el-tooltip content="编辑打卡信息" placement="bottom" effect="light">
+            <el-button
+              size="mini"
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              @click="btnchangeclock"
+            ></el-button>
+          </el-tooltip>
+
+          <el-popconfirm @confirm="deleteclock" title="确定删除该项打卡吗？">
+            <el-button
+              slot="reference"
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+              circle
+            ></el-button>
+          </el-popconfirm>
         </div>
       </div>
     </div>
@@ -134,7 +168,11 @@
         <div class="menuthing">
           <!-- 坚持天数下拉框 -->
           <p class="dayp">坚持天数</p>
-          <el-select size="mini" v-model="dailyclockForm.daytype" placeholder="请选择">
+          <el-select
+            size="mini"
+            v-model="dailyclockForm.daytype"
+            placeholder="请选择"
+          >
             <el-option
               v-for="item in dayoptions"
               :key="item.value"
@@ -150,65 +188,304 @@
         </div>
       </div>
     </div>
+    <!-- 修改打卡任务弹窗 -->
+    <div class="mask" v-show="isnewchange">
+      <div class="newthing">
+        <p class="newthingp">新建打卡任务</p>
+        <svg
+          style="margin-left: 65px; margin-top: 20px; font-size: 60px"
+          class="icon"
+          aria-hidden="true"
+        >
+          <use xlink:href="#icon-a-xiaolianbiaoqing"></use>
+        </svg>
+        <el-input
+          type="textarea"
+          placeholder="每天进步一点点"
+          v-model="dailyclockchangeForm.content"
+          maxlength="10"
+          show-word-limit
+        >
+        </el-input>
+        <div class="menuthing">
+          <!-- 坚持天数下拉框 -->
+          <p class="dayp">坚持天数</p>
+          <el-select
+            size="mini"
+            v-model="dailyclockchangeForm.daytype"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in dayoptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+          <div class="confirmcancel">
+            <span class="btncancel" @click="isnewchange = false">取消</span>
+            <span class="btnconfirm" @click="newItemchangeConfirm">保存</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  created() {
+    this.getclockdays();
+    this.getclockdata();
+  },
   data() {
     return {
       // 显示打卡完成动画
       showall: false,
       // 是否创建打卡任务
       iscreate: 0,
-      // 新建待办弹框
+      // 新建打卡弹框
       isnew: false,
+      // 修改打卡弹框
+      isnewchange: false,
+      // 新建打卡表单
       dailyclockForm: {
         content: "",
-        itemtype: "",
+        daytype: "",
+      },
+      // 修改打卡表单
+      dailyclockchangeForm: {
+        content: "",
+        daytype: "",
       },
       calendarList: {
         datetime: "",
-        daytype: ""
+        daytype: "",
       },
       // 坚持天数选项
-      dayoptions: [{
-          value: '7',
-          label: '7天'
-        }, {
-          value: '21',
-          label: '21天'
-        }, {
-          value: '30',
-          label: '30天'
-        }, {
-          value: '100',
-          label: '100天'
-        }, {
-          value: '365',
-          label: '365天'
-        }, {
-          value: '9999',
-          label: '永远'
-        }],
+      dayoptions: [
+        {
+          value: "7",
+          label: "7天",
+        },
+        {
+          value: "21",
+          label: "21天",
+        },
+        {
+          value: "30",
+          label: "30天",
+        },
+        {
+          value: "100",
+          label: "100天",
+        },
+        {
+          value: "365",
+          label: "365天",
+        },
+        {
+          value: "9999",
+          label: "永远",
+        },
+      ],
+      // 打卡数据
+      dailyclockdata: {
+        content: "",
+        daytype: "",
+        donedatetime: "",
+        startdatetime: "",
+      },
+      // 今日打卡日期
+      donedatetime: "",
+      // 今天日期
+      todaydate: "",
+      // 是否点击过打卡
+      isdone: 0,
     };
   },
   methods: {
-    btndaily() {
-      if (this.iscreate == 1) {
+    async btndaily() {
+      var data = new Date();
+      var month =
+        data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
+      var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
+      this.todaydate = data.getFullYear() + "-" + month + "-" + date;
+      if (this.iscreate == 1 && this.isdone == 0) {
         this.showall = true;
-      } else {
+        const { data: res } = await this.$http.post("/clock/doneclock", {
+          donedatetime: this.todaydate,
+        });
+        if (res.code == 200) {
+          this.isdone = 1;
+          this.showall = true;
+          this.getclockdata();
+        } else {
+          this.isdone = 0;
+          this.showall = false;
+          this.$message.error("今日打卡失败，请重试");
+        }
+      } else if (this.iscreate == 0) {
         this.$message.error("请先创建打卡任务后再点击");
+      } else if (this.isdone == 1) {
+        this.$message({
+          message: "今天已点击过打卡，请勿重复点击",
+          type: "warning",
+        });
       }
     },
-    btnnodaily() {
-      this.showall = false;
+    // 取消打卡状态
+    async btnnodaily() {
+      var data = new Date();
+      var month =
+        data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
+      var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
+      this.todaydate = data.getFullYear() + "-" + month + "-" + date;
+      if (this.isdone == 1) {
+        const { data: res } = await this.$http.post("/clock/deletedoneclock", {
+          donedatetime: this.todaydate,
+        });
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            message: "修改状态成功",
+          });
+          this.showall = false;
+          this.isdone = 0;
+        } else {
+          this.$message.error("修改状态失败，请重试");
+        }
+      } else {
+        this.$message.error("当前状态不能修改");
+      }
     },
-    newItem() {
-      this.isnew = true;
+    // 确定提交打卡信息
+    async newItemConfirm() {
+      if (
+        this.dailyclockForm.content == "" ||
+        this.dailyclockForm.daytype == ""
+      ) {
+        this.$message.error("填写正确再提交，请重试");
+      } else {
+        const { data: res } = await this.$http.post("/clock/insertclock", {
+          content: this.dailyclockForm.content,
+          daytype: this.dailyclockForm.daytype,
+        });
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            message: "添加打卡任务成功",
+          });
+          this.isnew = false;
+          this.iscreate = 1;
+          this.getclockdata();
+        } else {
+          this.$message.error("保存失败，请重试");
+          //   this.dailyclockdata.content = "";
+          //   this.dailyclockdata.daytype = "";
+        }
+      }
     },
-    // 确定
-    newItemConfirm() {},
+    // 修改按钮
+    btnchangeclock() {
+      this.isnewchange = true;
+      this.dailyclockchangeForm.content = this.dailyclockdata.content;
+      this.dailyclockchangeForm.daytype = this.dailyclockdata.daytype;
+    },
+    // 修改提交打卡信息
+    async newItemchangeConfirm() {
+      if (
+        this.dailyclockchangeForm.content == "" ||
+        this.dailyclockchangeForm.daytype == ""
+      ) {
+        this.$message.error("填写正确再提交，请重试");
+      } else {
+        const { data: res } = await this.$http.post("/clock/updateclock", {
+          content: this.dailyclockchangeForm.content,
+          daytype: this.dailyclockchangeForm.daytype,
+        });
+        console.log(res);
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            message: "添加打卡任务成功",
+          });
+          this.getclockdata();
+          this.isnewchange = false;
+          this.iscreate = 1;
+        } else {
+          this.$message.error("保存失败，请重试");
+        }
+      }
+    },
+    // 获取打卡信息
+    async getclockdata() {
+      const { data: res } = await this.$http.get("/clock/selectclock");
+      console.log(res);
+      if (res.code == 200) {
+        this.iscreate = 1;
+        this.dailyclockdata = res.data[0];
+        // console.log(this.dailyclockdata);
+      } else {
+        this.iscreate = 0;
+      }
+    },
+    // 获取打卡天数
+    async getclockdays() {
+      var data = new Date();
+      var month =
+        data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
+      var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
+      this.todaydate = data.getFullYear() + "-" + month + "-" + date;
+        const { data: res } = await this.$http.post('/clock/clockdays',{
+            username: localStorage.getItem('username')
+        })
+        console.log('123')
+        console.log(res)
+        if(res.code == 200){
+            res.data.forEach((item, index) => {
+                if(this.todaydate == item.donedatetime){
+                    this.isdone = 1,
+                    this.showall = true
+                }
+            });
+        }
+    },
+    // 删除打卡信息
+    async deleteclock() {
+      const { data: res } = await this.$http.post("/clock/deleteclock", {
+        username: localStorage.getItem("username"),
+      });
+      this.deleteclockdays()
+      console.log(res);
+      if (res.code == 200) {
+        this.showall = false;
+        this.iscreate = 0;
+        this.$message({
+          type: "success",
+          message: "删除成功!",
+        });
+      } else {
+        this.$message.error("删除打卡信息失败，请重试");
+      }
+    },
+    // 删除所有天数记录
+    async deleteclockdays() {
+      const { data: res } = await this.$http.post("/clock/deleteclockdays", {
+        username: localStorage.getItem("username"),
+      });
+      if (res.code == 200) {
+        this.showall = false;
+        this.iscreate = 0;
+        this.$message({
+          type: "success",
+          message: "删除成功!",
+        });
+      } else {
+        this.$message.error("删除打卡信息失败，请重试");
+      }
+    },
   },
 };
 </script>
@@ -343,6 +620,11 @@ svg .tick {
     opacity: 1;
   }
 }
+@media (max-width: 960px) {
+  .rightbox {
+    display: none;
+  }
+}
 /* 打卡详情 */
 .clockmorep {
   padding-top: 40px;
@@ -380,15 +662,15 @@ svg .tick {
   margin-left: 30px;
 }
 .dayp {
-    margin-top: 35px;
-    margin-left: 20px;
-    float: left;
-    color: #8d8282;
+  margin-top: 35px;
+  margin-left: 20px;
+  float: left;
+  color: #8d8282;
 }
 ::v-deep .el-select {
-    margin-top: 34px;
-    margin-left: 10px;
-    width: 100px;
+  margin-top: 34px;
+  margin-left: 10px;
+  width: 100px;
 }
 ::v-deep .el-textarea {
   width: 550px;
@@ -427,4 +709,37 @@ svg .tick {
 .btnconfirm:hover {
   color: #2888e7;
 }
+.onep {
+  padding-top: 15px;
+}
+.onepspan {
+  font-size: 12px;
+  color: #8f8585;
+}
+.twop {
+  float: left;
+  font-size: 13px;
+  margin-left: 15px;
+}
+::v-deep .el-progress-bar__inner {
+  height: 95%;
+}
+::v-deep .el-progress-bar__outer {
+  width: 180px;
+}
+::v-deep .el-progress {
+  float: left;
+  line-height: 2.5;
+}
+::v-deep .el-link.el-link--info {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+::v-deep .el-button--mini.is-circle {
+  margin-top: 10px;
+  margin-right: 10px;
+}
 </style>
+
+
+
