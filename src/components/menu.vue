@@ -52,9 +52,9 @@
             >打卡
           </li></router-link
         >
-        <router-link to="">
-          <li :class="{ isclick:$route.path=='/test' }">
-            <div :class="{ menuline:$route.path=='/test' }"></div>
+        <router-link to="/classification">
+          <li :class="{ isclick:$route.path=='/classification' }">
+            <div :class="{ menuline:$route.path=='/classification' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-fenlei"></use></svg
             >分类
@@ -149,7 +149,7 @@ a {
   margin-top: 30px;
   margin-left: 30px;
   width: 220px;
-  height: 92%;
+  height: calc(100% - 60px);
   background-color: white;
   border-radius: 10px;
   float: left;

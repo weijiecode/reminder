@@ -699,7 +699,7 @@ export default {
   margin-top: 75px;
   margin-left: 30px;
   width: calc(100% - 400px);
-  height: 75%;
+  height: calc(100% - 75px);
   border-radius: 10px;
   float: left;
 }
@@ -791,11 +791,12 @@ export default {
 ::v-deep .el-tabs--border-card {
   border: white;
   box-shadow: 0;
-  height: 99%;
+  height: calc(100% - 96px);
+  min-height: 449px;
 }
 ::v-deep .el-collapse-item__wrap {
   overflow: auto;
-  height: 170px;
+  height: 160px;
 }
 ::v-deep .el-tabs--border-card > .el-tabs__content {
   margin-top: -10px;

@@ -517,10 +517,12 @@ export default {
 
 <style scoped>
 .clockbox {
+  height: 100%;
   margin-left: 280px;
 }
 .clock {
   margin-top: 75px;
+  height: calc(100% - 75px);
   width: calc(100% - 350px);
   float: left;
 }
@@ -528,11 +530,16 @@ export default {
   font-size: 20px;
   font-weight: 600;
 }
+.calendarbox {
+  height: calc(100% - 96px);
+  min-height: 454px;
+}
 ::v-deep .el-calendar {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
   border-radius: 10px;
   margin-bottom: 20px;
-  min-width: 330px;
+  height: 100%;
+  min-width: 454px;
   float: left;
 }
 ::v-deep .el-calendar__header {
@@ -550,6 +557,7 @@ export default {
   width: 270px;
   border-radius: 10px;
   float: left;
+  height: calc(100% - 96px);
 }
 /* 打卡 */
 .btndo {
@@ -569,7 +577,7 @@ export default {
 }
 .clockmore {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
-  height: 150px;
+  height: 145px;
   width: 270px;
   border-radius: 10px;
   background-color: white;
