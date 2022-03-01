@@ -11,9 +11,9 @@
               {{ data.day.split("-")[2] }}
               <div class="line">
                 <div v-for="item in calendarList" :key="item.index">
-                  <span v-if="item.datetime == data.day">
+                  <span v-if="item.donedatetime == data.day">
                     <svg class="icon" aria-hidden="true">
-                      <use :xlink:href="item.classvalue"></use>
+                      <use xlink:href="#icon-wancheng"></use>
                     </svg>
                   </span>
                 </div>
@@ -122,7 +122,7 @@
           <el-progress
             :text-inside="true"
             :stroke-width="24"
-            :percentage="90"
+            :percentage="percentage"
           ></el-progress>
           <el-tooltip content="编辑打卡信息" placement="bottom" effect="light">
             <el-button
@@ -236,8 +236,10 @@
 <script>
 export default {
   created() {
-    this.getclockdays();
+    // 打卡信息
     this.getclockdata();
+    // 打卡天数
+    this.getclockdays();
   },
   data() {
     return {
@@ -249,6 +251,10 @@ export default {
       isnew: false,
       // 修改打卡弹框
       isnewchange: false,
+      // 完成进度
+      percentage: 0,
+      // 完成打卡的天数
+      daylength: 0,
       // 新建打卡表单
       dailyclockForm: {
         content: "",
@@ -260,8 +266,7 @@ export default {
         daytype: "",
       },
       calendarList: {
-        datetime: "",
-        daytype: "",
+        donedatetime: "",
       },
       // 坚持天数选项
       dayoptions: [
@@ -306,6 +311,7 @@ export default {
     };
   },
   methods: {
+    // 点击打卡按钮
     async btndaily() {
       var data = new Date();
       var month =
@@ -320,7 +326,8 @@ export default {
         if (res.code == 200) {
           this.isdone = 1;
           this.showall = true;
-          this.getclockdata();
+          // 重新获取所有打卡天数的记录
+          this.getclockdays();
         } else {
           this.isdone = 0;
           this.showall = false;
@@ -347,6 +354,8 @@ export default {
           donedatetime: this.todaydate,
         });
         if (res.code == 200) {
+          // 重新获取所有打卡天数的记录
+          this.getclockdays();
           this.$message({
             type: "success",
             message: "修改状态成功",
@@ -422,7 +431,7 @@ export default {
     // 获取打卡信息
     async getclockdata() {
       const { data: res } = await this.$http.get("/clock/selectclock");
-      console.log(res);
+      // console.log(res);
       if (res.code == 200) {
         this.iscreate = 1;
         this.dailyclockdata = res.data[0];
@@ -438,27 +447,35 @@ export default {
         data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
       var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
       this.todaydate = data.getFullYear() + "-" + month + "-" + date;
-        const { data: res } = await this.$http.post('/clock/clockdays',{
-            username: localStorage.getItem('username')
-        })
-        console.log('123')
-        console.log(res)
-        if(res.code == 200){
-            res.data.forEach((item, index) => {
-                if(this.todaydate == item.donedatetime){
-                    this.isdone = 1,
-                    this.showall = true
-                }
-            });
-        }
+      const { data: res } = await this.$http.post("/clock/clockdays", {
+        username: localStorage.getItem("username"),
+      });
+      // console.log("123");
+      // console.log(res.data.length);
+      // 完成打卡的天数
+      this.daylength = res.data.length;
+      if (res.code == 200) {
+        // 日历显示数据
+        this.calendarList = res.data;
+        // console.log("天数");
+        // console.log(this.daylength);
+        // console.log(this.percentage);
+        // 循环遍历 是否有今天的日期，来判断今天是否已打卡
+        res.data.forEach((item, index) => {
+          if (this.todaydate == item.donedatetime) {
+            (this.isdone = 1), (this.showall = true);
+          }
+        });
+      } else if (res.code == 201) {
+        this.calendarList = "";
+      }
     },
     // 删除打卡信息
     async deleteclock() {
       const { data: res } = await this.$http.post("/clock/deleteclock", {
         username: localStorage.getItem("username"),
       });
-      this.deleteclockdays()
-      console.log(res);
+      this.deleteclockdays();
       if (res.code == 200) {
         this.showall = false;
         this.iscreate = 0;
@@ -483,8 +500,16 @@ export default {
           message: "删除成功!",
         });
       } else {
-        this.$message.error("删除打卡信息失败，请重试");
       }
+    },
+  },
+  watch: {
+    // 监听打卡天数和总共打卡天数，计算完成进度
+    daylength(newValue) {
+      this.percentage = Math.ceil((newValue / this.dailyclockdata.daytype) * 100);
+    },
+    "dailyclockdata.daytype"(newValue) {
+      this.percentage = Math.ceil((this.daylength / newValue) * 100);
     },
   },
 };
@@ -738,6 +763,10 @@ svg .tick {
 ::v-deep .el-button--mini.is-circle {
   margin-top: 10px;
   margin-right: 10px;
+}
+.line .icon {
+  font-size: 25px;
+  float: right;
 }
 </style>
 
