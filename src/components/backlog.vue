@@ -37,7 +37,9 @@
                   ></div>
                   <el-button circle @click="todo(todoitem.id)"></el-button>
                   <div class="pall">
-                    <p class="pcontent">{{ todoitem.contents }}</p>
+                    <p class="pcontent">
+                      {{ todoitem.contents }}
+                    </p>
                     <p class="pdatetime">{{ todoitem.datetime }}</p>
                   </div>
                   <div class="allbtn">
@@ -58,7 +60,11 @@
                   </div>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="今日已完成" name="2" v-if="todolistdone != 0">
+              <el-collapse-item
+                title="今日已完成"
+                name="2"
+                v-if="todolistdone != 0"
+              >
                 <div
                   v-for="(todoitem, index) in todolistdone"
                   :key="index"
@@ -84,73 +90,119 @@
           </el-tab-pane>
           <el-tab-pane>
             <span slot="label"><i class="el-icon-date"></i> 最近7天</span>
-            <el-empty description="暂无待办" v-if="sevendayslist == 0"></el-empty>
-                <div
-                  v-for="(todoitem, index) in sevendayslist"
-                  :key="index"
-                  class="oneitem"
+            <el-empty
+              description="暂无待办"
+              v-if="sevendayslist == 0"
+            ></el-empty>
+            <div
+              v-for="(todoitem, index) in sevendayslist"
+              :key="index"
+              class="oneitem"
+            >
+              <div
+                class="leftclass"
+                :style="{ backgroundColor: todoitem.colorbg }"
+              ></div>
+              <!-- 未完成 -->
+              <div
+                v-if="todoitem.done == 0"
+                class="pall"
+                style="margin-left: 30px"
+              >
+                <p class="pcontent">
+                  {{ todoitem.contents }}
+                </p>
+                <p class="pdatetime">{{ todoitem.datetime }}</p>
+              </div>
+              <!-- 已完成 -->
+              <div
+                v-if="todoitem.done == 1"
+                class="pall"
+                style="margin-left: 30px"
+              >
+                <p
+                  class="pcontent"
+                  style="text-decoration: line-through; color: #757f87"
                 >
-                  <div
-                    class="leftclass"
-                    :style="{ backgroundColor: todoitem.colorbg }"
-                  ></div>
-                  <!-- <el-button circle @click="todo(todoitem.id)"></el-button> -->
-                  <div class="pall" style="margin-left: 30px;">
-                    <p class="pcontent">{{ todoitem.contents }}</p>
-                    <p class="pdatetime">{{ todoitem.datetime }}</p>
-                  </div>
-                  <div class="allbtn">
-                    <svg
-                      @click="todochange(todoitem)"
-                      class="icon"
-                      aria-hidden="true"
-                    >
-                      <use xlink:href="#icon-xiugai"></use>
-                    </svg>
-                    <svg
-                      @click="tododelete(todoitem.id)"
-                      class="icon"
-                      aria-hidden="true"
-                    >
-                      <use xlink:href="#icon-shanchutianchong"></use>
-                    </svg>
-                  </div>
-                </div>
+                  {{ todoitem.contents }}
+                </p>
+                <p class="pdatetime">{{ todoitem.datetime }}</p>
+              </div>
+              <div class="allbtn">
+                <svg
+                  @click="todochange(todoitem)"
+                  class="icon"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="#icon-xiugai"></use>
+                </svg>
+                <svg
+                  @click="tododelete(todoitem.id)"
+                  class="icon"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="#icon-shanchutianchong"></use>
+                </svg>
+              </div>
+            </div>
           </el-tab-pane>
           <el-tab-pane>
             <span slot="label"><i class="el-icon-time"></i> 已过期</span>
-            <el-empty description="暂无待办" v-if="overdayslist.length == 0"></el-empty>
-                <div
-                  v-for="(todoitem, index) in overdayslist"
-                  :key="index"
-                  class="oneitem"
+            <el-empty
+              description="暂无待办"
+              v-if="overdayslist.length == 0"
+            ></el-empty>
+            <div
+              v-for="(todoitem, index) in overdayslist"
+              :key="index"
+              class="oneitem"
+            >
+              <div
+                class="leftclass"
+                :style="{ backgroundColor: todoitem.colorbg }"
+              ></div>
+              <!-- 未完成 -->
+              <div
+                v-if="todoitem.done == 0"
+                class="pall"
+                style="margin-left: 30px"
+              >
+                <p class="pcontent">
+                  {{ todoitem.contents }}
+                </p>
+                <p class="pdatetime">{{ todoitem.datetime }}</p>
+              </div>
+              <!-- 已完成 -->
+              <div
+                v-if="todoitem.done == 1"
+                class="pall"
+                style="margin-left: 30px"
+              >
+                <p
+                  class="pcontent"
+                  style="text-decoration: line-through; color: #757f87"
                 >
-                  <div
-                    class="leftclass"
-                    :style="{ backgroundColor: todoitem.colorbg }"
-                  ></div>
-                  <!-- <el-button circle @click="todo(todoitem.id)"></el-button> -->
-                  <div class="pall" style="margin-left: 30px;">
-                    <p class="pcontent">{{ todoitem.contents }}</p>
-                    <p class="pdatetime">{{ todoitem.datetime }}</p>
-                  </div>
-                  <div class="allbtn">
-                    <svg
-                      @click="todochange(todoitem)"
-                      class="icon"
-                      aria-hidden="true"
-                    >
-                      <use xlink:href="#icon-xiugai"></use>
-                    </svg>
-                    <svg
-                      @click="tododelete(todoitem.id)"
-                      class="icon"
-                      aria-hidden="true"
-                    >
-                      <use xlink:href="#icon-shanchutianchong"></use>
-                    </svg>
-                  </div>
-                </div>
+                  {{ todoitem.contents }}
+                </p>
+                <p class="pdatetime">{{ todoitem.datetime }}</p>
+              </div>
+              <div class="allbtn">
+                <svg
+                  @click="todochange(todoitem)"
+                  class="icon"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="#icon-xiugai"></use>
+                </svg>
+                <svg
+                  @click="tododelete(todoitem.id)"
+                  class="icon"
+                  aria-hidden="true"
+                >
+                  <use xlink:href="#icon-shanchutianchong"></use>
+                </svg>
+              </div>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -158,30 +210,7 @@
         <!-- 统计分析 -->
         <p class="myp1">概览</p>
         <div class="boxone">
-          <el-progress
-            style="margin-left: 80px; margin-bottom: 30px"
-            type="circle"
-            :percentage="25"
-          ></el-progress>
-          <el-progress
-            :text-inside="true"
-            :stroke-width="26"
-            :percentage="70"
-          ></el-progress>
-          <br />
-          <el-progress
-            :text-inside="true"
-            :stroke-width="24"
-            :percentage="100"
-            status="success"
-          ></el-progress>
-          <br />
-          <el-progress
-            :text-inside="true"
-            :stroke-width="22"
-            :percentage="80"
-            status="warning"
-          ></el-progress>
+          <Overview :toclass="colorclass"></Overview>
         </div>
       </div>
     </div>
@@ -225,6 +254,7 @@
                 <svg class="icon" aria-hidden="true">
                   <use :xlink:href="item.cvalue"></use>
                 </svg>
+                <span class="colorp">{{ item.cname }}</span>
               </div>
             </div>
           </div>
@@ -275,6 +305,7 @@
                 <svg class="icon" aria-hidden="true">
                   <use :xlink:href="item.cvalue"></use>
                 </svg>
+                <span class="colorp">{{ item.cname }}</span>
               </div>
             </div>
           </div>
@@ -291,6 +322,7 @@
 <script>
 import Qs from "qs";
 import Overview from "./overview.vue";
+
 export default {
   data() {
     return {
@@ -330,31 +362,37 @@ export default {
           cid: 0,
           cvalue: "#icon-yuandian",
           cbg: "#5da7f1",
+          cname: "生活",
         },
         {
           cid: 1,
           cvalue: "#icon-yuandian-copy-copy",
           cbg: "#d81e06",
+          cname: "工作",
         },
         {
           cid: 2,
           cvalue: "#icon-yuandian-copy-copy-copy",
           cbg: "#82529d",
+          cname: "学习",
         },
         {
           cid: 3,
           cvalue: "#icon-yuandian-copy",
           cbg: "#f36372",
+          cname: "健康",
         },
         {
           cid: 4,
           cvalue: "#icon-yuandian-copy-copy1",
           cbg: "#2aa515",
+          cname: "社交",
         },
         {
           cid: 5,
           cvalue: "#icon-yuandian-copy1",
           cbg: "#e0620d",
+          cname: "其它",
         },
       ],
       // 列表分组默认打开
@@ -412,6 +450,15 @@ export default {
       // 分类颜色的value
       colorsvalue: [],
       colorsvaluedone: [],
+      // 各分类统计
+      colorclass: {
+        a: 0,
+        b: 0,
+        c: 0,
+        d: 0,
+        e: 0,
+        f: 0,
+      }
     };
   },
   components: {
@@ -423,11 +470,12 @@ export default {
     var month =
       data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
     var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
-    var sdate = data.getDate() <= 1 ? "0" + (data.getDate() + 8) : data.getDate() +8 ;
+    var sdate =
+      data.getDate() <= 1 ? "0" + (data.getDate() + 8) : data.getDate() + 8;
     this.todaydate = data.getFullYear() + "-" + month + "-" + date;
     this.sevendate = data.getFullYear() + "-" + month + "-" + sdate;
     this.getbacklogdata();
-    this.getbacklogdatadone();
+    // this.getbacklogdatadone();
   },
   methods: {
     // 颜色选择弹框
@@ -544,7 +592,7 @@ export default {
         this.classbg = "#5da7f1";
         this.ischange = false;
         this.getbacklogdata();
-        this.getbacklogdatadone();
+        // this.getbacklogdatadone();
         setTimeout(() => {
           this.isloading = false;
         }, 500);
@@ -573,7 +621,7 @@ export default {
         this.isloading = true;
       }
       this.getbacklogdata();
-      this.getbacklogdatadone();
+      // this.getbacklogdatadone();
     },
     // 点击已完成
     async tododone(tododoneid) {
@@ -591,62 +639,74 @@ export default {
         this.isloading = true;
       }
       this.getbacklogdata();
-      this.getbacklogdatadone();
+      // this.getbacklogdatadone();
     },
     // 获取待办列表数据
     async getbacklogdata() {
-      const { data: res } = await this.$http.post("/backlog/selectbacklog", {
-        done: 0,
-      });
-      // console.log(res);
-      
-      if(res.code==200){
+      const { data: res } = await this.$http.get("/backlog/selectbacklog");
+       console.log(res);
+      if (res.code == 200) {
+        this.colorclass.a=0
+        this.colorclass.b=0
+        this.colorclass.c=0
+        this.colorclass.d=0
+        this.colorclass.e=0
+        this.colorclass.f=0
+        res.data.forEach((item,index) => {
+          if(item.colorbg == '#5da7f1'){this.colorclass.a++}
+          else if(item.colorbg == '#d81e06'){this.colorclass.b++}
+          else if(item.colorbg == '#82529d'){this.colorclass.c++}
+          else if(item.colorbg == '#f36372'){this.colorclass.d++}
+          else if(item.colorbg == '#2aa515'){this.colorclass.e++}
+          else if(item.colorbg == '#e0620d'){this.colorclass.f++}
+        })
         // 过滤当天日期的待办事项
-      this.todolist = res.data.filter((item) => {
-        return this.todaydate == item.datetime.split(" ").shift();
-      });
+        this.todolist = res.data.filter((item) => {
+          return (
+            this.todaydate == item.datetime.split(" ").shift() && item.done == 0
+          );
+        });
+        // 过滤当天已完成待办事项列表
+        this.todolistdone = res.data.filter((item) => {
+          return (
+            this.todaydate == item.datetime.split(" ").shift() && item.done == 1
+          );
+        });
         // 过滤最近七天的待办事项
-      this.sevendayslist = res.data.filter((item) => {
-        return this.todaydate < item.datetime.split(" ").shift() && this.sevendate > item.datetime.split(" ").shift()
-      })
+        this.sevendayslist = res.data.filter((item) => {
+          return (
+            this.todaydate < item.datetime.split(" ").shift() &&
+            this.sevendate > item.datetime.split(" ").shift()
+          );
+        });
         // 过滤过期的待办事项
-      this.overdayslist = res.data.filter((item) => {
-        return this.todaydate > item.datetime.split(" ").shift();
-      })
-      }else{
-        this.sevendayslist=0
-        this.overdayslist=0
+        this.overdayslist = res.data.filter((item) => {
+          return this.todaydate > item.datetime.split(" ").shift();
+        });
+      } else {
+        this.sevendayslist = 0;
+        this.overdayslist = 0;
       }
       // 获取状态码
       this.datacode = res.code;
+      console.log(this.colorclass)
     },
     // 获取已完成待办事项列表todolistdone
-    async getbacklogdatadone() {
-      const { data: res } = await this.$http.post("/backlog/selectbacklog", {
-        done: 1,
-      });
-      console.log(res);
-      if(res.code==200){
-      // 过滤当天日期的待办事项
-      this.todolistdone = res.data.filter((item) => {
-        return this.todaydate == item.datetime.split(" ").shift();
-      });
-      }else{
-        this.todolistdone = 0
-      }
-      
-      // this.todolistdone = res.data;
-      // 获取状态码
-      this.datacodedone = res.code;
-      // for (let i = 0, ilen = this.todolistdone.length; i < ilen; i++) {
-      //   for (let j = 0, jlen = this.colors.length; j < jlen; j++) {
-      //     if (this.colors[j].cid == this.todolistdone[i].class) {
-      //       this.colorsvaluedone[i] = this.colors[j].cbg;
-      //     }
-      //   }
-      // }
-      // console.log(this.todolistdone);
-    },
+    // async getbacklogdatadone() {
+    //   const { data: res } = await this.$http.post("/backlog/selectbacklog", {
+    //     done: 1,
+    //   });
+    //   console.log(res);
+    //   if(res.code==200){
+    //   // 过滤当天已完成待办事项列表
+    //   this.todolistdone = res.data.filter((item) => {
+    //     return this.todaydate == item.datetime.split(" ").shift();
+    //   });
+    //   }else{
+    //     this.todolistdone = 0
+    //   }
+    //   this.datacodedone = res.code;
+    // },
     // 修改待办事项内容
     async todochange(todoitem) {
       this.ischange = true;
@@ -731,11 +791,8 @@ export default {
 ::v-deep .el-collapse-item__header {
   height: 30px;
 }
-::v-deep .el-tabs--border-card {
-  overflow: auto;
-}
 .oneitem {
-  height: 40px;
+  height: 36px;
   padding-bottom: 8px;
   border-radius: 10px;
 }
@@ -799,7 +856,8 @@ export default {
   height: 160px;
 }
 ::v-deep .el-tabs--border-card > .el-tabs__content {
-  margin-top: -10px;
+  height: calc(100% - 70px);
+  overflow: auto;
 }
 .myp1 {
   margin-top: 20px;
@@ -876,18 +934,25 @@ export default {
   font-size: 16px;
 }
 .colorbox {
+  background-color: white;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
   border: 1px solid #dcdfe6;
   border-radius: 10px;
-  width: 200px;
-  height: 40px;
+  width: 80px;
+  height: 200px;
   padding-left: 20px;
-  padding-top: 10px;
+  padding-bottom: 5px;
+}
+.colorp {
+  color: #757f87;
+  margin-left: 4px;
+  font-size: 15px;
+  margin-bottom: 3px;
 }
 .allcolor svg {
+  margin-top: 8px;
   cursor: pointer;
   float: left;
-  margin-left: 5px;
 }
 .confirmcancel {
   float: right;

@@ -52,17 +52,17 @@
             >打卡
           </li></router-link
         >
-        <router-link to="/classification">
+        <!-- <router-link to="/classification">
           <li :class="{ isclick:$route.path=='/classification' }">
             <div :class="{ menuline:$route.path=='/classification' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-fenlei"></use></svg
             >分类
           </li></router-link
-        >
-        <router-link to="">
-          <li :class="{ isclick:$route.path=='/test'  }">
-            <div :class="{ menuline:$route.path=='/test' }"></div>
+        > -->
+        <router-link to="/statistics">
+          <li :class="{ isclick:$route.path=='/statistics'  }">
+            <div :class="{ menuline:$route.path=='/statistics' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-tongji"></use></svg
             >统计
@@ -237,7 +237,7 @@ ul li {
 }
 @media (max-height: 680px) {
   ul li {
-    line-height: 30px;
+    line-height: 35px;
   }
 }
 ul li:hover .icon {

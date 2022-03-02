@@ -74,7 +74,7 @@ export default {
 .line {
   color: rgb(99, 104, 104);
   font-size: 14px;
-  height: 60px;
+  height: 56px;
   overflow: auto;
 }
 ::v-deep .el-calendar {

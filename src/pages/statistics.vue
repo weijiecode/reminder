@@ -1,9 +1,9 @@
 <template>
-  <div class="classificationbox">
-    <div class="classification">
-      <p class="classp">分类</p>
-      <div class="classbox">
-           <el-transfer v-model="value" :data="data"></el-transfer>
+  <div class="statisticsbox">
+    <div class="statistics">
+      <p class="stap">分类</p>
+      <div class="stabox">
+
       </div>
     </div>
   </div>
@@ -19,21 +19,21 @@ export default {
 </script>
 
 <style scoped>
-.classificationbox {
+.statisticsbox {
   margin-left: 280px;
   height: 100%;
 }
-.classification {
+.statistics {
   height: calc(100% - 75px);
   margin-top: 75px;
   width: calc(100% - 350px);
   float: left;
 }
-.classp {
+.stap {
   font-size: 20px;
   font-weight: 600;
 }
-.classbox {
+.stabox {
   min-height: 300px;
   height: calc(100% - 96px);
   border-radius: 10px;

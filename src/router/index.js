@@ -5,7 +5,7 @@ import Login from '../pages/login'
 import Mycenter from '../pages/mycenter'
 import View from '../pages/view'
 import Dailyclock from '../pages/dailyclock'
-import Classification from '../pages/classification'
+import Statistics from '../pages/statistics'
 
 
 Vue.use(VueRouter)
@@ -25,8 +25,8 @@ const routes = [
       path: '/dailyclock',
       component: Dailyclock
     },{
-      path: '/classification',
-      component: Classification
+      path: '/statistics',
+      component: Statistics
     }
     ]
   },
