@@ -1,9 +1,10 @@
 <template>
   <div class="home">
     <Menu></Menu>
-    <Menutop></Menutop>
+    <Menutop :toblockdata="blockdata"></Menutop>
     <div class="homebox" v-if="$route.path == '/home'">
       <div class="homecontent">
+        <i @click="reload()" class="el-icon-refresh-right" style=""></i>
         <div class="contentcenter">
           <p class="onep">
             欢迎您，{{ username }}&nbsp;&nbsp;
@@ -15,7 +16,7 @@
           <div class="block-num" style="background-color: #6f9ef6">
             <p class="blockp">今日待完成</p>
             <p class="blockpp">
-              {{todaynodone}}
+              {{ todaynodone }}
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-gf-list6"></use>
               </svg>
@@ -24,7 +25,7 @@
           <div class="block-num" style="background-color: #fa8e8c">
             <p class="blockp">超期未完成</p>
             <p class="blockpp">
-              {{overnodone}}
+              {{ overnodone }}
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-xiangyingchaoshijiankong"></use>
               </svg>
@@ -33,7 +34,7 @@
           <div class="block-num" style="background-color: #98de6e">
             <p class="blockp">总待完成</p>
             <p class="blockpp">
-              {{allblock}}
+              {{ allblock }}
               <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icon-gf-list4"></use>
               </svg>
@@ -49,11 +50,11 @@
 <script>
 import Menu from "../components/menu.vue";
 import Menutop from "../components/menutop.vue";
-import {datetimes} from "../mixins/mixin"
+import { datetimes } from "../mixins/mixin";
 export default {
   created() {
     this.username = this.$store.state.nickname;
-    this.getseacherdata()
+    this.getseacherdata();
   },
   mixins: [datetimes],
   data() {
@@ -66,7 +67,7 @@ export default {
       // 超期未完成数
       overnodone: "",
       // 总待办数
-      allblock: 0
+      allblock: 0,
     };
   },
   components: {
@@ -78,19 +79,23 @@ export default {
       const { data: res } = await this.$http.get("/backlog/selectbacklog");
       if (res.code == 200) {
         this.blockdata = res.data;
-        this.allblock = res.data.length
+        this.allblock = res.data.length;
         this.todaynodone = res.data.filter((item) => {
-          return (this.todaydate == item.datetime.split(' ')[0] && item.done == 0)
-        }).length
+          return (
+            this.todaydate == item.datetime.split(" ")[0] && item.done == 0
+          );
+        }).length;
         this.overnodone = res.data.filter((item) => {
-          return (this.todaydate > item.datetime.split(' ')[0] && item.done == 0)
-        }).length
+          return this.todaydate > item.datetime.split(" ")[0] && item.done == 0;
+        }).length;
       } else {
         this.$message.error("获取搜索数据失败，请重试");
       }
       // console.log(this.blockdata);
-      
     },
+    reload() {
+      window.location.reload()
+    }
   },
 };
 </script>
@@ -118,7 +123,7 @@ export default {
   margin-bottom: 30px;
 }
 .contentcenter {
-  margin-top: 15%;
+  margin-top: 10%;
   margin-left: 20%;
 }
 .onep {
@@ -159,5 +164,12 @@ export default {
   float: right;
   margin-right: 20px;
   margin-top: 15px;
+}
+.el-icon-refresh-right {
+  float: right;
+  margin-right: 50px;
+  font-size: 20px;
+  margin-top: 20px;
+  cursor: pointer;
 }
 </style>
