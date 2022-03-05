@@ -2,6 +2,7 @@
   <div class="leftItem">
     <div class="headimage">
       <img :src="photo" alt="" />
+      <div class="online"></div>
       <div class="twoline">
         <p class="status">
           早上好&nbsp;<svg
@@ -12,7 +13,7 @@
             <use xlink:href="#icon-a-zaoshangzaochen"></use>
           </svg>
         </p>
-        <p class="nickname">{{nickname}}</p>
+        <p class="nickname">{{ nickname }}</p>
       </div>
     </div>
     <div class="line"></div>
@@ -20,36 +21,44 @@
     <div class="menubox">
       <ul class="menuul">
         <router-link to="/home">
-          <li :class="{ isclick:$route.path=='/home' }">
-            <div :class="{ menuline:$route.path=='/home' }"></div>
+          <li :class="{ isclick: $route.path == '/home' }">
+            <div :class="{ menuline: $route.path == '/home' }"></div>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-woderenwu"></use></svg
+            >首页
+          </li></router-link
+        >
+        <router-link to="/backlog">
+          <li :class="{ isclick: $route.path == '/backlog' }">
+            <div :class="{ menuline: $route.path == '/backlog' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-woderenwu"></use></svg
             >我的任务
           </li></router-link
         >
         <router-link to="/mycenter">
-          <li :class="{ isclick:$route.path=='/mycenter' }">
-            <div :class="{ menuline:$route.path=='/mycenter' }"></div>
+          <li :class="{ isclick: $route.path == '/mycenter' }">
+            <div :class="{ menuline: $route.path == '/mycenter' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-iconfuzhi"></use></svg
             >个人中心
           </li></router-link
         >
-         <!-- || $route.path=='/home'  -->
+        <!-- || $route.path=='/home'  -->
         <router-link to="/view">
-          <li :class="{ isclick:$route.path=='/view' }">
-            <div :class="{ menuline:$route.path=='/view' }"></div>
+          <li :class="{ isclick: $route.path == '/view' }">
+            <div :class="{ menuline: $route.path == '/view' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-rili"></use></svg
             >日历视图
           </li></router-link
         >
         <router-link to="/dailyclock">
-          <li :class="{ isclick:$route.path=='/dailyclock' }">
-            <div :class="{ menuline:$route.path=='/dailyclock' }"></div>
+          <li :class="{ isclick: $route.path == '/dailyclock' }">
+            <div :class="{ menuline: $route.path == '/dailyclock' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-daqia"></use></svg
-            >打卡
+            >每日打卡
           </li></router-link
         >
         <!-- <router-link to="/classification">
@@ -61,11 +70,11 @@
           </li></router-link
         > -->
         <router-link to="/statistics">
-          <li :class="{ isclick:$route.path=='/statistics'  }">
-            <div :class="{ menuline:$route.path=='/statistics' }"></div>
+          <li :class="{ isclick: $route.path == '/statistics' }">
+            <div :class="{ menuline: $route.path == '/statistics' }"></div>
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-tongji"></use></svg
-            >统计
+            >统计分析
           </li></router-link
         >
       </ul>
@@ -101,22 +110,22 @@
 
 <script>
 export default {
-  created(){
-    this.nickname = this.$store.state.nickname
-    this.photo = this.$store.state.photo
+  created() {
+    this.nickname = this.$store.state.nickname;
+    this.photo = this.$store.state.photo;
   },
   watch: {
-    "$store.state.nickname"(newvalue){
-      this.nickname = newvalue
+    "$store.state.nickname"(newvalue) {
+      this.nickname = newvalue;
     },
-    "$store.state.photo"(newvalue){
-      this.photo = newvalue
-    }
+    "$store.state.photo"(newvalue) {
+      this.photo = newvalue;
+    },
   },
   data() {
     return {
-      nickname: '',
-      photo: ''
+      nickname: "",
+      photo: "",
     };
   },
 };
@@ -144,7 +153,7 @@ a {
 }
 .leftItem {
   position: fixed;
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   color: rgba(15, 23, 42, 0.8);
   margin-top: 30px;
   margin-left: 30px;
@@ -221,14 +230,7 @@ a {
   background: #5da7f1;
   border-left: 4px solid #5da7f1;
 }
-ul li:hover > div {
-  /* float: left;
-  border-radius: 5px;
-  height: 35px;
-  margin-left: -40px;
-  background: #5da7f1;
-  border-left: 4px solid #5da7f1; */
-}
+
 ul li {
   width: 170px;
   cursor: pointer;
@@ -237,7 +239,7 @@ ul li {
 }
 @media (max-height: 680px) {
   ul li {
-    line-height: 35px;
+    line-height: 30px;
   }
 }
 ul li:hover .icon {
@@ -249,5 +251,15 @@ ul li:hover .icon {
   width: 170px;
   border-radius: 8px;
   background-color: #ebf4ff;
+}
+.online {
+  border: 1px solid white;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  background-color: #8bcf70;
+  margin-top: 40px;
+  margin-left: -10px;
+  float: left;
 }
 </style>

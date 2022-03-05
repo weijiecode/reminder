@@ -1,7 +1,7 @@
 <template>
   <div class="clockbox">
     <div class="clock">
-      <p class="clockp">打卡</p>
+      <p class="clockp">每日打卡</p>
       <!-- 日历区域 -->
       <div class="calendarbox">
         <el-calendar>
@@ -234,7 +234,9 @@
 </template>
 
 <script>
+import {datetimes} from '../mixins/mixin'
 export default {
+  mixins: [datetimes],
   created() {
     // 打卡信息
     this.getclockdata();
@@ -304,8 +306,8 @@ export default {
       },
       // 今日打卡日期
       donedatetime: "",
-      // 今天日期
-      todaydate: "",
+      // // 今天日期
+      // todaydate: "",
       // 是否点击过打卡
       isdone: 0,
     };
@@ -313,16 +315,13 @@ export default {
   methods: {
     // 点击打卡按钮
     async btndaily() {
-      var data = new Date();
-      var month =
-        data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
-      var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
-      this.todaydate = data.getFullYear() + "-" + month + "-" + date;
       if (this.iscreate == 1 && this.isdone == 0) {
         this.showall = true;
         const { data: res } = await this.$http.post("/clock/doneclock", {
           donedatetime: this.todaydate,
         });
+        // console.log('123')
+        // console.log(this.todaydate)
         if (res.code == 200) {
           this.isdone = 1;
           this.showall = true;
@@ -344,11 +343,6 @@ export default {
     },
     // 取消打卡状态
     async btnnodaily() {
-      var data = new Date();
-      var month =
-        data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
-      var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
-      this.todaydate = data.getFullYear() + "-" + month + "-" + date;
       if (this.isdone == 1) {
         const { data: res } = await this.$http.post("/clock/deletedoneclock", {
           donedatetime: this.todaydate,
@@ -442,11 +436,6 @@ export default {
     },
     // 获取打卡天数
     async getclockdays() {
-      var data = new Date();
-      var month =
-        data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
-      var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
-      this.todaydate = data.getFullYear() + "-" + month + "-" + date;
       const { data: res } = await this.$http.post("/clock/clockdays", {
         username: localStorage.getItem("username"),
       });
@@ -535,7 +524,7 @@ export default {
   min-height: 454px;
 }
 ::v-deep .el-calendar {
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   margin-bottom: 20px;
   height: 100%;
@@ -569,14 +558,14 @@ export default {
   font-weight: 600;
 }
 .dosuccess {
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   height: 245px;
   width: 270px;
   border-radius: 10px;
   background-color: white;
 }
 .clockmore {
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   height: 145px;
   width: 270px;
   border-radius: 10px;

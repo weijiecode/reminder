@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../pages/home'
-import Login from '../pages/login'
-import Mycenter from '../pages/mycenter'
-import View from '../pages/view'
-import Dailyclock from '../pages/dailyclock'
-import Statistics from '../pages/statistics'
+import Home from '../pages/Home'
+import Backlog from '../pages/Backlog'
+import Login from '../pages/Login'
+import Mycenter from '../pages/Mycenter'
+import View from '../pages/View'
+import Dailyclock from '../pages/Dailyclock'
+import Statistics from '../pages/Statistics'
 
 
 Vue.use(VueRouter)
@@ -16,6 +17,9 @@ const routes = [
     name: 'Home',
     component: Home,
     children: [{
+      path: '/backlog',
+      component: Backlog
+    },{
       path: '/mycenter',
       component: Mycenter
     },{

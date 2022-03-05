@@ -321,9 +321,11 @@
 
 <script>
 import Qs from "qs";
-import Overview from "./overview.vue";
+import Overview from "../components/overview.vue";
+import { datetimes } from "../mixins/mixin"
 
 export default {
+  mixins: [datetimes],
   data() {
     return {
       inputsearch: "",
@@ -343,10 +345,10 @@ export default {
         colorbg: "",
         id: "",
       },
-      // 当天日期
-      todaydate: "",
-      // 7天后日期
-      sevendate: "",
+      // // 当天日期
+      // todaydate: "",
+      // // 7天后日期
+      // sevendate: "",
       // 颜色分类的value(默认蓝色)
       classvalue: "#icon-yuandian",
       // 颜色分类的背景颜色value(默认蓝色)
@@ -466,16 +468,7 @@ export default {
     Overview,
   },
   created() {
-    var data = new Date();
-    var month =
-      data.getMonth() < 9 ? "0" + (data.getMonth() + 1) : data.getMonth() + 1;
-    var date = data.getDate() <= 9 ? "0" + data.getDate() : data.getDate();
-    var sdate =
-      data.getDate() <= 1 ? "0" + (data.getDate() + 8) : data.getDate() + 8;
-    this.todaydate = data.getFullYear() + "-" + month + "-" + date;
-    this.sevendate = data.getFullYear() + "-" + month + "-" + sdate;
     this.getbacklogdata();
-    // this.getbacklogdatadone();
   },
   methods: {
     // 颜色选择弹框
@@ -592,7 +585,6 @@ export default {
         this.classbg = "#5da7f1";
         this.ischange = false;
         this.getbacklogdata();
-        // this.getbacklogdatadone();
         setTimeout(() => {
           this.isloading = false;
         }, 500);
@@ -621,7 +613,6 @@ export default {
         this.isloading = true;
       }
       this.getbacklogdata();
-      // this.getbacklogdatadone();
     },
     // 点击已完成
     async tododone(tododoneid) {
@@ -639,13 +630,13 @@ export default {
         this.isloading = true;
       }
       this.getbacklogdata();
-      // this.getbacklogdatadone();
     },
     // 获取待办列表数据
     async getbacklogdata() {
       const { data: res } = await this.$http.get("/backlog/selectbacklog");
-       console.log(res);
+      //  console.log(res);
       if (res.code == 200) {
+        // 初始化
         this.colorclass.a=0
         this.colorclass.b=0
         this.colorclass.c=0
@@ -689,24 +680,8 @@ export default {
       }
       // 获取状态码
       this.datacode = res.code;
-      console.log(this.colorclass)
+      // console.log(this.colorclass)
     },
-    // 获取已完成待办事项列表todolistdone
-    // async getbacklogdatadone() {
-    //   const { data: res } = await this.$http.post("/backlog/selectbacklog", {
-    //     done: 1,
-    //   });
-    //   console.log(res);
-    //   if(res.code==200){
-    //   // 过滤当天已完成待办事项列表
-    //   this.todolistdone = res.data.filter((item) => {
-    //     return this.todaydate == item.datetime.split(" ").shift();
-    //   });
-    //   }else{
-    //     this.todolistdone = 0
-    //   }
-    //   this.datacodedone = res.code;
-    // },
     // 修改待办事项内容
     async todochange(todoitem) {
       this.ischange = true;
@@ -751,9 +726,7 @@ export default {
 
 .centerleft {
   height: 100%;
-  width: calc(100% - 220px);
   margin-left: 250px;
-  position: fixed;
 }
 .centerItem {
   margin-top: 75px;
@@ -827,7 +800,6 @@ export default {
   font-weight: 600;
 }
 .rightItem {
-  margin-top: 75px;
   margin-left: 30px;
   width: 270px;
   border-radius: 10px;
@@ -870,8 +842,8 @@ export default {
   margin-left: 30px;
 }
 .boxone {
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
-  width: 100%;
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  width: 260px;
   height: 300px;
   background-color: white;
   margin-top: 20px;
@@ -935,7 +907,7 @@ export default {
 }
 .colorbox {
   background-color: white;
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 10px;
   width: 80px;

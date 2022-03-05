@@ -15,6 +15,9 @@ export default {
     echarts,
   },
   mounted() {
+    // 防止报警告：Can't get DOM width or height
+    Object.defineProperty(document.getElementById('viewbox'),'clientWidth',{get:function(){return 260;}})
+    Object.defineProperty(document.getElementById('viewbox'),'clientHeight',{get:function(){return 300;}})
     this.mycharts();
   },
   // 监听数据 重新初始化echarts 同步渲染
@@ -83,4 +86,9 @@ export default {
 </script>
 
 <style scoped>
+
+#viewbox {
+   width: 100%;
+   height: 100%;
+  }
 </style>

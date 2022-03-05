@@ -61,7 +61,7 @@ export default {
         // console.log(item.datetime)
         this.calendarList[index].datetime = item.datetime.split(" ")[0];
       });
-      console.log(this.calendarList);
+      // console.log(this.calendarList);
     },
   },
 };
@@ -78,7 +78,7 @@ export default {
   overflow: auto;
 }
 ::v-deep .el-calendar {
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   margin-bottom: 30px;
 }

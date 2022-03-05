@@ -455,14 +455,14 @@ export default {
   border-radius: 10px;
 }
 .boxtop {
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   height: 140px;
   background-color: white;
 }
 .boxbottom {
   margin-top: 30px;
-  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 12%), 0 0 6px 0 rgb(0 0 0 / 4%);
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   height: 600px;
   background-color: white;
