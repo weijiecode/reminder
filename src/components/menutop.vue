@@ -16,9 +16,6 @@
 export default {
   name: "mymenutop",
   created() {
-    const res = this.$http.get("http://wthrcdn.etouch.cn/weather_mini?city=哈尔滨")
-    console.log('天气')
-    console.log(res)
   },
   mounted() {
      setTimeout(() => {

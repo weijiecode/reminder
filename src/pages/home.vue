@@ -41,6 +41,113 @@
             </p>
           </div>
         </div>
+        <div class="weatherbox">
+          <p v-if="loading" class="twop">
+            <City :tocity="tocity"></City>
+          </p>
+          <p v-if="!loading" class="twop">
+            以下是<span class="cityp"
+              ><i class="el-icon-location-information"></i>{{city}}</span
+            >的天气
+          </p>
+          <div class="wbox" v-loading="loading" element-loading-text="获取地址中，请稍等">
+            <svg
+              v-if="wvalue == 0"
+              style="margin-top: 10px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-tianqitubiao_qing"></use>
+            </svg>
+            <svg
+              v-if="wvalue == 1"
+              style="margin-top: 12px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-weibiaoti--"></use>
+            </svg>
+            <svg
+              v-if="wvalue == 2"
+              style="margin-top: 7px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-icon_yintian"></use>
+            </svg>
+            <svg
+              v-if="wvalue == 3"
+              style="font-size: 50px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-icon_baoyu"></use>
+            </svg>
+            <svg
+              v-if="wvalue == 4"
+              style="font-size: 57px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-icon_zhenxue"></use>
+            </svg>
+            <p class="wboxp">今天</p>
+            <div class="allpbox">
+              <p class="pbox">天气：{{ todayweather.type }}</p>
+              <p class="pbox">最高温：{{ todayweather.high }}</p>
+              <p class="pbox">最低温：{{ todayweather.low }}</p>
+            </div>
+          </div>
+          <div class="wbox" v-loading="loading" element-loading-text="获取地址中，请稍等">
+            <svg
+              v-if="wvalue1 == 0"
+              style="margin-top: 10px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-tianqitubiao_qing"></use>
+            </svg>
+            <svg
+              v-if="wvalue1 == 1"
+              style="margin-top: 12px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-weibiaoti--"></use>
+            </svg>
+            <svg
+              v-if="wvalue1 == 2"
+              style="margin-top: 7px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-icon_yintian"></use>
+            </svg>
+            <svg
+              v-if="wvalue1 == 3"
+              style="font-size: 50px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-icon_baoyu"></use>
+            </svg>
+            <svg
+              v-if="wvalue1 == 4"
+              style="font-size: 57px"
+              class="icon"
+              aria-hidden="true"
+            >
+              <use xlink:href="#icon-icon_zhenxue"></use>
+            </svg>
+            <p class="wboxp">明天</p>
+            <div class="allpbox">
+              <p class="pbox">天气：{{ yesterdayweather.type }}</p>
+              <p class="pbox">最高温：{{ yesterdayweather.high }}</p>
+              <p class="pbox">最低温：{{ yesterdayweather.low }}</p>
+            </div>
+          </div>
+          <p v-if="!loading" class="twop" style="float: left">{{ ganmao }}</p>
+        </div>
       </div>
     </div>
     <router-view></router-view>
@@ -50,11 +157,20 @@
 <script>
 import Menu from "../components/menu.vue";
 import Menutop from "../components/menutop.vue";
+import City from "../components/city.vue"
 import { datetimes } from "../mixins/mixin";
+// 获取天气
+import myBMap from "../api/map";
 export default {
   created() {
     this.username = this.$store.state.nickname;
     this.getseacherdata();
+  },
+  mounted() {
+     // 调用函数获取城市信息
+    this.getCity();
+    // 调用天气信息
+    this.getweather()
   },
   mixins: [datetimes],
   data() {
@@ -68,11 +184,32 @@ export default {
       overnodone: "",
       // 总待办数
       allblock: 0,
+      // 位置信息
+      city: "",
+      // 天气数据
+      todayweather: {
+        type: "",
+        high: "",
+        low: "",
+      },
+      yesterdayweather: {
+        type: "",
+        high: "",
+        low: "",
+      },
+      // 天气提示
+      ganmao: "",
+      // 天气图片类型
+      wvalue: 0,
+      wvalue1: 0,
+      // 是否获取到地址
+      loading: true
     };
   },
   components: {
     Menu,
     Menutop,
+    City
   },
   methods: {
     async getseacherdata() {
@@ -94,8 +231,77 @@ export default {
       // console.log(this.blockdata);
     },
     reload() {
-      window.location.reload()
+      window.location.reload();
+    },
+    // 获取位置信息
+    getCity() {
+      myBMap.init().then((BMap) => {
+        const geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(
+          (position) => {
+            let city = position.address.city; //获取城市信息
+            // let province = position.address.province; //获取省份信息
+            this.city = city;
+            // console.log(city);
+            // console.log(province);
+            // console.log(position);
+          },
+          (e) => {
+            //this.loading = true
+            console.log(e);
+            console.log("定位失败");
+          },
+          { provider: "baidu" }
+        );
+      });
+    },
+    // 获取天气
+    async getweather() {
+      // console.log(newvalue);
+      const res = await this.$http.get(
+        "http://wthrcdn.etouch.cn/weather_mini?city=" + localStorage.getItem('city')
+      );
+      console.log("天气");
+      console.log(res.data);
+      if (res.data.status == 1000) {
+        this.loading = false
+        this.city = localStorage.getItem('city')
+        this.todayweather.type = res.data.data.forecast[0].type;
+        this.todayweather.high = res.data.data.forecast[0].high;
+        this.todayweather.low = res.data.data.forecast[0].low;
+        this.ganmao = res.data.data.ganmao;
+        if(this.todayweather.type.indexOf('晴') != -1)this.wvalue = 0
+        else if(this.todayweather.type.indexOf('云') != -1)this.wvalue = 1
+        else if(this.todayweather.type.indexOf('阴') != -1)this.wvalue = 2
+        else if(this.todayweather.type.indexOf('雨') != -1)this.wvalue = 3
+        else if(this.todayweather.type.indexOf(' 雪') != -1)this.wvalue = 4
+        // console.log(123)
+        // console.log(this.todayweather)
+        // console.log(this.ganmao)
+        this.yesterdayweather.type = res.data.data.forecast[1].type;
+        this.yesterdayweather.high = res.data.data.forecast[1].high;
+        this.yesterdayweather.low = res.data.data.forecast[1].low;
+        if(this.yesterdayweather.type.indexOf('晴') != -1)this.wvalue1 = 0
+        else if(this.yesterdayweather.type.indexOf('云') != -1)this.wvalue1 = 1
+        else if(this.yesterdayweather.type.indexOf('阴') != -1)this.wvalue1 = 2
+        else if(this.yesterdayweather.type.indexOf('雨') != -1)this.wvalue1 = 3
+        else if(this.yesterdayweather.type.indexOf(' 雪') != -1)this.wvalue1 = 4
+      }
+    },
+    //接收子组件的值
+    tocity(city){
+      this.city = city
+      // console.log(this.city)
+      this.loading = false
+      localStorage.setItem('city',this.city)
     }
+  },
+  watch: {
+    city(newvalue) {
+      this.getweather();
+      this.loading = false
+      this.city = localStorage.getItem('city')
+    },
   },
 };
 </script>
@@ -123,7 +329,7 @@ export default {
   margin-bottom: 30px;
 }
 .contentcenter {
-  margin-top: 10%;
+  margin-top: 8%;
   margin-left: 20%;
 }
 .onep {
@@ -171,5 +377,47 @@ export default {
   font-size: 20px;
   margin-top: 20px;
   cursor: pointer;
+}
+.weatherbox {
+  width: 80%;
+  display: inline-block;
+  margin-left: 20%;
+}
+.cityp {
+  color: #000;
+  padding: 0 5px;
+}
+.wbox {
+  border-radius: 8px;
+  cursor: pointer;
+  float: left;
+  margin-right: 24px;
+  width: 284px;
+  height: 90px;
+  background-color: #e7e6e7c2;
+}
+.wbox:hover {
+  box-shadow: 0 0 10px #ccc;
+}
+.wbox .icon {
+  float: left;
+  font-size: 65px;
+  margin-top: 18px;
+  margin-left: 20px;
+}
+.wboxp {
+  font-size: 15px;
+  margin: 33px 0 0 20px;
+  float: left;
+  color: rgb(56, 50, 50);
+}
+.allpbox {
+  color: rgba(15, 23, 42, 0.8);
+  margin-left: 30px;
+  float: left;
+  font-size: 12px;
+}
+.pbox {
+  line-height: 12px;
 }
 </style>

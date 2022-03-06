@@ -907,7 +907,6 @@ export default {
 }
 .colorbox {
   background-color: white;
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 10px;
   width: 80px;
