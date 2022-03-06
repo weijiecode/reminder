@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     del_token(state) {
       state.token = ''
-      localhost.removeItem('token')
+      localStorage.removeItem('token')
     },
     set_username(state,username) {
       state.username = username

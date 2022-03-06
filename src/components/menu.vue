@@ -4,13 +4,33 @@
       <img :src="photo" alt="" />
       <div class="online"></div>
       <div class="twoline">
-        <p class="status">
+        <p class="status" v-if="timestatus == 0">
           早上好&nbsp;<svg
             style="font-size: 20px"
             class="icon"
             aria-hidden="true"
           >
             <use xlink:href="#icon-a-zaoshangzaochen"></use>
+          </svg>
+        </p>
+        <p class="status" v-if="timestatus == 1">
+          下午好&nbsp;
+          <svg
+            style="font-size: 20px"
+            class="icon"
+            aria-hidden="true"
+          >
+            <use xlink:href="#icon-xiawu"></use>
+          </svg>
+        </p>
+        <p class="status" v-if="timestatus == 2">
+          晚上好&nbsp;
+          <svg
+            style="font-size: 16px"
+            class="icon"
+            aria-hidden="true"
+          >
+            <use xlink:href="#icon-a-yueliangwanshang"></use>
           </svg>
         </p>
         <p class="nickname">{{ nickname }}</p>
@@ -109,10 +129,15 @@
 </template>
 
 <script>
+import { datetimes } from "../mixins/mixin";
 export default {
+  mixins: [datetimes],
   created() {
     this.nickname = this.$store.state.nickname;
     this.photo = this.$store.state.photo;
+    if (this.hours >= 6 && this.hours <= 12) this.timestatus = 0;
+    else if (this.hours > 12 && this.hours <= 19) this.timestatus = 1;
+    else this.timestatus = 2;
   },
   watch: {
     "$store.state.nickname"(newvalue) {
@@ -126,6 +151,8 @@ export default {
     return {
       nickname: "",
       photo: "",
+      // 当前时间段
+      timestatus: 0,
     };
   },
 };
@@ -175,7 +202,7 @@ a {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  box-shadow: 0 0 0 3px rgb(214, 211, 211);
+  box-shadow: 0 0 0 3px rgb(237 234 234);
 }
 .twoline {
   float: left;

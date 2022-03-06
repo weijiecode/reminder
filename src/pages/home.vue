@@ -250,6 +250,9 @@ export default {
             //this.loading = true
             console.log(e);
             console.log("定位失败");
+            if(localStorage.getItem('city')==''){
+              this.$message.error('定位失败，请手动添加城市地址')
+            }
           },
           { provider: "baidu" }
         );
@@ -261,8 +264,8 @@ export default {
       const res = await this.$http.get(
         "http://wthrcdn.etouch.cn/weather_mini?city=" + localStorage.getItem('city')
       );
-      console.log("天气");
-      console.log(res.data);
+      // console.log("天气");
+      // console.log(res.data);
       if (res.data.status == 1000) {
         this.loading = false
         this.city = localStorage.getItem('city')
@@ -333,10 +336,12 @@ export default {
   margin-left: 20%;
 }
 .onep {
+  cursor: default;
   font-size: 24px;
   font-weight: 600;
 }
 .twop {
+  cursor: default;
   color: #888;
   font-size: 13px;
   margin-top: 18px;

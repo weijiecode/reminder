@@ -4,7 +4,8 @@ export const datetimes = {
             todaydate: "",
             sevendate: "",
             yeardate: "",
-            oldsevendate: ""
+            oldsevendate: "",
+            hours: ""
         }
     },
     created() {
@@ -16,6 +17,8 @@ export const datetimes = {
             data.getDate() <= 1 ? "0" + (data.getDate() + 8) : data.getDate() + 8;
         // 今天日期
         this.todaydate = data.getFullYear() + "-" + month + "-" + date;
+        // 当前小时
+        this.hours = data.getHours()
         // 未来七天的日期
         this.sevendate = data.getFullYear() + "-" + month + "-" + sdate;
         // 今年的年份

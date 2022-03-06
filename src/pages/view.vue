@@ -5,7 +5,7 @@
       <div class="calendarbox">
         <el-calendar>
           <!-- 这里使用的是 2.5 slot 语法，对于新项目请使用 2.6 slot 语法-->
-          <template slot="dateCell" slot-scope="{ date, data }">
+          <template slot="dateCell" slot-scope="{ date, data }">            
             <div :class="data.isSelected ? 'is-selected' : ''">
               {{ data.day.split("-")[2] }}
               <div class="line">
@@ -73,7 +73,7 @@ export default {
 }
 .line {
   color: rgb(99, 104, 104);
-  font-size: 14px;
+  font-size: 13px;
   height: 56px;
   overflow: auto;
 }

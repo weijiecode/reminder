@@ -1,203 +1,205 @@
 <template>
   <div class="mycenter">
-    <div class="center">
-      <p class="myp">个人中心</p>
-      <div class="centerbox">
-        <div class="boxtop">
-          <div class="headimage">
-            <img :src="formMyCenter.photo" alt="" />
-            <div class="twoline">
-              <p class="nickname">
-                {{ formMyCenter.nickname }}
-                <svg
-                  v-if="formMyCenter.sex == 1"
-                  style="font-size: 20px"
-                  class="icon"
-                  aria-hidden="true"
-                >
-                  <use xlink:href="#icon-xingbie1"></use>
-                </svg>
-                <svg
-                  v-if="formMyCenter.sex == 0"
-                  style="font-size: 20px"
-                  class="icon"
-                  aria-hidden="true"
-                >
-                  <use xlink:href="#icon-xingbie"></use>
-                </svg>
-              </p>
-              <p class="introduction">{{ formMyCenter.introduction }}</p>
+      <div class="center">
+        <p class="myp">个人中心</p>
+        <div class="centerbox">
+          <div class="boxtop">
+            <div class="headimage">
+              <img :src="formMyCenter.photo" alt="" />
+              <div class="twoline">
+                <p class="nickname">
+                  {{ formMyCenter.nickname }}
+                  <svg
+                    v-if="formMyCenter.sex == 1"
+                    style="font-size: 20px"
+                    class="icon"
+                    aria-hidden="true"
+                  >
+                    <use xlink:href="#icon-xingbie1"></use>
+                  </svg>
+                  <svg
+                    v-if="formMyCenter.sex == 0"
+                    style="font-size: 20px"
+                    class="icon"
+                    aria-hidden="true"
+                  >
+                    <use xlink:href="#icon-xingbie"></use>
+                  </svg>
+                </p>
+                <p class="introduction">{{ formMyCenter.introduction }}</p>
+              </div>
+            </div>
+            <div class="menus">
+              <span @click="menuShow = 1"
+                >基本资料
+                <div :class="{ menuline: menuShow == 1 }"></div
+              ></span>
+              <span @click="menuShow = 2"
+                >修改头像
+                <div :class="{ menuline: menuShow == 2 }"></div
+              ></span>
+              <span @click="menuShow = 3"
+                >密码管理
+                <div :class="{ menuline: menuShow == 3 }"></div
+              ></span>
             </div>
           </div>
-          <div class="menus">
-            <span @click="menuShow = 1"
-              >基本资料
-              <div :class="{ menuline: menuShow == 1 }"></div
-            ></span>
-            <span @click="menuShow = 2"
-              >修改头像
-              <div :class="{ menuline: menuShow == 2 }"></div
-            ></span>
-            <span @click="menuShow = 3"
-              >密码管理
-              <div :class="{ menuline: menuShow == 3 }"></div
-            ></span>
-          </div>
-        </div>
-        <!-- 基本资料 -->
-        <div v-show="menuShow == 1" class="boxbottom">
-          <el-form
-            ref="formmycenterRef"
-            :rules="mycenterrules"
-            class="formbox"
-            label-position="right"
-            label-width="80px"
-            :model="formMyCenter"
-          >
-            <el-form-item label="账号">
-              <el-input
-                disabled
-                style="width: 200px"
-                v-model="formMyCenter.username"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="昵称" prop="nickname">
-              <el-input
-                style="width: 200px"
-                v-model="formMyCenter.nickname"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="个人简介">
-              <el-input
-                style="width: 280px"
-                type="textarea"
-                placeholder="请输入内容"
-                v-model="formMyCenter.introduction"
-                maxlength="30"
-                show-word-limit
-              >
-              </el-input>
-            </el-form-item>
-            <el-form-item label="性别">
-              <el-radio v-model="formMyCenter.sex" :label="1"
-                ><svg style="font-size: 20px" class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-xingbie1"></use></svg
-              ></el-radio>
-              <el-radio v-model="formMyCenter.sex" :label="0"
-                ><svg style="font-size: 20px" class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-xingbie"></use></svg
-              ></el-radio>
-            </el-form-item>
-            <el-form-item label="手机号码" prop="phone">
-              <el-input
-                style="width: 280px"
-                v-model="formMyCenter.phone"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="电子邮箱" prop="email">
-              <el-input
-                style="width: 405px"
-                v-model="formMyCenter.email"
-                class="input-with-select"
-              >
-                <el-select
-                  style="width: 125px"
-                  v-model="formMyCenter.selectemail"
-                  slot="append"
-                  @change="$forceUpdate()"
-                  placeholder="邮箱类型"
+          <!-- 基本资料 -->
+          <div v-show="menuShow == 1" class="boxbottom">
+            <el-form
+              ref="formmycenterRef"
+              :rules="mycenterrules"
+              class="formbox"
+              label-position="right"
+              label-width="80px"
+              :model="formMyCenter"
+            >
+              <el-form-item label="账号">
+                <el-input
+                  disabled
+                  style="width: 200px"
+                  v-model="formMyCenter.username"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="昵称" prop="nickname">
+                <el-input
+                  style="width: 200px"
+                  v-model="formMyCenter.nickname"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="个人简介">
+                <el-input
+                  style="width: 280px"
+                  type="textarea"
+                  placeholder="请输入内容"
+                  v-model="formMyCenter.introduction"
+                  maxlength="30"
+                  show-word-limit
                 >
-                  <el-option
-                    v-for="(item, index) in mycenteroptions"
-                    :key="index"
-                    :label="item.label"
-                    :value="item.value"
-                  ></el-option>
-                </el-select>
-              </el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button
-                type="primary"
-                @click="submitformMyCenter('formMyCenter')"
+                </el-input>
+              </el-form-item>
+              <el-form-item label="性别">
+                <el-radio v-model="formMyCenter.sex" :label="1"
+                  ><svg style="font-size: 20px" class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xingbie1"></use></svg
+                ></el-radio>
+                <el-radio v-model="formMyCenter.sex" :label="0"
+                  ><svg style="font-size: 20px" class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xingbie"></use></svg
+                ></el-radio>
+              </el-form-item>
+              <el-form-item label="手机号码" prop="phone">
+                <el-input
+                  style="width: 280px"
+                  v-model="formMyCenter.phone"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="电子邮箱" prop="email">
+                <el-input
+                  style="width: 405px"
+                  v-model="formMyCenter.email"
+                  class="input-with-select"
+                >
+                  <el-select
+                    style="width: 125px"
+                    v-model="formMyCenter.selectemail"
+                    slot="append"
+                    @change="$forceUpdate()"
+                    placeholder="邮箱类型"
+                  >
+                    <el-option
+                      v-for="(item, index) in mycenteroptions"
+                      :key="index"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-select>
+                </el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  @click="submitformMyCenter('formMyCenter')"
+                  >保存</el-button
+                >
+              </el-form-item>
+            </el-form>
+          </div>
+          <!-- 用户头像 -->
+          <div v-show="menuShow == 2" class="boxbottom">
+            <div class="photoleft">
+              <el-upload
+                class="avatar-uploader"
+                :headers="getAuthHeaders()"
+                :action="$http.defaults.baseURL + 'mycenter/photouploadurl'"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+              >
+                <img v-if="userphoto" :src="userphoto" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <el-button type="primary" @click="submituserphoto"
                 >保存</el-button
               >
-            </el-form-item>
-          </el-form>
-        </div>
-        <!-- 用户头像 -->
-        <div v-show="menuShow == 2" class="boxbottom">
-          <div class="photoleft">
-            <el-upload
-              class="avatar-uploader"
-              :headers="getAuthHeaders()"
-              :action="$http.defaults.baseURL + 'mycenter/photouploadurl'"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
+            </div>
+            <div class="phototip">
+              <p>
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-zhuyi"></use>
+                </svg>
+                上传头像图片只能是 JPG 或 PNG 格式!
+              </p>
+              <p>
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-zhuyi"></use>
+                </svg>
+                图片大小不能超过 2MB！
+              </p>
+            </div>
+          </div>
+          <!-- 密码修改 -->
+          <div v-show="menuShow == 3" class="boxbottom">
+            <el-form
+              ref="formpasswordRef"
+              :rules="passwordrules"
+              class="formbox"
+              label-position="right"
+              label-width="80px"
+              :model="formpassword"
             >
-              <img v-if="userphoto" :src="userphoto" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-            <el-button type="primary" @click="submituserphoto">保存</el-button>
+              <el-form-item label="旧密码" prop="oldpassword">
+                <el-input
+                  type="password"
+                  style="width: 260px"
+                  v-model="formpassword.oldpassword"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="新密码" prop="newpassword">
+                <el-input
+                  type="password"
+                  style="width: 260px"
+                  v-model="formpassword.newpassword"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="确认密码" prop="twonewpassword">
+                <el-input
+                  type="password"
+                  style="width: 260px"
+                  v-model="formpassword.twonewpassword"
+                ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  @click="submitformPassword('formpassword')"
+                  >提交</el-button
+                >
+              </el-form-item>
+            </el-form>
           </div>
-          <div class="phototip">
-            <p>
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-zhuyi"></use>
-              </svg>
-              上传头像图片只能是 JPG 或 PNG 格式!
-            </p>
-            <p>
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-zhuyi"></use>
-              </svg>
-              图片大小不能超过 2MB！
-            </p>
-          </div>
-        </div>
-        <!-- 密码修改 -->
-        <div v-show="menuShow == 3" class="boxbottom">
-          <el-form
-            ref="formpasswordRef"
-            :rules="passwordrules"
-            class="formbox"
-            label-position="right"
-            label-width="80px"
-            :model="formpassword"
-          >
-            <el-form-item label="旧密码" prop="oldpassword">
-              <el-input
-                type="password"
-                style="width: 260px"
-                v-model="formpassword.oldpassword"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="新密码" prop="newpassword">
-              <el-input
-                type="password"
-                style="width: 260px"
-                v-model="formpassword.newpassword"
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="确认密码" prop="twonewpassword">
-              <el-input
-                type="password"
-                style="width: 260px"
-                v-model="formpassword.twonewpassword"
-              ></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button
-                type="primary"
-                @click="submitformPassword('formpassword')"
-                >提交</el-button
-              >
-            </el-form-item>
-          </el-form>
         </div>
       </div>
-    </div>
   </div>
 </template>
 

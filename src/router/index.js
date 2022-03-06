@@ -7,6 +7,9 @@ import Mycenter from '../pages/Mycenter'
 import View from '../pages/View'
 import Dailyclock from '../pages/Dailyclock'
 import Statistics from '../pages/Statistics'
+//导入进度条
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 
 Vue.use(VueRouter)
@@ -65,7 +68,12 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next();
   const tokenStr = localStorage.getItem('token')
   if (!tokenStr) return next('/login')
+  // 进度条
+  NProgress.start()
   next()
+})
+router.afterEach(() => {
+  NProgress.done()
 })
 
 

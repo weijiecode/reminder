@@ -2,37 +2,83 @@
   <div class="menutop">
     <!-- 搜索 -->
     <el-autocomplete
-    value-key="contents"
+      value-key="contents"
       :fetch-suggestions="querySearchAsync"
       @select="handleSelect"
       class="inputsearch"
       v-model="state"
       placeholder="请输入内容"
     ></el-autocomplete>
+    <div class="mbox">
+      <!-- 消息通知 -->
+      <svg @click="blockmessage" class="icon" aria-hidden="true">
+        <use xlink:href="#icon-tongzhi"></use>
+      </svg>
+      <div class="redradius"></div>
+      <!-- 退出 -->
+      <svg @click="exit" class="icon" aria-hidden="true">
+        <use xlink:href="#icon-tuichu"></use>
+      </svg>
+    </div>
+    <!-- 待办详情弹窗 -->
+    <div class="mask" v-show="isshow">
+      <div class="newthing">
+        <p class="newthingp">待办详情</p>
+        <p class="contents">
+          待办内容：<span class="onecontents">{{ backlogForm.contents }}</span>
+        </p>
+        <p class="contents">
+          时间日期：<span class="onecontents">{{ backlogForm.datetime }}</span>
+        </p>
+        <p class="contents">
+          类别：
+          <svg class="icon" aria-hidden="true">
+            <use :xlink:href="backlogForm.classvalue"></use></svg
+          >&nbsp;&nbsp;
+          <span class="onecontents">{{ backlogForm.colorclass }}</span>
+        </p>
+        <p class="contents">
+          是否完成：<span class="onecontents">{{ backlogForm.done }}</span>
+        </p>
+
+        <div class="confirmcancel">
+          <span class="btnconfirm" @click="isshow = false">关闭</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "mymenutop",
-  created() {
-  },
+  created() {},
   mounted() {
-     setTimeout(() => {
-       this.restaurants = this.toblockdata;
-     },500)
+    setTimeout(() => {
+      this.restaurants = this.toblockdata;
+    }, 500);
   },
   props: ["toblockdata"],
   data() {
     return {
+      // 搜索
       searchdata: [],
       state: "",
       timeout: null,
       restaurants: [],
+      // 待办详情
+      isshow: false,
+      // 待办数据
+      backlogForm: {
+        contents: "",
+        datetime: "",
+        classvalue: "",
+        colorclass: "",
+        done: "",
+      },
     };
   },
   methods: {
-
     querySearchAsync(queryString, cb) {
       var restaurants = this.restaurants;
       var results = queryString
@@ -52,8 +98,40 @@ export default {
       };
     },
     handleSelect(item) {
+      this.isshow = true;
       console.log(item);
+      this.backlogForm.contents = item.contents;
+      this.backlogForm.datetime = item.datetime;
+      this.backlogForm.classvalue = item.classvalue;
+      if (item.colorbg == "#5da7f1") this.backlogForm.colorclass = "生活";
+      else if (item.colorbg == "#d81e06") this.backlogForm.colorclass = "工作";
+      else if (item.colorbg == "#82529d") this.backlogForm.colorclass = "学习";
+      else if (item.colorbg == "#f36372") this.backlogForm.colorclass = "健康";
+      else if (item.colorbg == "#2aa515") this.backlogForm.colorclass = "社交";
+      else if (item.colorbg == "#e0620d") this.backlogForm.colorclass = "其它";
+      if (item.done == 0) this.backlogForm.done = "未完成";
+      else if (item.done == 1) this.backlogForm.done = "已完成";
     },
+    // 退出
+    exit() {
+      this.$confirm("此操作将退出账号，是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$store.commit('del_token')
+          localStorage.removeItem('dataStore')
+          this.$notify.info({
+          title: '提示',
+          message: '账号已安全退出'
+        });
+        this.$router.push('/login')
+        })
+        .catch(() => {
+        });
+    },
+    blockmessage(){}
   },
 };
 </script>
@@ -72,10 +150,68 @@ export default {
   }
 }
 .menutop ::v-deep .el-autocomplete {
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
-  margin-left: -140px;
+  margin-left: -180px;
   width: 120%;
   border: white;
   border-radius: 20px;
+}
+.mask {
+  z-index: 99;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.newthing {
+  z-index: 100;
+  width: 800px;
+  height: 300px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.newthingp {
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 30px;
+}
+.confirmcancel {
+  color: rgba(15, 23, 42, 0.8);
+  float: right;
+  font-size: 24px;
+  margin-right: 75px;
+  cursor: pointer;
+}
+.contents {
+  margin-left: 70px;
+  font-size: 18px;
+  color: rgb(128 137 157 / 80%);
+}
+.onecontents {
+  color: rgba(15, 23, 42, 0.8);
+}
+.menutop .icon {
+  float: left;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 20px;
+}
+.redradius {
+  float: left;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 100%;
+}
+.mbox {
+  float: right;
+  margin-top: 10px;
+  margin-right: 15px;
 }
 </style>
