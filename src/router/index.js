@@ -18,24 +18,32 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home,
-    children: [{
-      path: '/backlog',
-      component: Backlog
-    },{
-      path: '/mycenter',
-      component: Mycenter
-    },{
-      path: '/view',
-      component: View
-    },{
-      path: '/dailyclock',
-      component: Dailyclock
-    },{
-      path: '/statistics',
-      component: Statistics
-    }
-    ]
+    component: Home
+  },
+  {
+    path: '/backlog',
+    name: 'Backlog',
+    component: Backlog
+  },
+  {
+    path: '/mycenter',
+    name: 'Mycenter',
+    component: Mycenter
+  },
+  {
+    path: '/view',
+    name: 'View',
+    component: View
+  },
+  {
+    path: '/dailyclock',
+    name: 'Dailyclock',
+    component: Dailyclock
+  },
+  {
+    path: '/statistics',
+    name: 'Statistics',
+    component: Statistics
   },
   {
     path: '/login',

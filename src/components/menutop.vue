@@ -11,14 +11,21 @@
     ></el-autocomplete>
     <div class="mbox">
       <!-- 消息通知 -->
-      <svg @click="blockmessage" class="icon" aria-hidden="true">
+      <svg
+        style="float: left"
+        @click="blockmessage"
+        class="icon"
+        aria-hidden="true"
+      >
         <use xlink:href="#icon-tongzhi"></use>
       </svg>
       <div class="redradius"></div>
       <!-- 退出 -->
-      <svg @click="exit" class="icon" aria-hidden="true">
-        <use xlink:href="#icon-tuichu"></use>
-      </svg>
+      <el-tooltip content="安全退出" placement="bottom" effect="light">
+        <svg style="float: right" @click="exit" class="icon" aria-hidden="true">
+          <use xlink:href="#icon-tuichu"></use>
+        </svg>
+      </el-tooltip>
     </div>
     <!-- 待办详情弹窗 -->
     <div class="mask" v-show="isshow">
@@ -31,7 +38,7 @@
           时间日期：<span class="onecontents">{{ backlogForm.datetime }}</span>
         </p>
         <p class="contents">
-          类别：
+          当前类别：
           <svg class="icon" aria-hidden="true">
             <use :xlink:href="backlogForm.classvalue"></use></svg
           >&nbsp;&nbsp;
@@ -53,16 +60,9 @@
 export default {
   name: "mymenutop",
   created() {},
-  mounted() {
-    setTimeout(() => {
-      this.restaurants = this.toblockdata;
-    }, 500);
-  },
-  props: ["toblockdata"],
+  mounted() {},
   data() {
     return {
-      // 搜索
-      searchdata: [],
       state: "",
       timeout: null,
       restaurants: [],
@@ -79,16 +79,26 @@ export default {
     };
   },
   methods: {
+    async getseacherdata() {
+      const { data: res } = await this.$http.get("/backlog/selectbacklog");
+      if (res.code == 200) {
+        this.restaurants = res.data;
+      } else {
+        this.$message.error("获取搜索数据失败，请重试");
+      }
+    },
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
+      this.getseacherdata().then(() => {
+        var restaurants = this.restaurants;
+        var results = queryString
+          ? restaurants.filter(this.createStateFilter(queryString))
+          : restaurants;
 
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 1500 * Math.random());
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          cb(results);
+        }, 1500 * Math.random());
+      });
     },
     createStateFilter(queryString) {
       return (state) => {
@@ -120,18 +130,17 @@ export default {
         type: "warning",
       })
         .then(() => {
-          this.$store.commit('del_token')
-          localStorage.removeItem('dataStore')
+          this.$store.commit("del_token");
+          localStorage.removeItem("dataStore");
           this.$notify.info({
-          title: '提示',
-          message: '账号已安全退出'
-        });
-        this.$router.push('/login')
+            title: "提示",
+            message: "账号已安全退出",
+          });
+          this.$router.push("/login");
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     },
-    blockmessage(){}
+    blockmessage() {},
   },
 };
 </script>
@@ -184,7 +193,7 @@ export default {
 .confirmcancel {
   color: rgba(15, 23, 42, 0.8);
   float: right;
-  font-size: 24px;
+  font-size: 20px;
   margin-right: 75px;
   cursor: pointer;
 }
@@ -194,13 +203,12 @@ export default {
   color: rgb(128 137 157 / 80%);
 }
 .onecontents {
+  font-size: 16px;
   color: rgba(15, 23, 42, 0.8);
 }
 .menutop .icon {
-  float: left;
   font-size: 20px;
   cursor: pointer;
-  margin-left: 20px;
 }
 .redradius {
   float: left;
@@ -210,8 +218,13 @@ export default {
   border-radius: 100%;
 }
 .mbox {
+  width: 70px;
   float: right;
   margin-top: 10px;
   margin-right: 15px;
+}
+/* 弹框bug */
+::v-deep .focusing {
+  display: none;
 }
 </style>

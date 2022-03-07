@@ -1,11 +1,21 @@
 <template>
   <div id="app">
-    <router-view />
+    <div class="show" v-if="$route.path != '/login'">
+      <Menu></Menu>
+      <Menutop></Menutop>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Menu from "./components/menu.vue";
+import Menutop from "./components/menutop.vue";
 export default {
+  components: {
+    Menu,
+    Menutop,
+  },
   created() {
     //解决刷新页面vux中state数据失效
     //在页面刷新时将vuex里的信息保存到localStorage里

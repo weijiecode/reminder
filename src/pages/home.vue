@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-    <Menu></Menu>
-    <Menutop :toblockdata="blockdata"></Menutop>
-    <div class="homebox" v-if="$route.path == '/home'">
+    <div class="homebox">
       <div class="homecontent">
         <i @click="reload()" class="el-icon-refresh-right" style=""></i>
         <div class="contentcenter">
@@ -150,13 +148,10 @@
         </div>
       </div>
     </div>
-    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Menu from "../components/menu.vue";
-import Menutop from "../components/menutop.vue";
 import City from "../components/city.vue"
 import { datetimes } from "../mixins/mixin";
 // 获取天气
@@ -207,8 +202,6 @@ export default {
     };
   },
   components: {
-    Menu,
-    Menutop,
     City
   },
   methods: {
