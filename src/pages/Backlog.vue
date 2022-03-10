@@ -19,10 +19,10 @@
             >
             <el-empty
               description="暂无待办"
-              v-if="datacode != 200 && datacodedone != 200"
+              v-if="todolist.length == 0 && todolistdone.length == 0"
             ></el-empty>
             <el-collapse
-              v-if="datacode == 200 || datacodedone == 200"
+              v-if="todolist.length != 0 || todolistdone.length != 0"
               v-model="istodolist"
             >
               <el-collapse-item title="今日" name="1">
@@ -63,7 +63,7 @@
               <el-collapse-item
                 title="今日已完成"
                 name="2"
-                v-if="todolistdone != 0"
+                v-if="todolistdone.length != 0"
               >
                 <div
                   v-for="(todoitem, index) in todolistdone"
@@ -445,10 +445,6 @@ export default {
       ],
       // 加载动画
       isloading: false,
-      // 数据状态码
-      datacode: "",
-      // 已完成数据状态码
-      datacodedone: "",
       // 分类颜色的value
       colorsvalue: [],
       colorsvaluedone: [],
@@ -678,9 +674,6 @@ export default {
         this.sevendayslist = 0;
         this.overdayslist = 0;
       }
-      // 获取状态码
-      this.datacode = res.code;
-      // console.log(this.colorclass)
     },
     // 修改待办事项内容
     async todochange(todoitem) {
@@ -812,16 +805,17 @@ export default {
 ::v-deep .el-tabs__header {
   border-radius: 10px;
   border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
-::v-deep .is-active {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+::v-deep #tab-0 {
+  border-top-left-radius: 13px;
+  border-left: 0px solid white;
 }
 ::v-deep .el-tabs--border-card {
-  border: white;
-  box-shadow: 0;
+  border: 1px solid #E4E7ED;
+  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;;
   height: calc(100% - 96px);
-  min-height: 449px;
+  min-height: 450px;
 }
 ::v-deep .el-collapse-item__wrap {
   overflow: auto;
@@ -831,6 +825,9 @@ export default {
   height: calc(100% - 70px);
   overflow: auto;
 }
+/* ::v-deep .el-tabs--border-card>.el-tabs__header .el-tabs__item {
+  border: 0;
+} */
 .myp1 {
   margin-top: 20px;
   font-size: 20px;

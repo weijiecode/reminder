@@ -10,26 +10,30 @@ export default new Vuex.Store({
     // 用户的数据
     username: '',
     nickname: '',
-    photo: ''
+    photo: '',
+    sex: ''
   },
   mutations: {
-    set_token(state,token) {
+    set_token(state, token) {
       state.token = token
-      localStorage.setItem('token',token)
+      localStorage.setItem('token', token)
     },
     del_token(state) {
       state.token = ''
       localStorage.removeItem('token')
     },
-    set_username(state,username) {
+    set_username(state, username) {
       state.username = username
-      localStorage.setItem('username',username)
+      localStorage.setItem('username', username)
     },
-    set_nickname(state,nickname) {
+    set_nickname(state, nickname) {
       state.nickname = nickname
     },
-    set_photo(state,photo) {
+    set_photo(state, photo) {
       state.photo = photo
+    },
+    set_sex(state, sex) {
+      state.sex = sex
     }
   },
   actions: {

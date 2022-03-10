@@ -1,11 +1,17 @@
 <template>
   <div class="leftItem">
-    <div class="headimage">
-      <img :src="photo" alt="" />
+    <div class="headimage" @click="$router.push('/mycenter')">
+      <img v-if="photo != null" :src="photo" alt="" />
+      <svg v-if="photo == null && sex == 0" id="photo" class="icon" aria-hidden="true">
+        <use xlink:href="#icon-icon-test"></use>
+      </svg>
+      <svg v-if="photo == null && sex == 1" id="photo" class="icon" aria-hidden="true">
+        <use xlink:href="#icon-icon-test2"></use>
+      </svg>
       <div class="online"></div>
       <div class="twoline">
         <p class="status" v-if="timestatus == 0">
-          早上好&nbsp;<svg
+          上午好&nbsp;<svg
             style="font-size: 20px"
             class="icon"
             aria-hidden="true"
@@ -15,21 +21,13 @@
         </p>
         <p class="status" v-if="timestatus == 1">
           下午好&nbsp;
-          <svg
-            style="font-size: 20px"
-            class="icon"
-            aria-hidden="true"
-          >
+          <svg style="font-size: 20px" class="icon" aria-hidden="true">
             <use xlink:href="#icon-xiawu"></use>
           </svg>
         </p>
         <p class="status" v-if="timestatus == 2">
           晚上好&nbsp;
-          <svg
-            style="font-size: 16px"
-            class="icon"
-            aria-hidden="true"
-          >
+          <svg style="font-size: 14px" class="icon" aria-hidden="true">
             <use xlink:href="#icon-a-yueliangwanshang"></use>
           </svg>
         </p>
@@ -43,24 +41,24 @@
         <router-link to="/home">
           <li :class="{ isclick: $route.path == '/home' }">
             <div :class="{ menuline: $route.path == '/home' }"></div>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-woderenwu"></use></svg
+            <svg :class="{ isclicksvg: $route.path == '/home' }" class="icon" aria-hidden="true">
+              <use xlink:href="#icon-home-full"></use></svg
             >首页
           </li></router-link
         >
         <router-link to="/backlog">
           <li :class="{ isclick: $route.path == '/backlog' }">
             <div :class="{ menuline: $route.path == '/backlog' }"></div>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-woderenwu"></use></svg
+            <svg :class="{ isclicksvg: $route.path == '/backlog' }" class="icon" aria-hidden="true">
+              <use xlink:href="#icon-renwu"></use></svg
             >我的任务
           </li></router-link
         >
         <router-link to="/mycenter">
           <li :class="{ isclick: $route.path == '/mycenter' }">
             <div :class="{ menuline: $route.path == '/mycenter' }"></div>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-iconfuzhi"></use></svg
+            <svg :class="{ isclicksvg: $route.path == '/mycenter' }" class="icon" aria-hidden="true">
+              <use xlink:href="#icon-gerenzhongxin"></use></svg
             >个人中心
           </li></router-link
         >
@@ -68,16 +66,16 @@
         <router-link to="/view">
           <li :class="{ isclick: $route.path == '/view' }">
             <div :class="{ menuline: $route.path == '/view' }"></div>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-rili"></use></svg
+            <svg :class="{ isclicksvg: $route.path == '/view' }" class="icon" aria-hidden="true">
+              <use xlink:href="#icon-rili2"></use></svg
             >日历视图
           </li></router-link
         >
         <router-link to="/dailyclock">
           <li :class="{ isclick: $route.path == '/dailyclock' }">
             <div :class="{ menuline: $route.path == '/dailyclock' }"></div>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-daqia"></use></svg
+            <svg :class="{ isclicksvg: $route.path == '/dailyclock' }" class="icon" aria-hidden="true">
+              <use xlink:href="#icon-dagou"></use></svg
             >每日打卡
           </li></router-link
         >
@@ -92,8 +90,8 @@
         <router-link to="/statistics">
           <li :class="{ isclick: $route.path == '/statistics' }">
             <div :class="{ menuline: $route.path == '/statistics' }"></div>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-tongji"></use></svg
+            <svg :class="{ isclicksvg: $route.path == '/statistics' }" class="icon" aria-hidden="true">
+              <use xlink:href="#icon-tongjifenxi"></use></svg
             >统计分析
           </li></router-link
         >
@@ -135,22 +133,28 @@ export default {
   created() {
     this.nickname = this.$store.state.nickname;
     this.photo = this.$store.state.photo;
-    if (this.hours >= 6 && this.hours <= 12) this.timestatus = 0;
-    else if (this.hours > 12 && this.hours <= 19) this.timestatus = 1;
+    this.sex = this.$store.state.sex;
+    if (this.hours >= 6 && this.hours < 12) this.timestatus = 0;
+    else if (this.hours >= 12 && this.hours < 19) this.timestatus = 1;
     else this.timestatus = 2;
   },
   watch: {
+    // 监听个人资料修改保存后同步渲染
     "$store.state.nickname"(newvalue) {
       this.nickname = newvalue;
     },
     "$store.state.photo"(newvalue) {
       this.photo = newvalue;
     },
+    "$store.state.sex"(newvalue) {
+      this.sex = newvalue;
+    },
   },
   data() {
     return {
       nickname: "",
       photo: "",
+      sex: "",
       // 当前时间段
       timestatus: 0,
     };
@@ -172,11 +176,20 @@ a {
   color: #fff;
 }
 .isclick {
+  color: #5da7f1;
+  height: 32px;
   margin-left: -25px;
   padding-left: 25px;
   width: 170px;
   border-radius: 8px;
   background-color: #ebf4ff;
+}
+.menuul .icon {
+  font-size: 17px;
+  color:#9D9D9F;
+}
+.isclicksvg {
+  color: #5da7f1 !important;
 }
 .leftItem {
   position: fixed;
@@ -204,20 +217,27 @@ a {
   border-radius: 50%;
   box-shadow: 0 0 0 3px rgb(237 234 234);
 }
+#photo {
+  margin-right: 0;
+   float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgb(237 234 234);
+}
 .twoline {
   float: left;
-  margin-top: -10px;
   margin-left: 25px;
 }
 .status {
-  color: #69696c;
+  color: #89898d;
   cursor: default;
-  font-size: 14px;
+  font-size: 11px;
 }
 .nickname {
   color: #464647;
   margin-top: -10px;
-  font-size: 15px;
+  font-size: 14px;
 }
 .nickname:hover {
   color: black;
@@ -246,13 +266,15 @@ a {
   border-radius: 8px;
 }
 .menutop {
-  font-size: 14px;
+  cursor: default;
+  font-size: 12px;
   margin-left: 25px;
 }
 .menuline {
   float: left;
   border-radius: 5px;
-  height: 35px;
+  height: 25px;
+  margin-top: 2px;
   margin-left: -40px;
   background: #5da7f1;
   border-left: 4px solid #5da7f1;
@@ -266,13 +288,14 @@ ul li {
 }
 @media (max-height: 680px) {
   ul li {
-    line-height: 30px;
+    line-height: 32px;
   }
 }
 ul li:hover .icon {
   color: #5da7f1;
 }
 .menuul li:hover {
+  color: #5da7f1;
   margin-left: -25px;
   padding-left: 25px;
   width: 170px;
@@ -289,4 +312,5 @@ ul li:hover .icon {
   margin-left: -10px;
   float: left;
 }
+
 </style>

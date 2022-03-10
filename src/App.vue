@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="show" v-if="$route.path != '/login'">
+    <div class="show" v-if="$route.path != '/login' && $route.path !='/agreement' && $route.path !='/private'">
       <Menu></Menu>
       <Menutop></Menutop>
     </div>

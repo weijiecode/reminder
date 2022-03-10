@@ -2,149 +2,159 @@
   <div class="home">
     <div class="homebox">
       <div class="homecontent">
-        <i @click="reload()" class="el-icon-refresh-right" style=""></i>
-        <div class="contentcenter">
-          <p class="onep">
-            欢迎您，{{ username }}&nbsp;&nbsp;
-            <svg style="font-size: 30px" class="icon" aria-hidden="true">
-              <use xlink:href="#icon-ziyuan"></use>
-            </svg>
-          </p>
-          <p class="twop">以下是你当前的任务统计数据</p>
-          <div class="block-num" style="background-color: #6f9ef6">
-            <p class="blockp">今日待完成</p>
-            <p class="blockpp">
-              {{ todaynodone }}
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-gf-list6"></use>
+        <div class="flexbox">
+          <i @click="reload()" class="el-icon-refresh-right" style=""></i>
+          <div class="contentcenter">
+            <p class="onep">
+              欢迎您，{{ username }}&nbsp;&nbsp;
+              <svg style="font-size: 30px" class="icon" aria-hidden="true">
+                <use xlink:href="#icon-ziyuan"></use>
               </svg>
             </p>
-          </div>
-          <div class="block-num" style="background-color: #fa8e8c">
-            <p class="blockp">超期未完成</p>
-            <p class="blockpp">
-              {{ overnodone }}
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-xiangyingchaoshijiankong"></use>
-              </svg>
-            </p>
-          </div>
-          <div class="block-num" style="background-color: #98de6e">
-            <p class="blockp">总待完成</p>
-            <p class="blockpp">
-              {{ allblock }}
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-gf-list4"></use>
-              </svg>
-            </p>
-          </div>
-        </div>
-        <div class="weatherbox">
-          <p v-if="loading" class="twop">
-            <City :tocity="tocity"></City>
-          </p>
-          <p v-if="!loading" class="twop">
-            以下是<span class="cityp"
-              ><i class="el-icon-location-information"></i>{{city}}</span
-            >的天气
-          </p>
-          <div class="wbox" v-loading="loading" element-loading-text="获取地址中，请稍等">
-            <svg
-              v-if="wvalue == 0"
-              style="margin-top: 10px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-tianqitubiao_qing"></use>
-            </svg>
-            <svg
-              v-if="wvalue == 1"
-              style="margin-top: 12px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-weibiaoti--"></use>
-            </svg>
-            <svg
-              v-if="wvalue == 2"
-              style="margin-top: 7px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-icon_yintian"></use>
-            </svg>
-            <svg
-              v-if="wvalue == 3"
-              style="font-size: 50px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-icon_baoyu"></use>
-            </svg>
-            <svg
-              v-if="wvalue == 4"
-              style="font-size: 57px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-icon_zhenxue"></use>
-            </svg>
-            <p class="wboxp">今天</p>
-            <div class="allpbox">
-              <p class="pbox">天气：{{ todayweather.type }}</p>
-              <p class="pbox">最高温：{{ todayweather.high }}</p>
-              <p class="pbox">最低温：{{ todayweather.low }}</p>
+            <p class="twop">以下是你当前的任务统计数据</p>
+            <div class="block-num" style="background-color: #5da7f1">
+              <p class="blockp">今日待完成</p>
+              <p class="blockpp">
+                {{ todaynodone }}
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-gf-list6"></use>
+                </svg>
+              </p>
+            </div>
+            <div class="block-num" style="background-color: #fa8e8c">
+              <p class="blockp">超期未完成</p>
+              <p class="blockpp">
+                {{ overnodone }}
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-xiangyingchaoshijiankong"></use>
+                </svg>
+              </p>
+            </div>
+            <div class="block-num" style="background-color: #98de6e">
+              <p class="blockp">总待完成</p>
+              <p class="blockpp">
+                {{ allblock }}
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-gf-list4"></use>
+                </svg>
+              </p>
             </div>
           </div>
-          <div class="wbox" v-loading="loading" element-loading-text="获取地址中，请稍等">
-            <svg
-              v-if="wvalue1 == 0"
-              style="margin-top: 10px"
-              class="icon"
-              aria-hidden="true"
+          <div class="weatherbox">
+            <p v-if="loading" class="twop">
+              <City :tocity="tocity"></City>
+            </p>
+            <p v-if="!loading" class="twop">
+              以下是<span class="cityp"
+                ><i class="el-icon-location-information"></i>{{ city }}</span
+              >的天气
+            </p>
+            <div
+              class="wbox"
+              v-loading="loading"
+              element-loading-text="获取地址中，请稍等"
             >
-              <use xlink:href="#icon-tianqitubiao_qing"></use>
-            </svg>
-            <svg
-              v-if="wvalue1 == 1"
-              style="margin-top: 12px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-weibiaoti--"></use>
-            </svg>
-            <svg
-              v-if="wvalue1 == 2"
-              style="margin-top: 7px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-icon_yintian"></use>
-            </svg>
-            <svg
-              v-if="wvalue1 == 3"
-              style="font-size: 50px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-icon_baoyu"></use>
-            </svg>
-            <svg
-              v-if="wvalue1 == 4"
-              style="font-size: 57px"
-              class="icon"
-              aria-hidden="true"
-            >
-              <use xlink:href="#icon-icon_zhenxue"></use>
-            </svg>
-            <p class="wboxp">明天</p>
-            <div class="allpbox">
-              <p class="pbox">天气：{{ yesterdayweather.type }}</p>
-              <p class="pbox">最高温：{{ yesterdayweather.high }}</p>
-              <p class="pbox">最低温：{{ yesterdayweather.low }}</p>
+              <svg
+                v-if="wvalue == 0"
+                style="margin-top: 10px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-tianqitubiao_qing"></use>
+              </svg>
+              <svg
+                v-if="wvalue == 1"
+                style="margin-top: 12px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-weibiaoti--"></use>
+              </svg>
+              <svg
+                v-if="wvalue == 2"
+                style="margin-top: 7px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-icon_yintian"></use>
+              </svg>
+              <svg
+                v-if="wvalue == 3"
+                style="font-size: 50px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-icon_baoyu"></use>
+              </svg>
+              <svg
+                v-if="wvalue == 4"
+                style="font-size: 57px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-icon_zhenxue"></use>
+              </svg>
+              <p class="wboxp">今天</p>
+              <div class="allpbox">
+                <p class="pbox">天气：{{ todayweather.type }}</p>
+                <p class="pbox">最高温：{{ todayweather.high }}</p>
+                <p class="pbox">最低温：{{ todayweather.low }}</p>
+              </div>
             </div>
+            <div
+              class="wbox"
+              v-loading="loading"
+              element-loading-text="获取地址中，请稍等"
+            >
+              <svg
+                v-if="wvalue1 == 0"
+                style="margin-top: 10px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-tianqitubiao_qing"></use>
+              </svg>
+              <svg
+                v-if="wvalue1 == 1"
+                style="margin-top: 12px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-weibiaoti--"></use>
+              </svg>
+              <svg
+                v-if="wvalue1 == 2"
+                style="margin-top: 7px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-icon_yintian"></use>
+              </svg>
+              <svg
+                v-if="wvalue1 == 3"
+                style="font-size: 50px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-icon_baoyu"></use>
+              </svg>
+              <svg
+                v-if="wvalue1 == 4"
+                style="font-size: 57px"
+                class="icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-icon_zhenxue"></use>
+              </svg>
+              <p class="wboxp">明天</p>
+              <div class="allpbox">
+                <p class="pbox">天气：{{ yesterdayweather.type }}</p>
+                <p class="pbox">最高温：{{ yesterdayweather.high }}</p>
+                <p class="pbox">最低温：{{ yesterdayweather.low }}</p>
+              </div>
+            </div>
+            <p v-if="!loading" class="twop" style="float: left">{{ ganmao }}</p>
           </div>
-          <p v-if="!loading" class="twop" style="float: left">{{ ganmao }}</p>
         </div>
       </div>
     </div>
@@ -152,7 +162,7 @@
 </template>
 
 <script>
-import City from "../components/city.vue"
+import City from "../components/city.vue";
 import { datetimes } from "../mixins/mixin";
 // 获取天气
 import myBMap from "../api/map";
@@ -162,10 +172,10 @@ export default {
     this.getseacherdata();
   },
   mounted() {
-     // 调用函数获取城市信息
+    // 调用函数获取城市信息
     this.getCity();
     // 调用天气信息
-    this.getweather()
+    this.getweather();
   },
   mixins: [datetimes],
   data() {
@@ -198,11 +208,11 @@ export default {
       wvalue: 0,
       wvalue1: 0,
       // 是否获取到地址
-      loading: true
+      loading: true,
     };
   },
   components: {
-    City
+    City,
   },
   methods: {
     async getseacherdata() {
@@ -243,8 +253,8 @@ export default {
             //this.loading = true
             console.log(e);
             console.log("定位失败");
-            if(localStorage.getItem('city')==''){
-              this.$message.error('定位失败，请手动添加城市地址')
+            if (localStorage.getItem("city") == "") {
+              this.$message.error("定位失败，请手动添加城市地址");
             }
           },
           { provider: "baidu" }
@@ -255,48 +265,53 @@ export default {
     async getweather() {
       // console.log(newvalue);
       const res = await this.$http.get(
-        "http://wthrcdn.etouch.cn/weather_mini?city=" + localStorage.getItem('city')
+        "http://wthrcdn.etouch.cn/weather_mini?city=" +
+          localStorage.getItem("city")
       );
       // console.log("天气");
       // console.log(res.data);
       if (res.data.status == 1000) {
-        this.loading = false
-        this.city = localStorage.getItem('city')
+        this.loading = false;
+        this.city = localStorage.getItem("city");
         this.todayweather.type = res.data.data.forecast[0].type;
         this.todayweather.high = res.data.data.forecast[0].high;
         this.todayweather.low = res.data.data.forecast[0].low;
         this.ganmao = res.data.data.ganmao;
-        if(this.todayweather.type.indexOf('晴') != -1)this.wvalue = 0
-        else if(this.todayweather.type.indexOf('云') != -1)this.wvalue = 1
-        else if(this.todayweather.type.indexOf('阴') != -1)this.wvalue = 2
-        else if(this.todayweather.type.indexOf('雨') != -1)this.wvalue = 3
-        else if(this.todayweather.type.indexOf(' 雪') != -1)this.wvalue = 4
+        if (this.todayweather.type.indexOf("晴") != -1) this.wvalue = 0;
+        else if (this.todayweather.type.indexOf("云") != -1) this.wvalue = 1;
+        else if (this.todayweather.type.indexOf("阴") != -1) this.wvalue = 2;
+        else if (this.todayweather.type.indexOf("雨") != -1) this.wvalue = 3;
+        else if (this.todayweather.type.indexOf(" 雪") != -1) this.wvalue = 4;
         // console.log(123)
         // console.log(this.todayweather)
         // console.log(this.ganmao)
         this.yesterdayweather.type = res.data.data.forecast[1].type;
         this.yesterdayweather.high = res.data.data.forecast[1].high;
         this.yesterdayweather.low = res.data.data.forecast[1].low;
-        if(this.yesterdayweather.type.indexOf('晴') != -1)this.wvalue1 = 0
-        else if(this.yesterdayweather.type.indexOf('云') != -1)this.wvalue1 = 1
-        else if(this.yesterdayweather.type.indexOf('阴') != -1)this.wvalue1 = 2
-        else if(this.yesterdayweather.type.indexOf('雨') != -1)this.wvalue1 = 3
-        else if(this.yesterdayweather.type.indexOf(' 雪') != -1)this.wvalue1 = 4
+        if (this.yesterdayweather.type.indexOf("晴") != -1) this.wvalue1 = 0;
+        else if (this.yesterdayweather.type.indexOf("云") != -1)
+          this.wvalue1 = 1;
+        else if (this.yesterdayweather.type.indexOf("阴") != -1)
+          this.wvalue1 = 2;
+        else if (this.yesterdayweather.type.indexOf("雨") != -1)
+          this.wvalue1 = 3;
+        else if (this.yesterdayweather.type.indexOf(" 雪") != -1)
+          this.wvalue1 = 4;
       }
     },
     //接收子组件的值
-    tocity(city){
-      this.city = city
+    tocity(city) {
+      this.city = city;
       // console.log(this.city)
-      this.loading = false
-      localStorage.setItem('city',this.city)
-    }
+      this.loading = false;
+      localStorage.setItem("city", this.city);
+    },
   },
   watch: {
     city(newvalue) {
       this.getweather();
-      this.loading = false
-      this.city = localStorage.getItem('city')
+      this.loading = false;
+      this.city = localStorage.getItem("city");
     },
   },
 };
@@ -313,6 +328,9 @@ export default {
   margin-left: 280px;
 }
 .homecontent {
+  display: flex;
+    justify-content: center;
+    justify-items: center;
   min-width: 900px;
   min-height: 450px;
   margin-top: 20px;
@@ -325,8 +343,8 @@ export default {
   margin-bottom: 30px;
 }
 .contentcenter {
-  margin-top: 8%;
-  margin-left: 20%;
+  margin-top: 12%;
+  width: 616px;
 }
 .onep {
   cursor: default;
@@ -371,15 +389,14 @@ export default {
 }
 .el-icon-refresh-right {
   float: right;
-  margin-right: 50px;
   font-size: 20px;
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-right: -120px;
   cursor: pointer;
 }
 .weatherbox {
-  width: 80%;
+  width: 616px;
   display: inline-block;
-  margin-left: 20%;
 }
 .cityp {
   color: #000;
