@@ -69,6 +69,12 @@
                     </div>
                 </el-popover>
           </div>
+          <div class="git" style="margin-top: -20px">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-github"></use>
+              </svg>
+              <el-link href="https://github.com/weijiecode" target="_blank">https://github.com/weijiecode</el-link>
+          </div>
         </div>
       </div>
     </div>
