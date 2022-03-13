@@ -2,10 +2,20 @@
   <div class="leftItem">
     <div class="headimage" @click="$router.push('/mycenter')">
       <img v-if="photo != null" :src="photo" alt="" />
-      <svg v-if="photo == null && sex == 0" id="photo" class="icon" aria-hidden="true">
+      <svg
+        v-if="photo == null && sex == 0"
+        id="photo"
+        class="icon"
+        aria-hidden="true"
+      >
         <use xlink:href="#icon-icon-test"></use>
       </svg>
-      <svg v-if="photo == null && sex == 1" id="photo" class="icon" aria-hidden="true">
+      <svg
+        v-if="photo == null && sex == 1"
+        id="photo"
+        class="icon"
+        aria-hidden="true"
+      >
         <use xlink:href="#icon-icon-test2"></use>
       </svg>
       <div class="online"></div>
@@ -41,7 +51,11 @@
         <router-link to="/home">
           <li :class="{ isclick: $route.path == '/home' }">
             <div :class="{ menuline: $route.path == '/home' }"></div>
-            <svg :class="{ isclicksvg: $route.path == '/home' }" class="icon" aria-hidden="true">
+            <svg
+              :class="{ isclicksvg: $route.path == '/home' }"
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-home-full"></use></svg
             >首页
           </li></router-link
@@ -49,7 +63,11 @@
         <router-link to="/backlog">
           <li :class="{ isclick: $route.path == '/backlog' }">
             <div :class="{ menuline: $route.path == '/backlog' }"></div>
-            <svg :class="{ isclicksvg: $route.path == '/backlog' }" class="icon" aria-hidden="true">
+            <svg
+              :class="{ isclicksvg: $route.path == '/backlog' }"
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-renwu"></use></svg
             >我的任务
           </li></router-link
@@ -57,7 +75,11 @@
         <router-link to="/mycenter">
           <li :class="{ isclick: $route.path == '/mycenter' }">
             <div :class="{ menuline: $route.path == '/mycenter' }"></div>
-            <svg :class="{ isclicksvg: $route.path == '/mycenter' }" class="icon" aria-hidden="true">
+            <svg
+              :class="{ isclicksvg: $route.path == '/mycenter' }"
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-gerenzhongxin"></use></svg
             >个人中心
           </li></router-link
@@ -66,7 +88,11 @@
         <router-link to="/view">
           <li :class="{ isclick: $route.path == '/view' }">
             <div :class="{ menuline: $route.path == '/view' }"></div>
-            <svg :class="{ isclicksvg: $route.path == '/view' }" class="icon" aria-hidden="true">
+            <svg
+              :class="{ isclicksvg: $route.path == '/view' }"
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-rili2"></use></svg
             >日历视图
           </li></router-link
@@ -74,7 +100,11 @@
         <router-link to="/dailyclock">
           <li :class="{ isclick: $route.path == '/dailyclock' }">
             <div :class="{ menuline: $route.path == '/dailyclock' }"></div>
-            <svg :class="{ isclicksvg: $route.path == '/dailyclock' }" class="icon" aria-hidden="true">
+            <svg
+              :class="{ isclicksvg: $route.path == '/dailyclock' }"
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-dagou"></use></svg
             >每日打卡
           </li></router-link
@@ -90,7 +120,11 @@
         <router-link to="/statistics">
           <li :class="{ isclick: $route.path == '/statistics' }">
             <div :class="{ menuline: $route.path == '/statistics' }"></div>
-            <svg :class="{ isclicksvg: $route.path == '/statistics' }" class="icon" aria-hidden="true">
+            <svg
+              :class="{ isclicksvg: $route.path == '/statistics' }"
+              class="icon"
+              aria-hidden="true"
+            >
               <use xlink:href="#icon-tongjifenxi"></use></svg
             >统计分析
           </li></router-link
@@ -101,26 +135,34 @@
     <p class="menutop">更多</p>
     <div class="morebox">
       <ul class="moreul">
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-app1"></use></svg
-          >APP下载
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-wodefankui"></use></svg
-          >反馈与建议
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-guanyu"></use></svg
-          >关于
-        </li>
-        <li>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-shezhi"></use></svg
-          >设置
-        </li>
+        <router-link to="/app">
+          <li :class="{ styli: $route.path == '/app' }">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-app1"></use></svg
+            >APP下载
+          </li>
+        </router-link>
+        <router-link to="/feedback">
+          <li :class="{ styli: $route.path == '/feedback' }">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-wodefankui"></use></svg
+            >反馈与建议
+          </li></router-link
+        >
+        <router-link to="/about">
+          <li :class="{ styli: $route.path == '/about' }">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-guanyu"></use></svg
+            >关于
+          </li>
+        </router-link>
+        <router-link to="/setting">
+          <li :class="{ styli: $route.path == '/setting' }">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-shezhi"></use></svg
+            >设置
+          </li>
+        </router-link>
       </ul>
     </div>
   </div>
@@ -186,14 +228,14 @@ a {
 }
 .menuul .icon {
   font-size: 17px;
-  color:#9D9D9F;
+  color: #9d9d9f;
 }
 .isclicksvg {
   color: #5da7f1 !important;
 }
 .leftItem {
   position: fixed;
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   color: rgba(15, 23, 42, 0.8);
   margin-top: 30px;
   margin-left: 30px;
@@ -219,7 +261,7 @@ a {
 }
 #photo {
   margin-right: 0;
-   float: left;
+  float: left;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -312,5 +354,7 @@ ul li:hover .icon {
   margin-left: -10px;
   float: left;
 }
-
+.styli {
+  color: #5da7f1;
+}
 </style>

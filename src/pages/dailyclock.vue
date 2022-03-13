@@ -25,7 +25,7 @@
     </div>
     <div class="rightbox">
       <!-- 打卡区域 -->
-      <p class="myp">操作</p>
+      <p style="margin-top: 0;" class="myp">操作</p>
       <div class="dosuccess">
         <div class="btndo">
           <div v-if="!showall" class="nodo">
@@ -510,21 +510,22 @@ export default {
   margin-left: 280px;
 }
 .clock {
-  margin-top: 75px;
+  margin-top: 65px;
   height: calc(100% - 75px);
   width: calc(100% - 350px);
   float: left;
 }
 .clockp {
+  margin-top: 8px;
   font-size: 20px;
   font-weight: 600;
 }
 .calendarbox {
-  height: calc(100% - 96px);
+  height: calc(100% - 75px);
   min-height: 454px;
 }
 ::v-deep .el-calendar {
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   margin-bottom: 20px;
   height: 100%;
@@ -532,7 +533,7 @@ export default {
   float: left;
 }
 ::v-deep .el-calendar__header {
-  height: 15px;
+  height: 30px;
 }
 ::v-deep .el-calendar-table thead th {
   padding: 0;
@@ -558,14 +559,14 @@ export default {
   font-weight: 600;
 }
 .dosuccess {
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
-  height: 245px;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  height: 260px;
   width: 270px;
   border-radius: 10px;
   background-color: white;
 }
 .clockmore {
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   height: 145px;
   width: 270px;
   border-radius: 10px;

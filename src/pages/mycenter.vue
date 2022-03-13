@@ -475,10 +475,12 @@ export default {
   margin-left: 280px;
 }
 .center {
+  margin-top: -10px;
   width: calc(100% - 30px);
   float: left;
 }
 .myp {
+  margin-top: 8px;
   font-size: 20px;
   font-weight: 600;
 }
@@ -492,14 +494,14 @@ export default {
   border-radius: 10px;
 }
 .boxtop {
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   height: 140px;
   background-color: white;
 }
 .boxbottom {
   margin-top: 30px;
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   height: 600px;
   background-color: white;

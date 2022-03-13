@@ -476,8 +476,10 @@ export default {
   /* min-width: 1039px; */
   width: calc(100% - 30px);
   float: left;
+  margin-top: -10px;
 }
 .stap {
+  margin-top: 8px;
   font-size: 20px;
   font-weight: 600;
 }
@@ -485,7 +487,7 @@ export default {
   height: 380px;
   border-radius: 10px;
   background-color: white;
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
 }
 #leftview {
   min-width: 410px;
@@ -495,7 +497,7 @@ export default {
   height: 350px;
   border-radius: 10px;
   background-color: white;
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
 }
 #rightview {
   min-width: 410px;
@@ -505,7 +507,7 @@ export default {
   height: 350px;
   border-radius: 10px;
   background-color: white;
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
 }
 
 .data-report {

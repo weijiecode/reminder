@@ -169,6 +169,7 @@ import myBMap from "../api/map";
 export default {
   created() {
     this.username = this.$store.state.nickname;
+    // 获取搜索数据
     this.getseacherdata();
   },
   mounted() {
@@ -305,7 +306,7 @@ export default {
       // console.log(this.city)
       this.loading = false;
       localStorage.setItem("city", this.city);
-    },
+    }
   },
   watch: {
     city(newvalue) {
@@ -329,8 +330,8 @@ export default {
 }
 .homecontent {
   display: flex;
-    justify-content: center;
-    justify-items: center;
+  justify-content: center;
+  justify-items: center;
   min-width: 900px;
   min-height: 450px;
   margin-top: 20px;
@@ -338,7 +339,7 @@ export default {
   height: calc(100% - 120px);
   width: calc(100% - 30px);
   float: left;
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   margin-bottom: 30px;
 }

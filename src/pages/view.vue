@@ -78,7 +78,7 @@ export default {
   overflow: auto;
 }
 ::v-deep .el-calendar {
-  box-shadow: 2px 15px 29px #d6d6d6, -15px -15px 29px #ffffff;
+  box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   border-radius: 10px;
   margin-bottom: 30px;
 }
@@ -86,10 +86,12 @@ export default {
   margin-left: 280px;
 }
 .view {
+  margin-top: -10px;
   width: calc(100% - 30px);
   float: left;
 }
 .viewp {
+  margin-top: 8px;
   font-size: 20px;
   font-weight: 600;
 }

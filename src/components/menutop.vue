@@ -11,15 +11,49 @@
     ></el-autocomplete>
     <div class="mbox">
       <!-- 消息通知 -->
-      <svg
-        style="float: left"
-        @click="blockmessage"
-        class="icon"
-        aria-hidden="true"
-      >
-        <use xlink:href="#icon-tongzhi"></use>
-      </svg>
-      <div class="redradius"></div>
+      <div class="msgall">
+        <div class="msgbox">
+          <p class="msgp">
+            <router-link
+              class="ap"
+              :to="{ path: '/message', query: { classId: 1 } }"
+            >
+              <span class="msgs">官方</span>
+              <span class="msgs1">{{ messagedata.gfnum }}</span>
+            </router-link>
+          </p>
+          <p class="msgp">
+            <router-link
+              class="ap"
+              :to="{ path: '/message', query: { classId: 2 } }"
+            >
+              <span class="msgs">通知</span>
+              <span class="msgs1">{{ messagedata.tznum }}</span>
+            </router-link>
+          </p>
+          <p class="msgp">
+            <router-link
+              class="ap"
+              :to="{ path: '/message', query: { classId: 3 } }"
+            >
+              <span class="msgs">私信</span>
+              <span class="msgs1">{{ messagedata.sxnum }}</span>
+            </router-link>
+          </p>
+          <p class="msgp">
+            <router-link
+              class="ap"
+              :to="{ path: '/message', query: { classId: 0 } }"
+            >
+              <span class="msgs">查看全部</span>
+            </router-link>
+          </p>
+        </div>
+        <svg id="show" style="float: left" class="icon" aria-hidden="true">
+          <use xlink:href="#icon-tongzhi"></use>
+        </svg>
+      </div>
+      <div v-if="showred == 1" class="redradius"></div>
       <!-- 退出 -->
       <el-tooltip content="安全退出" placement="bottom" effect="light">
         <svg style="float: right" @click="exit" class="icon" aria-hidden="true">
@@ -27,6 +61,7 @@
         </svg>
       </el-tooltip>
     </div>
+
     <!-- 待办详情弹窗 -->
     <div class="mask" v-show="isshow">
       <div class="newthing">
@@ -57,10 +92,21 @@
 </template>
 
 <script>
+import Bus from "../api/Bus";
 export default {
   name: "mymenutop",
-  created() {},
-  mounted() {},
+  created() {
+    // 获取消息类别数量
+    this.getmessageclass();
+  },
+  components: {
+    Bus,
+  },
+  mounted() {
+    Bus.$on("changedata", () => {
+    this.getmessageclass();
+    });
+  },
   data() {
     return {
       state: "",
@@ -76,6 +122,13 @@ export default {
         colorclass: "",
         done: "",
       },
+      // 消息类别数量
+      messagedata: {
+        gfnum: 0,
+        tznum: 0,
+        sxnum: 0,
+      },
+      showred: 0
     };
   },
   methods: {
@@ -140,8 +193,25 @@ export default {
         })
         .catch(() => {});
     },
-    blockmessage() {},
-  },
+    // 获取消息各类别数量
+    async getmessageclass() {
+      const { data: res } = await this.$http.get("/message/usermessage");
+      if (res.code == 200) {
+        console.log(res)
+        this.messagedata.gfnum = res.data.filter((item) => {
+          return item.title == "【官方】" && item.isread == 0;
+        }).length;
+        this.messagedata.tznum = res.data.filter((item) => {
+          return item.title == "【通知】" && item.isread == 0;
+        }).length;
+        this.messagedata.sxnum = res.data.filter((item) => {
+          return item.title == "【私信】" && item.isread == 0;
+        }).length;
+        if(this.messagedata.gfnum+this.messagedata.tznum+this.messagedata.sxnum == 0)this.showred=0;
+        if(this.messagedata.gfnum+this.messagedata.tznum+this.messagedata.sxnum != 0)this.showred=1;
+      }
+    },
+  }
 };
 </script>
 
@@ -226,5 +296,53 @@ export default {
 /* 弹框bug */
 ::v-deep .focusing {
   display: none;
+}
+.msgbox {
+  z-index: 999;
+  cursor: pointer;
+  font-size: 15px;
+  color: #aaa;
+  top: 60px;
+  position: fixed;
+  right: 50px;
+  border-radius: 10px;
+  width: 100px;
+  height: 150px;
+  box-shadow: 0 0 10px 2px rgb(0 0 0 / 6%);
+  background-color: #ffffff;
+  display: none;
+}
+.msgall:hover .msgbox {
+  display: block;
+}
+.msgbox:hover {
+  display: block;
+}
+.msgs {
+  margin-left: 20px;
+}
+.msgs1 {
+  font-size: 12px;
+  float: right;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+  background: #5da7f1;
+  color: #ffffff;
+}
+.msgp:hover {
+  color: #5da7f1;
+}
+.ap {
+  color: #aaa;
+  text-decoration: none;
+}
+.ap:hover {
+  color: #5da7f1;
 }
 </style>

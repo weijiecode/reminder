@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <!-- 登录 -->
-    <img class="logoimg" src="../assets/logo1.png" alt="" />
+    <img class="logoimg" src="../assets/logo2.png" alt="" />
     <div v-if="loginorregister == 0" class="loginbox">
       <div class="login-title">欢迎访问日暮清单</div>
       <div class="login-subtitle">请输入您的凭证访问账户。</div>
@@ -40,7 +40,7 @@
         <p class="nouser">还没有账号？<p @click="loginorregister = 1" class="subnouser">注册账号</p></p>
       </div>
     </div>
-    <p class="agree">登录或完成注册即代表你同意<router-link class="subtitle" to='/agreement' target='_blank'>用户协议</router-link>和<router-link class="subtitle" to='/private' target='_blank'>隐私政策</router-link></p>
+    <p v-if="loginorregister == 0" class="agree">登录或完成注册即代表你同意<router-link class="subtitle" to='/agreement' target='_blank'>用户协议</router-link>和<router-link class="subtitle" to='/private' target='_blank'>隐私政策</router-link></p>
     <div v-if="loginorregister == 1" class="loginbox">
       <div class="login-title">欢迎访问日暮清单</div>
       <el-steps :active="active" finish-status="success">
@@ -307,6 +307,7 @@ export default {
     };
   },
   methods: {
+    // 登录
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return;
@@ -331,12 +332,8 @@ export default {
         // console.log(this.$store.state.username)
       });
     },
+    // 注册
     async register() {
-        // console.log(this.regForm.reg_username);
-        // console.log(this.regForm.reg_password);
-        // console.log(this.regdataForm.reg_nickname);
-        // console.log(this.regdataForm.reg_sex);
-        // console.log(this.regdataForm.reg_phone);
         const { data: res } = await this.$http.post("/account/register", {
           reg_username: this.regForm.reg_username,
           reg_password: this.regForm.reg_password,
@@ -358,6 +355,7 @@ export default {
         confirmButtonText: "确定",
       });
     },
+    // 注册下一步
     nextone() {
       this.$refs.regFormRef.validate(async (valid) => {
         const { data: res } = await this.$http.post('/account/selectusername',{
@@ -371,6 +369,7 @@ export default {
         }
       });
     },
+    // 注册第二步下一步
     nexttwo() {
       this.$refs.regdataFormRef.validate(async (valid) => {
         if (!valid) return;
@@ -392,6 +391,7 @@ export default {
   align-items: center;
 }
 .logoimg {
+  box-shadow: 0 0 10px #e6ecfa;
   margin-top: 30px;
   width: 60px;
   height: 60px;
