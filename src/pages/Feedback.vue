@@ -3,7 +3,7 @@
     <div class="feedback">
       <p class="myp">反馈与建议</p>
       <div class="msgcontent">
-        <el-form style="width: 80%;margin-top: 20px;" label-width="120px">
+        <el-form style="width: 80%; margin-top: 20px" label-width="120px">
           <el-form-item label="标题">
             <el-input v-model="model.title"></el-input>
           </el-form-item>
@@ -12,6 +12,7 @@
               v-model="model.content"
               useCustomImageHandler
               @image-added="handleImageAdded"
+              :editorToolbar="customToolbar"
             ></vue-editor>
           </el-form-item>
           <el-form-item>
@@ -67,6 +68,13 @@ export default {
         content: "",
         photourl: "",
       },
+      customToolbar: [
+        ["bold", "italic", "code-block", "background", "color", "underline","link","image"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ header: "2" }],
+        ["clean"],
+        [{ align: "center" }, { align: "justify" }, { align: "right" }],
+      ],
     };
   },
 };

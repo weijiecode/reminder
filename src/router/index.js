@@ -11,6 +11,7 @@ import Agreement from '../pages/Agreement'
 import Private from '../pages/Private'
 import Message from '../pages/Message'
 import Feedback from '../pages/Feedback'
+import About from '../pages/About'
 //导入进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -112,6 +113,14 @@ const routes = [
     component: Feedback,
     meta: {
       title: '反馈与建议'
+    }
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
+    meta: {
+      title: '关于'
     }
   }
 ]

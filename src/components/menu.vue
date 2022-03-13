@@ -109,14 +109,6 @@
             >每日打卡
           </li></router-link
         >
-        <!-- <router-link to="/classification">
-          <li :class="{ isclick:$route.path=='/classification' }">
-            <div :class="{ menuline:$route.path=='/classification' }"></div>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-fenlei"></use></svg
-            >分类
-          </li></router-link
-        > -->
         <router-link to="/statistics">
           <li :class="{ isclick: $route.path == '/statistics' }">
             <div :class="{ menuline: $route.path == '/statistics' }"></div>
@@ -154,13 +146,6 @@
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-guanyu"></use></svg
             >关于
-          </li>
-        </router-link>
-        <router-link to="/setting">
-          <li :class="{ styli: $route.path == '/setting' }">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-shezhi"></use></svg
-            >设置
           </li>
         </router-link>
       </ul>
