@@ -201,6 +201,8 @@ export default {
       loginorregister: 0,
       // 步骤条
       active: 0,
+      // 所有消息的id
+      messageid: [],
       // 登录表单
       loginForm: {
         username: "",
@@ -282,7 +284,11 @@ export default {
       },
       regdataFormRules: {
         reg_nickname: [
-          { required: true, message: "请输入长度在 3 到 8 个字符的昵称", trigger: "blur" },
+          {
+            required: true,
+            message: "请输入长度在 3 到 8 个字符的昵称",
+            trigger: "blur",
+          },
           {
             min: 3,
             max: 8,
@@ -293,16 +299,21 @@ export default {
         // 可以为空
         reg_phone: [
           {
-            validator: function(rule, value, callback) {
-              if (/^(13[0-9]|14[0-9]|15[0-9]|16[6]|18[0-9]|19[6,9]|17[0-9])\d{8}$/i.test(value) == false && value !="") {
+            validator: function (rule, value, callback) {
+              if (
+                /^(13[0-9]|14[0-9]|15[0-9]|16[6]|18[0-9]|19[6,9]|17[0-9])\d{8}$/i.test(
+                  value
+                ) == false &&
+                value != ""
+              ) {
                 callback(new Error("请输入正确的手机号"));
-              }else {
+              } else {
                 //校验通过
                 callback();
               }
             },
-          }
-        ]
+          },
+        ],
       },
     };
   },
@@ -316,7 +327,7 @@ export default {
           password: this.loginForm.password,
           sevenlogin: this.issevenlogin,
         });
-
+        console.log(res);
         if (res.code !== 200) return this.$message.error("账号或密码错误!");
         this.$message.success("登录成功！");
         console.log("账户数据：");
@@ -334,22 +345,45 @@ export default {
     },
     // 注册
     async register() {
-        const { data: res } = await this.$http.post("/account/register", {
-          reg_username: this.regForm.reg_username,
-          reg_password: this.regForm.reg_password,
-          reg_nickname: this.regdataForm.reg_nickname,
-          reg_sex: this.regdataForm.reg_sex,
-          reg_phone: this.regdataForm.reg_phone
-        });
-        if (res.code !== 200) return this.$message.error("注册失败，请重试！");
-        else if(res.code == 200) {
-          this.$message.success("注册成功！");
-          setTimeout(() => {
-            this.loginorregister = 0
-          },1000)
-        }
-        // console.log(res);
+      const { data: res } = await this.$http.post("/account/register", {
+        reg_username: this.regForm.reg_username,
+        reg_password: this.regForm.reg_password,
+        reg_nickname: this.regdataForm.reg_nickname,
+        reg_sex: this.regdataForm.reg_sex,
+        reg_phone: this.regdataForm.reg_phone,
+      });
+      if (res.code !== 200) return this.$message.error("注册失败，请重试！");
+      else if (res.code == 200) {
+        this.getmessageid();
+        this.$message.success("注册成功！");
+        setTimeout(() => {
+          this.loginorregister = 0;
+        }, 1000);
+      }
+      // console.log(res);
     },
+    // 获取所有消息id
+    async getmessageid() {
+      const { data: res } = await this.$http.post("/account/selectmessageid", {
+        username: this.regForm.reg_username,
+      });
+      if (res.code == 200) {
+        this.messageid = res.data;
+        this.addmessage()
+      }
+      // console.log(this.messageid);
+    },
+    // 给新用户添加未读消息
+    addmessage() {
+      this.messageid.forEach(async(element) => {
+        const { data: res } = await this.$http.post("/account/addmessage", {
+          message_id: element.id,
+          username: this.regForm.reg_username
+        });
+        // console.log(res)
+      });
+    },
+    // 找回密码
     contactroot() {
       this.$alert("请联系管理员重置此账号密码", "提示", {
         confirmButtonText: "确定",
@@ -358,12 +392,14 @@ export default {
     // 注册下一步
     nextone() {
       this.$refs.regFormRef.validate(async (valid) => {
-        const { data: res } = await this.$http.post('/account/selectusername',{
-          username:this.regForm.reg_username
-        })
-        if(res.code == 200){
-          this.$message.error(this.regForm.reg_username+"，该用户名已被注册，请修改！")
-        }else{
+        const { data: res } = await this.$http.post("/account/selectusername", {
+          username: this.regForm.reg_username,
+        });
+        if (res.code == 200) {
+          this.$message.error(
+            this.regForm.reg_username + "，该用户名已被注册，请修改！"
+          );
+        } else {
           if (!valid) return;
           this.active = 1;
         }

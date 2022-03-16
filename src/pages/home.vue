@@ -171,12 +171,13 @@ export default {
     this.username = this.$store.state.nickname;
     // 获取搜索数据
     this.getseacherdata();
+        // 调用天气信息
+     this.getweather();
   },
   mounted() {
     // 调用函数获取城市信息
     this.getCity();
-    // 调用天气信息
-    this.getweather();
+    
   },
   mixins: [datetimes],
   data() {
@@ -246,6 +247,9 @@ export default {
             let city = position.address.city; //获取城市信息
             // let province = position.address.province; //获取省份信息
             this.city = city;
+            //console.log(city);
+            localStorage.setItem("city", city);
+            this.getweather();
             // console.log(city);
             // console.log(province);
             // console.log(position);
@@ -264,7 +268,9 @@ export default {
     },
     // 获取天气
     async getweather() {
-      // console.log(newvalue);
+      // console.log('123')
+      // console.log(this.city);
+      // console.log(localStorage.getItem("city"))
       const res = await this.$http.get(
         "http://wthrcdn.etouch.cn/weather_mini?city=" +
           localStorage.getItem("city")
@@ -310,9 +316,12 @@ export default {
   },
   watch: {
     city(newvalue) {
-      this.getweather();
-      this.loading = false;
-      this.city = localStorage.getItem("city");
+      console.log(newvalue)
+      if(newvalue != null){
+        this.getweather();
+        // localStorage.setItem("city", newvalue);
+      //this.city = localStorage.getItem("city");
+      }
     },
   },
 };
