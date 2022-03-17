@@ -169,14 +169,16 @@ import myBMap from "../api/map";
 export default {
   created() {
     this.username = this.$store.state.nickname;
-    // 获取搜索数据
+    // 获取数据
     this.getseacherdata();
         // 调用天气信息
      this.getweather();
   },
   mounted() {
-    // 调用函数获取城市信息
+    if(localStorage.getItem('city') == null){
+      // 调用函数获取城市信息
     this.getCity();
+    }
     
   },
   mixins: [datetimes],
