@@ -12,6 +12,7 @@ import Private from '../pages/Private'
 import Message from '../pages/Message'
 import Feedback from '../pages/Feedback'
 import About from '../pages/About'
+import App from '../pages/App'
 //导入进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -121,6 +122,14 @@ const routes = [
     component: About,
     meta: {
       title: '关于'
+    }
+  },
+  {
+    path: '/app',
+    name: 'App',
+    component: App,
+    meta: {
+      title: '下载'
     }
   }
 ]
