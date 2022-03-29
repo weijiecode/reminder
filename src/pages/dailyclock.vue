@@ -436,9 +436,7 @@ export default {
     },
     // 获取打卡天数
     async getclockdays() {
-      const { data: res } = await this.$http.post("/clock/clockdays", {
-        username: localStorage.getItem("username"),
-      });
+      const { data: res } = await this.$http.post("/clock/clockdays");
       // console.log("123");
       // console.log(res.data.length);
       // 完成打卡的天数
@@ -461,9 +459,7 @@ export default {
     },
     // 删除打卡信息
     async deleteclock() {
-      const { data: res } = await this.$http.post("/clock/deleteclock", {
-        username: localStorage.getItem("username"),
-      });
+      const { data: res } = await this.$http.post("/clock/deleteclock");
       this.deleteclockdays();
       if (res.code == 200) {
         this.showall = false;
@@ -478,9 +474,7 @@ export default {
     },
     // 删除所有天数记录
     async deleteclockdays() {
-      const { data: res } = await this.$http.post("/clock/deleteclockdays", {
-        username: localStorage.getItem("username"),
-      });
+      const { data: res } = await this.$http.post("/clock/deleteclockdays");
       if (res.code == 200) {
         this.showall = false;
         this.iscreate = 0;

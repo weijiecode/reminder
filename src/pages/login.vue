@@ -488,6 +488,10 @@ export default {
   margin: 10px auto;
   color: #aaa;
 }
+::v-deep .el-step__title.is-process {
+  color: #606266;
+}
+
 .reg_form {
   margin-right: 63px;
   margin-top: 20px;

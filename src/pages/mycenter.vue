@@ -93,7 +93,7 @@
                 type="textarea"
                 placeholder="请输入内容"
                 v-model="formMyCenter.introduction"
-                maxlength="30"
+                maxlength="15"
                 show-word-limit
               >
               </el-input>
@@ -347,9 +347,7 @@ export default {
   methods: {
     // 获取用户数据
     async getuserdata() {
-      const { data: res } = await this.$http.post("/mycenter/userdata", {
-        username: localStorage.getItem("username"),
-      });
+      const { data: res } = await this.$http.post("/mycenter/userdata");
       // console.log(res);
       if (res.code == 200) {
         this.formMyCenter = res.data[0];
@@ -422,8 +420,7 @@ export default {
       if (this.userphoto != "") {
         const { data: res } = await this.$http.post("/mycenter/updatephoto", {
           photo: this.userphoto,
-          oldphoto: this.formMyCenter.photo,
-          username: localStorage.getItem("username"),
+          oldphoto: this.formMyCenter.photo
         });
         if (res.code == 200) {
           this.formMyCenter.photo = this.userphoto;
