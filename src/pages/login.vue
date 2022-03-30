@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <!-- 登录 -->
-    <img class="logoimg" src="../assets/logo2.png" alt="" />
+    <img class="logoimg" src="http://localhost:5001/public/image/logo.png" alt="" />
     <div v-if="loginorregister == 0" class="loginbox">
       <div class="login-title">欢迎访问日暮清单</div>
       <div class="login-subtitle">请输入您的凭证访问账户。</div>

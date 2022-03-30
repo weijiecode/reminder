@@ -22,7 +22,7 @@
         <div v-if="showmessage == 0" class="content">
           <ul v-for="(item, index) in messagedata" :key="index">
             <li @click="updateread(item)">
-              <img src="../assets/logo2.png" alt="" />
+              <img src="http://localhost:5001/public/image/logo.png" alt="" />
               <div class="licontent">
                 <span class="licontents"
                   >{{ item.title }}{{ item.content }}</span
@@ -53,7 +53,7 @@
           <el-empty v-if="gfmessagedata==''" description="暂无通知消息"></el-empty>
           <ul v-if="gfmessagedata!=''" v-for="(item, index) in gfmessagedata" :key="index">
             <li @click="updateread(item)">
-              <img src="../assets/logo2.png" alt="" />
+              <img src="http://localhost:5001/public/image/logo.png" alt="" />
               <div class="licontent">
                 <span class="licontents"
                   >{{ item.title }}{{ item.content }}</span
@@ -84,7 +84,7 @@
           <el-empty v-if="tzmessagedata==''" description="暂无通知消息"></el-empty>
           <ul v-if="tzmessagedata!=''" v-for="(item, index) in tzmessagedata" :key="index">
             <li @click="updateread(item)">
-              <img src="../assets/logo2.png" alt="" />
+              <img src="http://localhost:5001/public/image/logo.png" alt="" />
               <div class="licontent">
                 <span class="licontents"
                   >{{ item.title }}{{ item.content }}</span
@@ -115,7 +115,7 @@
           <el-empty v-if="sxmessagedata==''" description="暂无私信消息"></el-empty>
           <ul v-if="sxmessagedata!=''" v-for="(item, index) in sxmessagedata" :key="index">
             <li @click="updateread(item)">
-              <img src="../assets/logo2.png" alt="" />
+              <img src="http://localhost:5001/public/image/logo.png" alt="" />
               <div class="licontent">
                 <span class="licontents"
                   >{{ item.title }}{{ item.content }}</span

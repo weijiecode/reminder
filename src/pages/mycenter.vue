@@ -374,8 +374,7 @@ export default {
               sex: this.formMyCenter.sex,
               phone: this.formMyCenter.phone,
               email:
-                this.formMyCenter.email + "@" + this.formMyCenter.selectemail,
-              username: localStorage.getItem("username"),
+                this.formMyCenter.email + "@" + this.formMyCenter.selectemail
             }
           );
           // console.log(res);

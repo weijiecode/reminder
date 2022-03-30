@@ -3,7 +3,7 @@
     <div class="about">
       <p class="myp">关于</p>
       <div class="msgcontent">
-        <img src="../assets/logo2.png" alt="" />
+        <img src="http://localhost:5001/public/image/logo.png" alt="" />
         <p class="title">Version 1.0.0</p>
         <p class="subtitle">
           <span>日暮清单</span>
@@ -20,7 +20,7 @@
                   <div style="width:200px;height:200px;">
                       <img
                       style="width:100%;height:100%;object-fit: cover;"
-                      src="../assets/QRcode/微信.png"
+                      src="http://localhost:5001/public/image/微信.png"
                       alt/>
                     </div>
                     <div style="width:80px;height:80px;" slot="reference">
@@ -33,7 +33,7 @@
                   <div style="width:200px;height:200px;">
                       <img
                       style="width:100%;height:100%;object-fit: cover;"
-                      src="../assets/QRcode/推特.png"
+                      src="http://localhost:5001/public/image/推特.png"
                       alt/>
                     </div>
                     <div style="width:80px;height:80px;" slot="reference">
@@ -46,7 +46,7 @@
                   <div style="width:200px;height:200px;">
                       <img
                       style="width:100%;height:100%;object-fit: cover;"
-                      src="../assets/QRcode/微博.png"
+                      src="http://localhost:5001/public/image/微博.png"
                       alt/>
                     </div>
                     <div style="width:80px;height:80px;" slot="reference">
@@ -59,7 +59,7 @@
                   <div style="width:200px;height:200px;">
                       <img
                       style="width:100%;height:100%;object-fit: cover;"
-                      src="../assets/QRcode/QQ.png"
+                      src="http://localhost:5001/public/image/QQ.png"
                       alt/>
                     </div>
                     <div style="width:80px;height:80px;" slot="reference">
