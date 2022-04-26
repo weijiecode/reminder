@@ -219,6 +219,7 @@ a {
   color: #5da7f1 !important;
 }
 .leftItem {
+  z-index: 2;
   position: fixed;
   box-shadow: 2px 5px 29px #d6d6d6, -15px -15px 29px #ffffff;
   color: rgba(15, 23, 42, 0.8);
