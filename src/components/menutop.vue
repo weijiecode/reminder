@@ -166,12 +166,12 @@ export default {
       this.backlogForm.contents = item.contents;
       this.backlogForm.datetime = item.datetime;
       this.backlogForm.classvalue = item.classvalue;
-      if (item.colorbg == "#5da7f1") this.backlogForm.colorclass = "生活";
-      else if (item.colorbg == "#d81e06") this.backlogForm.colorclass = "工作";
-      else if (item.colorbg == "#82529d") this.backlogForm.colorclass = "学习";
-      else if (item.colorbg == "#f36372") this.backlogForm.colorclass = "健康";
-      else if (item.colorbg == "#2aa515") this.backlogForm.colorclass = "社交";
-      else if (item.colorbg == "#e0620d") this.backlogForm.colorclass = "其它";
+      if (item.colorbg == "#7766E7") this.backlogForm.colorclass = "生活";
+      else if (item.colorbg == "#518BF1") this.backlogForm.colorclass = "工作";
+      else if (item.colorbg == "#FFCD00") this.backlogForm.colorclass = "学习";
+      else if (item.colorbg == "#1DBD84") this.backlogForm.colorclass = "健康";
+      else if (item.colorbg == "#FE738A") this.backlogForm.colorclass = "社交";
+      else if (item.colorbg == "#C4C4C4") this.backlogForm.colorclass = "其它";
       if (item.done == 0) this.backlogForm.done = "未完成";
       else if (item.done == 1) this.backlogForm.done = "已完成";
     },

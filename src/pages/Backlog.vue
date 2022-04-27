@@ -334,7 +334,7 @@ export default {
         contents: "",
         datetime: "",
         // 颜色分类 提交颜色类别的id
-        classvalue: "#icon-yuandian",
+        classvalue: "#icon-life",
         colorbg: "#5da7f1",
       },
       // 修改待办事项表单
@@ -350,7 +350,7 @@ export default {
       // // 7天后日期
       // sevendate: "",
       // 颜色分类的value(默认蓝色)
-      classvalue: "#icon-yuandian",
+      classvalue: "#icon-life",
       // 颜色分类的背景颜色value(默认蓝色)
       classbg: "#5da7f1",
       // 新建待办弹框
@@ -362,38 +362,38 @@ export default {
       colors: [
         {
           cid: 0,
-          cvalue: "#icon-yuandian",
-          cbg: "#5da7f1",
+          cvalue: "#icon-life",
+          cbg: "#7766E7",
           cname: "生活",
         },
         {
           cid: 1,
-          cvalue: "#icon-yuandian-copy-copy",
-          cbg: "#d81e06",
+          cvalue: "#icon-work",
+          cbg: "#518BF1",
           cname: "工作",
         },
         {
           cid: 2,
-          cvalue: "#icon-yuandian-copy-copy-copy",
-          cbg: "#82529d",
+          cvalue: "#icon-study",
+          cbg: "#FFCD00",
           cname: "学习",
         },
         {
           cid: 3,
-          cvalue: "#icon-yuandian-copy",
-          cbg: "#f36372",
+          cvalue: "#icon-health",
+          cbg: "#1DBD84",
           cname: "健康",
         },
         {
           cid: 4,
-          cvalue: "#icon-yuandian-copy-copy1",
-          cbg: "#2aa515",
+          cvalue: "#icon-social",
+          cbg: "#FE738A",
           cname: "社交",
         },
         {
           cid: 5,
-          cvalue: "#icon-yuandian-copy1",
-          cbg: "#e0620d",
+          cvalue: "#icon-other",
+          cbg: "#C4C4C4",
           cname: "其它",
         },
       ],
@@ -494,7 +494,7 @@ export default {
       if (
         this.backlogForm.contents != "" ||
         this.backlogForm.datetime ||
-        this.classvalue != "#icon-yuandian"
+        this.classvalue != "#icon-life"
       ) {
         this.$confirm("当前有正在编辑的内容, 是否保存草稿?", "提示", {
           confirmButtonText: "确定",
@@ -516,8 +516,8 @@ export default {
             // 清空
             this.backlogForm.contents = "";
             this.backlogForm.datetime = "";
-            this.backlogForm.classvalue = "#icon-yuandian";
-            this.classvalue = "#icon-yuandian";
+            this.backlogForm.classvalue = "#icon-life";
+            this.classvalue = "#icon-life";
             this.classbg = "#5da7f1";
             this.isnew = false;
           });
@@ -541,9 +541,9 @@ export default {
         });
         this.backlogForm.contents = "";
         this.backlogForm.datetime = "";
-        this.backlogForm.classvalue = "#icon-yuandian";
+        this.backlogForm.classvalue = "#icon-life";
         this.backlogForm.colorbg = "#5da7f1";
-        this.classvalue = "#icon-yuandian";
+        this.classvalue = "#icon-life";
         this.classbg = "#5da7f1";
         this.isnew = false;
         this.getbacklogdata();
@@ -575,9 +575,9 @@ export default {
         });
         this.backlogchangeForm.contents = "";
         this.backlogchangeForm.datetime = "";
-        this.backlogchangeForm.classvalue = "#icon-yuandian";
+        this.backlogchangeForm.classvalue = "#icon-life";
         this.backlogchangeForm.colorbg = "#5da7f1";
-        this.classvalue = "#icon-yuandian";
+        this.classvalue = "#icon-life";
         this.classbg = "#5da7f1";
         this.ischange = false;
         this.getbacklogdata();
@@ -640,12 +640,12 @@ export default {
         this.colorclass.e=0
         this.colorclass.f=0
         res.data.forEach((item,index) => {
-          if(item.colorbg == '#5da7f1'){this.colorclass.a++}
-          else if(item.colorbg == '#d81e06'){this.colorclass.b++}
-          else if(item.colorbg == '#82529d'){this.colorclass.c++}
-          else if(item.colorbg == '#f36372'){this.colorclass.d++}
-          else if(item.colorbg == '#2aa515'){this.colorclass.e++}
-          else if(item.colorbg == '#e0620d'){this.colorclass.f++}
+          if(item.colorbg == '#7766E7'){this.colorclass.a++}
+          else if(item.colorbg == '#518BF1'){this.colorclass.b++}
+          else if(item.colorbg == '#FFCD00'){this.colorclass.c++}
+          else if(item.colorbg == '#1DBD84'){this.colorclass.d++}
+          else if(item.colorbg == '#FE738A'){this.colorclass.e++}
+          else if(item.colorbg == '#C4C4C4'){this.colorclass.f++}
         })
         // 过滤当天日期的待办事项
         this.todolist = res.data.filter((item) => {
@@ -907,7 +907,6 @@ export default {
   border: 1px solid #dcdfe6;
   border-radius: 10px;
   width: 80px;
-  height: 200px;
   padding-left: 20px;
   padding-bottom: 5px;
 }

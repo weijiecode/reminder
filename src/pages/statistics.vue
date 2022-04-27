@@ -130,7 +130,7 @@ export default {
         for (let i = 0; i < 12; i++) {
           this.monthdata1[i] = res.data.filter((item) => {
             return (
-              item.colorbg == "#5da7f1" &&
+              item.colorbg == "#7766E7" &&
               item.datetime.split("-")[1] == this.a[i]
             );
           }).length;
@@ -138,7 +138,7 @@ export default {
         for (let i = 0; i < 12; i++) {
           this.monthdata2[i] = res.data.filter((item) => {
             return (
-              item.colorbg == "#d81e06" &&
+              item.colorbg == "#518BF1" &&
               item.datetime.split("-")[1] == this.a[i]
             );
           }).length;
@@ -146,7 +146,7 @@ export default {
         for (let i = 0; i < 12; i++) {
           this.monthdata3[i] = res.data.filter((item) => {
             return (
-              item.colorbg == "#82529d" &&
+              item.colorbg == "#FFCD00" &&
               item.datetime.split("-")[1] == this.a[i]
             );
           }).length;
@@ -154,7 +154,7 @@ export default {
         for (let i = 0; i < 12; i++) {
           this.monthdata4[i] = res.data.filter((item) => {
             return (
-              item.colorbg == "#f36372" &&
+              item.colorbg == "#1DBD84" &&
               item.datetime.split("-")[1] == this.a[i]
             );
           }).length;
@@ -162,7 +162,7 @@ export default {
         for (let i = 0; i < 12; i++) {
           this.monthdata5[i] = res.data.filter((item) => {
             return (
-              item.colorbg == "#2aa515" &&
+              item.colorbg == "#FE738A" &&
               item.datetime.split("-")[1] == this.a[i]
             );
           }).length;
@@ -170,7 +170,7 @@ export default {
         for (let i = 0; i < 12; i++) {
           this.monthdata6[i] = res.data.filter((item) => {
             return (
-              item.colorbg == "#e0620d" &&
+              item.colorbg == "#C4C4C4" &&
               item.datetime.split("-")[1] == this.a[i]
             );
           }).length;
@@ -183,12 +183,12 @@ export default {
       this.mychart1 = echarts.init(document.getElementById("stabox"));
       this.mychart1.setOption({
         color: [
-          "#5da7f1",
-          "#d81e06",
-          "#82529d",
-          "#f36372",
-          "#2aa515",
-          "#e0620d",
+          "#7766E7",
+          "#518BF1",
+          "#FFCD00",
+          "#1DBD84",
+          "#FE738A",
+          "#C4C4C4",
         ],
         title: {
           text: "年度待办统计",
