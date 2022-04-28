@@ -26,15 +26,15 @@ export default new Vuex.Store({
       state.username = username
       localStorage.setItem('username', username)
     },
-    set_nickname(state, nickname) {
-      state.nickname = nickname
-    },
-    set_photo(state, photo) {
-      state.photo = photo
-    },
-    set_sex(state, sex) {
-      state.sex = sex
-    }
+    // set_nickname(state, nickname) {
+    //   state.nickname = nickname
+    // },
+    // set_photo(state, photo) {
+    //   state.photo = photo
+    // },
+    // set_sex(state, sex) {
+    //   state.sex = sex
+    // }
   },
   actions: {
   },

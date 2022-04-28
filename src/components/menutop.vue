@@ -184,7 +184,7 @@ export default {
       })
         .then(() => {
           this.$store.commit("del_token");
-          localStorage.removeItem("dataStore");
+          localStorage.removeItem("userdata");
           this.$notify.info({
             title: "提示",
             message: "账号已安全退出",

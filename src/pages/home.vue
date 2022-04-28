@@ -168,7 +168,8 @@ import { datetimes } from "../mixins/mixin";
 import myBMap from "../api/map";
 export default {
   created() {
-    this.username = this.$store.state.nickname;
+    const {nickname} = JSON.parse(localStorage.getItem('userdata'));
+    this.username = nickname;
     // 获取数据
     this.getseacherdata();
         // 调用天气信息

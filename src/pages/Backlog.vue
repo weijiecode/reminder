@@ -335,7 +335,7 @@ export default {
         datetime: "",
         // 颜色分类 提交颜色类别的id
         classvalue: "#icon-life",
-        colorbg: "#5da7f1",
+        colorbg: "#7766E7",
       },
       // 修改待办事项表单
       backlogchangeForm: {
@@ -352,7 +352,7 @@ export default {
       // 颜色分类的value(默认蓝色)
       classvalue: "#icon-life",
       // 颜色分类的背景颜色value(默认蓝色)
-      classbg: "#5da7f1",
+      classbg: "#7766E7",
       // 新建待办弹框
       isnew: false,
       // 修改待办弹框
@@ -518,7 +518,7 @@ export default {
             this.backlogForm.datetime = "";
             this.backlogForm.classvalue = "#icon-life";
             this.classvalue = "#icon-life";
-            this.classbg = "#5da7f1";
+            this.classbg = "#7766E7";
             this.isnew = false;
           });
       } else {
@@ -542,9 +542,9 @@ export default {
         this.backlogForm.contents = "";
         this.backlogForm.datetime = "";
         this.backlogForm.classvalue = "#icon-life";
-        this.backlogForm.colorbg = "#5da7f1";
+        this.backlogForm.colorbg = "#7766E7";
         this.classvalue = "#icon-life";
-        this.classbg = "#5da7f1";
+        this.classbg = "#7766E7";
         this.isnew = false;
         this.getbacklogdata();
         setTimeout(() => {
@@ -576,9 +576,9 @@ export default {
         this.backlogchangeForm.contents = "";
         this.backlogchangeForm.datetime = "";
         this.backlogchangeForm.classvalue = "#icon-life";
-        this.backlogchangeForm.colorbg = "#5da7f1";
+        this.backlogchangeForm.colorbg = "#7766E7";
         this.classvalue = "#icon-life";
-        this.classbg = "#5da7f1";
+        this.classbg = "#7766E7";
         this.ischange = false;
         this.getbacklogdata();
         setTimeout(() => {

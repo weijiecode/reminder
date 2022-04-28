@@ -220,6 +220,12 @@ export default {
         reg_sex: 1,
         reg_phone: "",
       },
+      // localstorage用户数据
+      userdata: {
+        nickname: '',
+        photo: '',
+        sex: ''
+      },
       // 登录表单规则
       loginFormRules: {
         username: [
@@ -333,9 +339,15 @@ export default {
         console.log("账户数据：");
         console.log(res);
         this.$store.commit("set_username", res.data.username);
-        this.$store.commit("set_nickname", res.data.nickname);
-        this.$store.commit("set_photo", res.data.photo);
-        this.$store.commit("set_sex", res.data.sex);
+        this.userdata = {
+          nickname: res.data.nickname,
+          photo: res.data.photo,
+          sex: res.data.sex
+        }
+        localStorage.setItem('userdata',JSON.stringify(this.userdata))
+        // this.$store.commit("set_nickname", res.data.nickname);
+        // this.$store.commit("set_photo", res.data.photo);
+        // this.$store.commit("set_sex", res.data.sex);
         this.$store.commit("set_token", res.token);
         this.$router.push("home");
         // console.log('token');

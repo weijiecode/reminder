@@ -155,28 +155,41 @@
 
 <script>
 import { datetimes } from "../mixins/mixin";
+import pubsub from "pubsub-js";
 export default {
   mixins: [datetimes],
   created() {
-    this.nickname = this.$store.state.nickname;
-    this.photo = this.$store.state.photo;
-    this.sex = this.$store.state.sex;
+    const { nickname, photo, sex } = JSON.parse(
+      localStorage.getItem("userdata")
+    );
+    this.nickname = nickname;
+    this.photo = photo;
+    this.sex = sex;
     if (this.hours >= 6 && this.hours < 12) this.timestatus = 0;
     else if (this.hours >= 12 && this.hours < 19) this.timestatus = 1;
     else this.timestatus = 2;
   },
-  watch: {
-    // 监听个人资料修改保存后同步渲染
-    "$store.state.nickname"(newvalue) {
-      this.nickname = newvalue;
-    },
-    "$store.state.photo"(newvalue) {
-      this.photo = newvalue;
-    },
-    "$store.state.sex"(newvalue) {
-      this.sex = newvalue;
-    },
+  mounted() {
+    pubsub.subscribe("userdata", (msg, dataObj) => {
+      console.log("订阅", dataObj);
+      const {nickname,photo,sex} = dataObj;
+      this.nickname = nickname;
+      this.photo = photo;
+      this.sex = sex;
+    });
   },
+  // watch: {
+  //   // 监听个人资料修改保存后同步渲染
+  //   "$store.state.nickname"(newvalue) {
+  //     this.nickname = newvalue;
+  //   },
+  //   "$store.state.photo"(newvalue) {
+  //     this.photo = newvalue;
+  //   },
+  //   "$store.state.sex"(newvalue) {
+  //     this.sex = newvalue;
+  //   },
+  // },
   data() {
     return {
       nickname: "",

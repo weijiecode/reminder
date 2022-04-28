@@ -222,6 +222,7 @@
 </template>
 
 <script>
+import pubsub from 'pubsub-js'
 export default {
   created() {
     this.getuserdata();
@@ -258,6 +259,12 @@ export default {
         phone: "",
         email: "",
         selectemail: "",
+      },
+      // localstorage用户数据
+      userdata: {
+        nickname: '',
+        photo: '',
+        sex: ''
       },
       formpassword: {
         oldpassword: "",
@@ -379,9 +386,14 @@ export default {
           );
           // console.log(res);
           if (res.code == 200) {
-            this.$store.commit("set_nickname", this.formMyCenter.nickname);
-            this.$store.commit("set_photo", this.formMyCenter.photo);
-            this.$store.commit("set_sex", this.formMyCenter.sex);
+            this.userdata = {
+              nickname: this.formMyCenter.nickname,
+              photo: this.formMyCenter.photo,
+              sex: this.formMyCenter.sex
+            }
+            localStorage.setItem('userdata',JSON.stringify(this.userdata))
+            // 发布消息给menu组件，同步渲染数据
+            pubsub.publish('userdata',this.userdata)
             this.$message({
               type: "success",
               message: "个人资料修改成功",
@@ -423,7 +435,17 @@ export default {
         });
         if (res.code == 200) {
           this.formMyCenter.photo = this.userphoto;
-          this.$store.commit("set_photo", this.userphoto);
+          // console.log(this.formMyCenter.photo)
+          // console.log(this.userphoto)
+          // this.$store.commit("set_photo", this.userphoto);
+          this.userdata = {
+            nickname: this.formMyCenter.nickname,
+            photo: this.userphoto,
+            sex: this.formMyCenter.sex
+          }
+          localStorage.setItem('userdata',JSON.stringify(this.userdata))
+          // 发布消息给menu组件，同步渲染数据
+          pubsub.publish('userdata',this.userdata)
           this.$message({
             type: "success",
             message: "修改头像成功",
