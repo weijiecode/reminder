@@ -341,7 +341,6 @@ ul li:hover .icon {
   padding-left: 25px;
   width: 170px;
   border-radius: 8px;
-  background-color: #ebf4ff;
 }
 .online {
   border: 1px solid white;
