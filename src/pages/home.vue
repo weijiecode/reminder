@@ -45,53 +45,22 @@
               <City :tocity="tocity"></City>
             </p>
             <p v-if="!loading" class="twop">
-              以下是<span class="cityp"
-                ><i class="el-icon-location-information"></i>{{ city }}</span
-              >的天气
+              以下是<span class="cityp"><i class="el-icon-location-information"></i>{{ city }}</span>的天气
             </p>
-            <div
-              class="wbox"
-              v-loading="loading"
-              element-loading-text="获取地址中，请稍等"
-            >
-              <svg
-                v-if="wvalue == 0"
-                style="margin-top: 10px"
-                class="icon"
-                aria-hidden="true"
-              >
+            <div class="wbox" v-loading="loading" element-loading-text="获取地址中，请稍等">
+              <svg v-if="wvalue == 0" style="margin-top: 10px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-tianqitubiao_qing"></use>
               </svg>
-              <svg
-                v-if="wvalue == 1"
-                style="margin-top: 12px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue == 1" style="margin-top: 12px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-weibiaoti--"></use>
               </svg>
-              <svg
-                v-if="wvalue == 2"
-                style="margin-top: 7px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue == 2" style="margin-top: 7px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-icon_yintian"></use>
               </svg>
-              <svg
-                v-if="wvalue == 3"
-                style="font-size: 50px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue == 3" style="font-size: 50px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-icon_baoyu"></use>
               </svg>
-              <svg
-                v-if="wvalue == 4"
-                style="font-size: 57px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue == 4" style="font-size: 57px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-icon_zhenxue"></use>
               </svg>
               <p class="wboxp">今天</p>
@@ -101,49 +70,20 @@
                 <p class="pbox">最低温：{{ todayweather.low }}</p>
               </div>
             </div>
-            <div
-              class="wbox"
-              v-loading="loading"
-              element-loading-text="获取地址中，请稍等"
-            >
-              <svg
-                v-if="wvalue1 == 0"
-                style="margin-top: 10px"
-                class="icon"
-                aria-hidden="true"
-              >
+            <div class="wbox" v-loading="loading" element-loading-text="获取地址中，请稍等">
+              <svg v-if="wvalue1 == 0" style="margin-top: 10px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-tianqitubiao_qing"></use>
               </svg>
-              <svg
-                v-if="wvalue1 == 1"
-                style="margin-top: 12px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue1 == 1" style="margin-top: 12px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-weibiaoti--"></use>
               </svg>
-              <svg
-                v-if="wvalue1 == 2"
-                style="margin-top: 7px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue1 == 2" style="margin-top: 7px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-icon_yintian"></use>
               </svg>
-              <svg
-                v-if="wvalue1 == 3"
-                style="font-size: 50px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue1 == 3" style="font-size: 50px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-icon_baoyu"></use>
               </svg>
-              <svg
-                v-if="wvalue1 == 4"
-                style="font-size: 57px"
-                class="icon"
-                aria-hidden="true"
-              >
+              <svg v-if="wvalue1 == 4" style="font-size: 57px" class="icon" aria-hidden="true">
                 <use xlink:href="#icon-icon_zhenxue"></use>
               </svg>
               <p class="wboxp">明天</p>
@@ -168,19 +108,19 @@ import { datetimes } from "../mixins/mixin";
 import myBMap from "../api/map";
 export default {
   created() {
-    const {nickname} = JSON.parse(localStorage.getItem('userdata'));
+    const { nickname } = JSON.parse(localStorage.getItem('userdata'));
     this.username = nickname;
     // 获取数据
     this.getseacherdata();
-        // 调用天气信息
-     this.getweather();
+    // 调用天气信息
+    this.getweather();
   },
   mounted() {
-    if(localStorage.getItem('city') == null){
+    if (localStorage.getItem('city') == null) {
       // 调用函数获取城市信息
-    this.getCity();
+      this.getCity();
     }
-    
+
   },
   mixins: [datetimes],
   data() {
@@ -201,6 +141,65 @@ export default {
         type: "",
         high: "",
         low: "",
+      },
+      weatherData: {
+        "data": {
+          "yesterday": {
+            "date": "16日星期四",
+            "high": "高温 30℃",
+            "fx": "东南风",
+            "low": "低温 19℃",
+            "fl": "<![CDATA[2级]]>",
+            "type": "多云"
+          },
+          "city": "北京",
+          "forecast": [
+            {
+              "date": "17日星期五",
+              "high": "高温 30℃",
+              "fengli": "<![CDATA[2级]]>",
+              "low": "低温 22℃",
+              "fengxiang": "东风",
+              "type": "多云"
+            },
+            {
+              "date": "18日星期六",
+              "high": "高温 33℃",
+              "fengli": "<![CDATA[2级]]>",
+              "low": "低温 23℃",
+              "fengxiang": "东风",
+              "type": "晴"
+            },
+            {
+              "date": "19日星期天",
+              "high": "高温 34℃",
+              "fengli": "<![CDATA[2级]]>",
+              "low": "低温 22℃",
+              "fengxiang": "东南风",
+              "type": "多云"
+            },
+            {
+              "date": "20日星期一",
+              "high": "高温 34℃",
+              "fengli": "<![CDATA[2级]]>",
+              "low": "低温 23℃",
+              "fengxiang": "东风",
+              "type": "阴"
+            },
+            {
+              "date": "21日星期二",
+              "high": "高温 33℃",
+              "fengli": "<![CDATA[2级]]>",
+              "low": "低温 23℃",
+              "fengxiang": "东北风",
+              "type": "阴"
+            }
+          ],
+          "ganmao": "感冒低发期，天气舒适，请注意多吃蔬菜水果，多喝水哦。",
+          "wendu": "29"
+        },
+        "status": 1000,
+        "desc": "OK"
       },
       yesterdayweather: {
         type: "",
@@ -274,15 +273,19 @@ export default {
       // console.log('123')
       // console.log(this.city);
       // console.log(localStorage.getItem("city"))
-      const res = await this.$http.get(
-        "http://wthrcdn.etouch.cn/weather_mini?city=" +
-          localStorage.getItem("city")
-      );
+      // const res = await this.$http.get(
+      //   "http://wthrcdn.etouch.cn/weather_mini?city=" +
+      //   localStorage.getItem("city")
+      // );
       // console.log("天气");
-      // console.log(res.data);
+      const res = {}
+      console.log(this.weatherData.status);
+      res.data = this.weatherData
+      console.log(123)
       if (res.data.status == 1000) {
         this.loading = false;
         this.city = localStorage.getItem("city");
+        console.log(this.weatherData);
         this.todayweather.type = res.data.data.forecast[0].type;
         this.todayweather.high = res.data.data.forecast[0].high;
         this.todayweather.low = res.data.data.forecast[0].low;
@@ -320,10 +323,10 @@ export default {
   watch: {
     city(newvalue) {
       console.log(newvalue)
-      if(newvalue != null){
+      if (newvalue != null) {
         this.getweather();
         // localStorage.setItem("city", newvalue);
-      //this.city = localStorage.getItem("city");
+        //this.city = localStorage.getItem("city");
       }
     },
   },
@@ -336,10 +339,12 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .homebox {
   height: 100%;
   margin-left: 280px;
 }
+
 .homecontent {
   display: flex;
   justify-content: center;
@@ -355,21 +360,25 @@ export default {
   border-radius: 10px;
   margin-bottom: 30px;
 }
+
 .contentcenter {
   margin-top: 12%;
   width: 616px;
 }
+
 .onep {
   cursor: default;
   font-size: 24px;
   font-weight: 600;
 }
+
 .twop {
   cursor: default;
   color: #888;
   font-size: 13px;
   margin-top: 18px;
 }
+
 .block-num {
   float: left;
   width: 180px;
@@ -378,14 +387,17 @@ export default {
   cursor: pointer;
   margin-right: 24px;
 }
+
 .block-num:hover {
   box-shadow: 0 0 10px #ccc;
 }
+
 .blockp {
   margin-left: 20px;
   color: hsla(0, 0%, 100%, 0.6);
   font-size: 12px;
 }
+
 .blockpp {
   margin-top: -5px;
   margin-left: 20px;
@@ -393,6 +405,7 @@ export default {
   font-size: 32px;
   font-weight: 600;
 }
+
 .blockpp .icon {
   color: hsla(0, 0%, 100%, 0.7);
   font-size: 20px;
@@ -400,6 +413,7 @@ export default {
   margin-right: 20px;
   margin-top: 15px;
 }
+
 .el-icon-refresh-right {
   float: right;
   font-size: 20px;
@@ -407,14 +421,17 @@ export default {
   margin-right: -120px;
   cursor: pointer;
 }
+
 .weatherbox {
   width: 616px;
   display: inline-block;
 }
+
 .cityp {
   color: #000;
   padding: 0 5px;
 }
+
 .wbox {
   border-radius: 8px;
   cursor: pointer;
@@ -424,27 +441,32 @@ export default {
   height: 90px;
   background-color: #e7e6e7c2;
 }
+
 .wbox:hover {
   box-shadow: 0 0 10px #ccc;
 }
+
 .wbox .icon {
   float: left;
   font-size: 65px;
   margin-top: 18px;
   margin-left: 20px;
 }
+
 .wboxp {
   font-size: 15px;
   margin: 33px 0 0 20px;
   float: left;
   color: rgb(56, 50, 50);
 }
+
 .allpbox {
   color: rgba(15, 23, 42, 0.8);
   margin-left: 30px;
   float: left;
   font-size: 12px;
 }
+
 .pbox {
   line-height: 12px;
 }

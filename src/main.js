@@ -12,7 +12,8 @@ import NProgress from 'nprogress' // 引入nprogress插件（加载进度条）
 import 'nprogress/nprogress.css'  // 这个nprogress样式必须引入
 Vue.use(ElementUI)
 Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://localhost:5001/'
+//axios.defaults.baseURL = 'http://localhost:5001/'
+axios.defaults.baseURL = 'http://101.37.91.171:8887/'
 
 // axios请求拦截器
 axios.interceptors.request.use(
